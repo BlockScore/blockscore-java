@@ -23,3 +23,10 @@ dependencies {
     //Used for testing only.
     testCompile 'junit:junit:+'
 }
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false;
+        html.enabled = true;
+    }
+}
