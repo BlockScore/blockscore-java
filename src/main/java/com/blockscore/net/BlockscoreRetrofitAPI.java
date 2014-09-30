@@ -153,7 +153,7 @@ public interface BlockscoreRetrofitAPI {
      * @param callback Callback to use.
      */
     @GET("/questions")
-    void listQuestionSets(@NotNull final Callback<List<Verification>> callback);
+    void listQuestionSets(@NotNull final Callback<List<QuestionSet>> callback);
 
     /**
      * Allows you to see a historical record of all question sets that you have created.
@@ -163,5 +163,5 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @GET("/questions")
-    Observable<List<Verification>> listQuestionSets();
+    Observable<List<QuestionSet>> listQuestionSets();
 }

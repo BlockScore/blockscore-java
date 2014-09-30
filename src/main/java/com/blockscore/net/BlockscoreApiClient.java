@@ -147,6 +147,46 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String, retrofit.Callback)
+     * @param questionSetId Question set ID
+     * @param callback Callback to use.
+     */
+    public void retrieveQuestionSet(@NotNull final String questionSetId
+            , @NotNull final Callback<QuestionSet> callback) {
+        restAdapter.retrieveQuestionSet(questionSetId, callback);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @param questionSetId Question set ID
+     * @return Observable containing the question set.
+     */
+    public Observable<QuestionSet> retrieveQuestionSet(@NotNull final String questionSetId) {
+        return restAdapter.retrieveQuestionSet(questionSetId);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#listQuestionSets(retrofit.Callback)
+     * @param callback Callback to use.
+     */
+    public void listQuestionSet(@NotNull final Callback<List<QuestionSet>> callback) {
+        restAdapter.listQuestionSets(callback);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @return Observable containing the question set.
+     */
+    @NotNull
+    public Observable<List<QuestionSet>> listQuestionSet() {
+        return restAdapter.listQuestionSets();
+    }
+
+    /**
      * Encodes the API key for Basic authentication.
      * @return API key encoded with Base 64.
      */
