@@ -30,7 +30,7 @@ public class QuestionSet extends BasicResponse {
 
     @NotNull
     @JsonProperty("questions")
-    private List<QuestionSet> mQuestionSet;
+    private List<Question> mQuestionSet;
 
     /**
      * The ID of the verification, and thus the identity, on which to base the question sets.
@@ -70,7 +70,7 @@ public class QuestionSet extends BasicResponse {
      * @return Questions available.
      */
     @NotNull
-    public List<QuestionSet> getQuestionSet() {
+    public List<Question> getQuestionSet() {
         return mQuestionSet;
     }
 }
