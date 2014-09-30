@@ -2,6 +2,7 @@ package com.blockscore.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 
@@ -17,4 +18,81 @@ public class Person {
     @NotNull
     @JsonProperty("identification")
     private Identification mIdentification;
+
+    @NotNull
+    @JsonProperty("address")
+    private Address mAddress;
+
+    @Nullable
+    @JsonProperty("phone_number")
+    private String mPhoneNumber;
+
+    @Nullable
+    @JsonProperty("ip_address")
+    private String mIPAddress;
+
+    public Person() {
+        //No initialization.
+    }
+
+    public Person(@NotNull Date dateOfBirth, @NotNull Identification identification, @NotNull Address address) {
+        mDateOfBirth = dateOfBirth;
+        mIdentification = identification;
+        mAddress = address;
+    }
+
+    /**
+     * Set the date of birth for this individual.
+     * @param dateOfBirth Date of birth
+     * @return this.
+     */
+    @NotNull
+    public Person setDateOfBirth(@NotNull final Date dateOfBirth) {
+        mDateOfBirth = dateOfBirth;
+        return this;
+    }
+
+    /**
+     * Sets the identification to be used for this individual.
+     * @param identification Identification (SSN or Passport)
+     * @return this.
+     */
+    @NotNull
+    public Person setIdentification(@NotNull final Identification identification) {
+        mIdentification = identification;
+        return this;
+    }
+
+    /**
+     * Sets a person's address.
+     * @param address Address to use.
+     * @return this.
+     */
+    @NotNull
+    public Person setAddress(@NotNull final Address address) {
+        mAddress = address;
+        return this;
+    }
+
+    /**
+     * Sets a person's phone number.
+     * @param phoneNumber Phone number for this individual.
+     * @return this.
+     */
+    @NotNull
+    public Person setPhoneNumber(@Nullable final String phoneNumber) {
+        mPhoneNumber = phoneNumber;
+        return this;
+    }
+
+    /**
+     * Set's a person's IP address.
+     * @param ipAddress IP address to associate with this individual.
+     * @return this.
+     */
+    @NotNull
+    public Person setIPAddress(@Nullable final String ipAddress) {
+        mIPAddress = ipAddress;
+        return this;
+    }
 }
