@@ -1,5 +1,6 @@
 package com.blockscore.models;
 
+import com.blockscore.models.base.BasicResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,23 +15,10 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Verification {
-    @NotNull
-    @JsonProperty("id")
-    private String mId;
-
-    @JsonProperty("created_at")
-    private long mCreatedAtDate;
-
-    @JsonProperty("updated_at")
-    private long mUpdatedAtDate;
-
+public class Verification extends BasicResponse {
     @NotNull
     @JsonProperty("status")
     private String mStatus;
-
-    @JsonProperty("livemode")
-    private boolean mLiveMode;
 
     @NotNull
     @JsonProperty("date_of_birth")
@@ -65,45 +53,12 @@ public class Verification {
     private List<QuestionSet> mQuestionSets;
 
     /**
-     * Gets the ID for this record.
-     * @return ID
-     */
-    @NotNull
-    public String getId() {
-        return mId;
-    }
-
-    /**
-     * Gets the creation date. (ms)
-     * @return Creation date.
-     */
-    public long getCreatedAtDate() {
-        return mCreatedAtDate;
-    }
-
-    /**
-     * Gets the updated date. (ms)
-     * @return Updated date.
-     */
-    public long getUpdatedAtDate() {
-        return mUpdatedAtDate;
-    }
-
-    /**
      * Returns either valid or invalid and is the culmination of whether or not the passed
      * in information is valid against various databases and signals.
      * @return True if valid.
      */
     public boolean isValid() {
         return Status.VALID.isEqualTo(mStatus);
-    }
-
-    /**
-     * Indicates whether the company was created using a live or test API key.
-     * @return True if live.
-     */
-    public boolean isLiveMode() {
-        return mLiveMode;
     }
 
     /**
