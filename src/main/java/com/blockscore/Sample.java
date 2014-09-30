@@ -3,5 +3,5 @@ package com.blockscore;
 /**
  * Created by tealocean on 9/29/14.
  */
-public interface BlockscoreRetrofitAPI {
+public class Sample {
 }

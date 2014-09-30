@@ -1,0 +1,17 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.squareup.retrofit:retrofit:+'
+    compile 'com.squareup.retrofit:converter-jackson:+'
+    compile 'io.reactivex:rxjava:+'
+
+    //Used for testing only.
+    testCompile 'junit:junit:+'
+}
