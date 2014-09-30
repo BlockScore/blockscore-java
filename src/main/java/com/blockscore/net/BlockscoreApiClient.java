@@ -13,6 +13,7 @@ import retrofit.converter.JacksonConverter;
 import rx.Observable;
 
 import java.util.Base64;
+import java.util.List;
 
 /**
  * The Blockscore Java API client.
@@ -95,10 +96,30 @@ public class BlockscoreApiClient {
      * Pulls up a single verification.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#getVerification(String)
      * @param id ID of verification to verify.
+     * @return Observable containing the verification results.
      */
     @NotNull
     public Observable<Verification> getVerification(@NotNull final String id) {
         return restAdapter.getVerification(id);
+    }
+
+    /**
+     * Gets a list of verifications.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#listVerifications(retrofit.Callback)
+     * @param callback Callback to use.
+     */
+    public void listVerifications(@NotNull final Callback<List<Verification>> callback) {
+        restAdapter.listVerifications(callback);
+    }
+
+    /**
+     * Gets a list of verifications.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#listVerifications()
+     * @return Observable containing the list of verification results.
+     */
+    @NotNull
+    public Observable<List<Verification>> listVerifications() {
+        return restAdapter.listVerifications();
     }
 
     /**
