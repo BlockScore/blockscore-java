@@ -39,4 +39,12 @@ public class AnsweredQuestion {
         mAnswerId = answerId;
         return this;
     }
+
+    /**
+     * Retreives the question ID.
+     * @return Question ID.
+     */
+    public int getQuestionId() {
+        return mQuestionId;
+    }
 }

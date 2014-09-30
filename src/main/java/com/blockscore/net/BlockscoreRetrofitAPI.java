@@ -1,9 +1,6 @@
 package com.blockscore.net;
 
-import com.blockscore.models.Person;
-import com.blockscore.models.QuestionSet;
-import com.blockscore.models.QuestionSetRequest;
-import com.blockscore.models.Verification;
+import com.blockscore.models.*;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -87,6 +84,7 @@ public interface BlockscoreRetrofitAPI {
      * times with the same verification ID and the questions asked as well as the order that everything
      * is presented in will be randomized. <br />
      * Thread: Asynchronous <br />
+     * @param request Question set request.
      * @param callback Callback to use.
      */
     @POST("/questions")
@@ -98,8 +96,72 @@ public interface BlockscoreRetrofitAPI {
      * times with the same verification ID and the questions asked as well as the order that everything
      * is presented in will be randomized. <br />
      * Thread: Any [Determined by settings on Observable] <br />
+     * @param request Question set request.
      */
     @NotNull
     @POST("/questions")
     Observable<QuestionSet> createQuestionSet(@NotNull @Body final QuestionSetRequest request);
+
+    /**
+     * The scoring system will score it based on how many questions you submit, so if you would only like
+     * to ask 3 questions, only submit the 3 questions which you would like scored. <br />
+     * Thread: Asynchronous <br />
+     * @param answers Question set request.
+     * @param callback Callback to use.
+     */
+    @POST("/questions/{id}/score")
+    void scoreQuestionSet(@Path("id") @NotNull final String questionSetId
+            , @NotNull @Body final List<AnsweredQuestion> answers
+            , @NotNull final Callback<QuestionSet> callback);
+
+    /**
+     * The scoring system will score it based on how many questions you submit, so if you would only like
+     * to ask 3 questions, only submit the 3 questions which you would like scored. <br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param answers Question set request.
+     */
+    @NotNull
+    @POST("/questions/{id}/score")
+    Observable<QuestionSet> scoreQuestionSet(@Path("id") @NotNull final String questionSetId
+            , @NotNull @Body final List<AnsweredQuestion> answers);
+
+    /**
+     * This allows you to retrieve a question set you have created. If you have already scored the question
+     * set, we will also return the last score of your submitted answers. <br />
+     * Thread: Asynchronous <br />
+     * @param questionSetId Question set ID.
+     * @param callback Callback to use.
+     */
+    @GET("/questions/{id}")
+    void retrieveQuestionSet(@Path("id") @NotNull final String questionSetId
+            , @NotNull final Callback<QuestionSet> callback);
+
+    /**
+     * This allows you to retrieve a question set you have created. If you have already scored the question
+     * set, we will also return the last score of your submitted answers. <br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param questionSetId Question set ID.
+     */
+    @NotNull
+    @GET("/questions/{id}")
+    Observable<QuestionSet> retrieveQuestionSet(@Path("id") @NotNull final String questionSetId);
+
+    /**
+     * Gets a list of historical records for all verifications you have completed. Sorted
+     * newest to oldest. <br />
+     * Thread: Asynchronous <br />
+     * @param callback Callback to use.
+     */
+    @GET("/questions")
+    void listQuestionSets(@NotNull final Callback<List<Verification>> callback);
+
+    /**
+     * Allows you to see a historical record of all question sets that you have created.
+     * The list is displayed in reverse chronological order (newer question sets appear first). <br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @return List of question sets.
+     */
+    @NotNull
+    @GET("/questions")
+    Observable<List<Verification>> listQuestionSets();
 }
