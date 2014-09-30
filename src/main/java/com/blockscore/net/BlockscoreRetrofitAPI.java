@@ -1,6 +1,8 @@
 package com.blockscore.net;
 
 import com.blockscore.models.Person;
+import com.blockscore.models.QuestionSet;
+import com.blockscore.models.QuestionSetRequest;
 import com.blockscore.models.Verification;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
@@ -79,4 +81,25 @@ public interface BlockscoreRetrofitAPI {
     @NotNull
     @GET("/verifications")
     Observable<List<Verification>> listVerifications();
+
+    /**
+     * This method will create a new question set to ask your users. You can call this endpoint multiple
+     * times with the same verification ID and the questions asked as well as the order that everything
+     * is presented in will be randomized. <br />
+     * Thread: Asynchronous <br />
+     * @param callback Callback to use.
+     */
+    @POST("/questions")
+    void createQuestionSet(@NotNull @Body final QuestionSetRequest request
+            , @NotNull final Callback<QuestionSet> callback);
+
+    /**
+     * This method will create a new question set to ask your users. You can call this endpoint multiple
+     * times with the same verification ID and the questions asked as well as the order that everything
+     * is presented in will be randomized. <br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     */
+    @NotNull
+    @POST("/questions")
+    Observable<QuestionSet> createQuestionSet(@NotNull @Body final QuestionSetRequest request);
 }

@@ -12,7 +12,6 @@ import java.util.Date;
 
 /**
  * Example class on how to use the Blockscore API client.
- * Created by tealocean on 9/29/14.
  */
 public class Sample {
     public static void main(final String[] args) {

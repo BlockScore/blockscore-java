@@ -3,6 +3,8 @@ package com.blockscore.net;
 import com.blockscore.common.Constants;
 import com.blockscore.exceptions.NoApiKeyFoundException;
 import com.blockscore.models.Person;
+import com.blockscore.models.QuestionSet;
+import com.blockscore.models.QuestionSetRequest;
 import com.blockscore.models.Verification;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
@@ -120,6 +122,28 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<List<Verification>> listVerifications() {
         return restAdapter.listVerifications();
+    }
+
+    /**
+     * Creates a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.QuestionSetRequest, retrofit.Callback)
+     * @param request Question set request.
+     * @param callback Callback to use.
+     */
+    public void createQuestionSet(@NotNull final QuestionSetRequest request
+            , @NotNull final Callback<QuestionSet> callback) {
+        restAdapter.createQuestionSet(request, callback);
+    }
+
+    /**
+     * Creates a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.QuestionSetRequest)
+     * @param request Question set request.
+     * @return Observable containing the question set.
+     */
+    @NotNull
+    public Observable<QuestionSet> createQuestionSet(@NotNull final QuestionSetRequest request) {
+        return restAdapter.createQuestionSet(request);
     }
 
     /**
