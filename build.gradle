@@ -1,4 +1,7 @@
 apply plugin: 'java'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.7
 version = '1.0'
@@ -11,6 +14,11 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:+'
     compile 'com.squareup.retrofit:converter-jackson:+'
     compile 'io.reactivex:rxjava:+'
+    compile 'com.squareup.okhttp:okhttp:+'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:+'
+
+    //Used for static analysis
+    compile 'com.intellij:annotations:+'
 
     //Used for testing only.
     testCompile 'junit:junit:+'
