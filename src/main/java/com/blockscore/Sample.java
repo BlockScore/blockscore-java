@@ -70,9 +70,21 @@ public class Sample {
                 return apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking().first();
             }
         });
+        Observable<QuestionSet> step5 = step4.map(new Func1<QuestionSet, QuestionSet>() {
+            @Override
+            public QuestionSet call(QuestionSet questionSet) {
+                return apiClient.retrieveQuestionSet(questionSet.getId()).toBlocking().first();
+            }
+        });
+        Observable<List<QuestionSet>> step6 = step5.map(new Func1<QuestionSet, List<QuestionSet>>() {
+            @Override
+            public List<QuestionSet> call(QuestionSet questionSet) {
+                return apiClient.listQuestionSet().toBlocking().first();
+            }
+        });
 
 
-        step4.subscribe(new Observer<QuestionSet>() {
+        step6.subscribe(new Observer<List<QuestionSet>>() {
             @Override
             public void onCompleted() {
                 System.out.println("Victory");
@@ -84,7 +96,7 @@ public class Sample {
             }
 
             @Override
-            public void onNext(QuestionSet questionSet) {
+            public void onNext(List<QuestionSet> questionSet) {
 
             }
         });
