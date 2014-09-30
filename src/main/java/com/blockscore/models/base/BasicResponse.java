@@ -3,7 +3,7 @@ package com.blockscore.models.base;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Basic parameters common to models
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class BasicResponse {
-    @NotNull
+    @Nullable
     @JsonProperty("id")
     private String mId;
 
@@ -29,7 +29,7 @@ public abstract class BasicResponse {
      * Gets the ID for this record.
      * @return ID
      */
-    @NotNull
+    @Nullable
     public String getId() {
         return mId;
     }

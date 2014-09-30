@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Details breakdown model (Used in verification)
@@ -12,19 +13,19 @@ import org.jetbrains.annotations.NotNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Details {
-    @NotNull
+    @Nullable
     @JsonProperty("address")
     private String mAddressMatch;
 
-    @NotNull
+    @Nullable
     @JsonProperty("address_risk")
     private String mAddressRisk;
 
-    @NotNull
+    @Nullable
     @JsonProperty("identification")
     private String mIdentficationMatch;
 
-    @NotNull
+    @Nullable
     @JsonProperty("date_of_birth")
     private String mDateOfBirthMatch;
 
@@ -32,21 +33,50 @@ public class Details {
     @JsonProperty("ofac")
     private String mOFACMatch;
 
+    @Nullable
+    @JsonProperty("entity_name")
+    private String mEntityMatch;
+
+    @Nullable
+    @JsonProperty("tax_id")
+    private String mTaxId;
+
     /**
      * Assesses the address match
      * @return Matching rating with the address.
      */
-    @NotNull
+    @Nullable
     public MatchRank getAddressMatchDetails() {
         return getMatchRank(mAddressMatch);
+    }
+
+    /**
+     * Assesses the entity match
+     * @return Matching rating with the entity.
+     */
+    @Nullable
+    public MatchRank getEntityMatch() {
+        return getMatchRank(mEntityMatch);
+    }
+
+    /**
+     * Assesses the tax ID match
+     * @return Matching rating with the tax ID.
+     */
+    @Nullable
+    public MatchRank getTaxIdMatch() {
+        return getMatchRank(mTaxId);
     }
 
     /**
      * Gets the risk of this particular address.
      * @return Risk factor.
      */
-    @NotNull
+    @Nullable
     public AddressRisk getAddressRisk() {
+        if (mAddressRisk == null) {
+            return null;
+        }
         return AddressRisk.valueOf(mAddressRisk.toLowerCase());
     }
 
@@ -54,7 +84,7 @@ public class Details {
      * Assesses the match for identity.
      * @return Identity match rating.
      */
-    @NotNull
+    @Nullable
     public MatchRank getIdentfication() {
         return getMatchRank(mIdentficationMatch);
     }
@@ -63,7 +93,7 @@ public class Details {
      * Assesses the date of birth match.
      * @return Date of birth match rating.
      */
-    @NotNull
+    @Nullable
     public MatchRank getDateOfBirth() {
         return getMatchRank(mDateOfBirthMatch);
     }
@@ -72,7 +102,7 @@ public class Details {
      * Assesses the person for placement on the OFAC.
      * @return OFAC match rating.
      */
-    @NotNull
+    @Nullable
     public MatchRank getOFAC() {
         return getMatchRank(mOFACMatch);
     }
@@ -82,9 +112,13 @@ public class Details {
      * @param matchResult String to parse.
      * @return Match rank.
      */
-    @NotNull
+    @Nullable
     private MatchRank getMatchRank(final String matchResult) {
-        return MatchRank.valueOf(matchResult.toLowerCase());
+        try {
+            return MatchRank.valueOf(matchResult.toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     public enum MatchRank {
