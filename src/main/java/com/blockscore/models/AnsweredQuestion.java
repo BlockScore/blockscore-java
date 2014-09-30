@@ -1,11 +1,15 @@
 package com.blockscore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Answered question model.
  * Created by tealocean on 9/30/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnsweredQuestion {
     @JsonProperty("question_id")
     private int mQuestionId;
@@ -38,13 +42,5 @@ public class AnsweredQuestion {
     public AnsweredQuestion setAnswerId(final int answerId) {
         mAnswerId = answerId;
         return this;
-    }
-
-    /**
-     * Retreives the question ID.
-     * @return Question ID.
-     */
-    public int getQuestionId() {
-        return mQuestionId;
     }
 }

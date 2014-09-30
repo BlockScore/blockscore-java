@@ -1,6 +1,8 @@
 package com.blockscore.net;
 
 import com.blockscore.models.*;
+import com.blockscore.models.request.AnswerRequest;
+import com.blockscore.models.request.QuestionSetRequest;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -111,7 +113,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @POST("/questions/{id}/score")
     void scoreQuestionSet(@Path("id") @NotNull final String questionSetId
-            , @NotNull @Body final List<AnsweredQuestion> answers
+            , @NotNull @Body final AnswerRequest answers
             , @NotNull final Callback<QuestionSet> callback);
 
     /**
@@ -123,7 +125,7 @@ public interface BlockscoreRetrofitAPI {
     @NotNull
     @POST("/questions/{id}/score")
     Observable<QuestionSet> scoreQuestionSet(@Path("id") @NotNull final String questionSetId
-            , @NotNull @Body final List<AnsweredQuestion> answers);
+            , @NotNull @Body final AnswerRequest answers);
 
     /**
      * This allows you to retrieve a question set you have created. If you have already scored the question

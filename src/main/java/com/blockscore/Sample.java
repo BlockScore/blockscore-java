@@ -1,6 +1,8 @@
 package com.blockscore;
 
 import com.blockscore.models.*;
+import com.blockscore.models.request.AnswerRequest;
+import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.net.BlockscoreApiClient;
 import rx.Observable;
 import rx.Observer;
@@ -8,7 +10,9 @@ import rx.functions.Func1;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Example class on how to use the Blockscore API client.
@@ -53,8 +57,22 @@ public class Sample {
                 return apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
             }
         });
+        Observable<QuestionSet> step4 = step3.map(new Func1<QuestionSet, QuestionSet>() {
+            @Override
+            public QuestionSet call(QuestionSet questionSet) {
+                List<Question> questionList = questionSet.getQuestionSet();
+                ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
+                for (Question question : questionList) {
+                    AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1);
+                    answered.add(answeredQuestion);
+                }
+                AnswerRequest request = new AnswerRequest(answered);
+                return apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking().first();
+            }
+        });
 
-        step3.subscribe(new Observer<QuestionSet>() {
+
+        step4.subscribe(new Observer<QuestionSet>() {
             @Override
             public void onCompleted() {
                 System.out.println("Victory");

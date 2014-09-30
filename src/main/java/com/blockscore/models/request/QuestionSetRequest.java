@@ -1,4 +1,4 @@
-package com.blockscore.models;
+package com.blockscore.models.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
