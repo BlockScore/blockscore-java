@@ -1,5 +1,7 @@
 package com.blockscore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.Nullable;
 
@@ -7,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
  * Identification model. (Stores either SSN or passport information)
  * Created by tealocean on 9/29/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Identification {
 
     @Nullable

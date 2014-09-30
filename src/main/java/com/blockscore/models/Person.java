@@ -1,23 +1,32 @@
 package com.blockscore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Model representing a person's identity.
  * Created by Tony Dieppa on 9/29/14.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Person {
     @NotNull
     @JsonProperty("date_of_birth")
-    private Date mDateOfBirth;
+    private String mDateOfBirth;
 
     @NotNull
     @JsonProperty("identification")
     private Identification mIdentification;
+
+    @NotNull
+    @JsonProperty("name")
+    private Name mName;
 
     @NotNull
     @JsonProperty("address")
@@ -35,8 +44,10 @@ public class Person {
         //No initialization.
     }
 
-    public Person(@NotNull Date dateOfBirth, @NotNull Identification identification, @NotNull Address address) {
-        mDateOfBirth = dateOfBirth;
+    public Person(@NotNull Name name, @NotNull Date dateOfBirth, @NotNull Identification identification
+            , @NotNull Address address) {
+        mName = name;
+        setDateOfBirth(dateOfBirth);
         mIdentification = identification;
         mAddress = address;
     }
@@ -48,7 +59,8 @@ public class Person {
      */
     @NotNull
     public Person setDateOfBirth(@NotNull final Date dateOfBirth) {
-        mDateOfBirth = dateOfBirth;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        mDateOfBirth = format.format(dateOfBirth);
         return this;
     }
 
@@ -86,13 +98,24 @@ public class Person {
     }
 
     /**
-     * Set's a person's IP address.
+     * Sets a person's IP address.
      * @param ipAddress IP address to associate with this individual.
      * @return this.
      */
     @NotNull
     public Person setIPAddress(@Nullable final String ipAddress) {
         mIPAddress = ipAddress;
+        return this;
+    }
+
+    /**
+     * Sets the person's name.
+     * @param name Name.
+     * @return this.
+     */
+    @NotNull
+    public Person setName(@NotNull final Name name) {
+        mName = name;
         return this;
     }
 }

@@ -45,7 +45,7 @@ public class BlockscoreApiClient {
         RestAdapter.Builder restBuilder = new RestAdapter.Builder()
                 .setClient(new OkClient())
                 .setConverter(new JacksonConverter())
-                .setEndpoint(Constants.BLOCKSCORE_DOMAIN);
+                .setEndpoint(Constants.getDomain());
 
         //Sets up the authentication headers and accept headers.
         restBuilder.setRequestInterceptor(new RequestInterceptor() {
@@ -76,6 +76,7 @@ public class BlockscoreApiClient {
      * @param person Person to verify.
      * @return Observable containing the verification results.
      */
+    @NotNull
     public Observable<Verification> createVerification(@NotNull final Person person) {
         return restAdapter.createVerification(person);
     }
@@ -96,7 +97,7 @@ public class BlockscoreApiClient {
      * @param id ID of verification to verify.
      */
     @NotNull
-    Observable<Verification> getVerification(@NotNull final String id) {
+    public Observable<Verification> getVerification(@NotNull final String id) {
         return restAdapter.getVerification(id);
     }
 
