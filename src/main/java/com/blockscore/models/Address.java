@@ -37,6 +37,10 @@ public class Address {
     @JsonProperty("country_code")
     private String mCountryCode;
 
+    public Address() {
+        //Do nothing.
+    }
+
     public Address(@NotNull final String street1, @Nullable final String street2, @NotNull final String city
             , @NotNull final String state, @NotNull final String postalCode, @NotNull final String countryCode) {
         mStreet1 = street1;

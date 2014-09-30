@@ -2,8 +2,9 @@ package com.blockscore.net;
 
 import com.blockscore.common.Constants;
 import com.blockscore.exceptions.NoApiKeyFoundException;
-import com.blockscore.models.Person;
-import com.blockscore.models.Verification;
+import com.blockscore.models.*;
+import com.blockscore.models.request.AnswerRequest;
+import com.blockscore.models.request.QuestionSetRequest;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
@@ -120,6 +121,93 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<List<Verification>> listVerifications() {
         return restAdapter.listVerifications();
+    }
+
+    /**
+     * Creates a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest, retrofit.Callback)
+     * @param request Question set request.
+     * @param callback Callback to use.
+     */
+    public void createQuestionSet(@NotNull final QuestionSetRequest request
+            , @NotNull final Callback<QuestionSet> callback) {
+        restAdapter.createQuestionSet(request, callback);
+    }
+
+    /**
+     * Creates a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
+     * @param request Question set request.
+     * @return Observable containing the question set.
+     */
+    @NotNull
+    public Observable<QuestionSet> createQuestionSet(@NotNull final QuestionSetRequest request) {
+        return restAdapter.createQuestionSet(request);
+    }
+
+    /**
+     * Scores a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest, retrofit.Callback)
+     * @param questionSetId Question set ID
+     * @param answers Answers to questions
+     * @param callback Callback to use.
+     */
+    public void scoreQuestionSet(@NotNull final String questionSetId
+            , @NotNull final AnswerRequest answers
+            , @NotNull final Callback<QuestionSet> callback) {
+        restAdapter.scoreQuestionSet(questionSetId, answers, callback);
+    }
+
+    /**
+     * Scores a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest)
+     * @param questionSetId Question set ID
+     * @param answers Answers to questions
+     */
+    @NotNull
+    public Observable<QuestionSet> scoreQuestionSet(@NotNull final String questionSetId
+            , @NotNull final AnswerRequest answers) {
+        return restAdapter.scoreQuestionSet(questionSetId, answers);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String, retrofit.Callback)
+     * @param questionSetId Question set ID
+     * @param callback Callback to use.
+     */
+    public void retrieveQuestionSet(@NotNull final String questionSetId
+            , @NotNull final Callback<QuestionSet> callback) {
+        restAdapter.retrieveQuestionSet(questionSetId, callback);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @param questionSetId Question set ID
+     * @return Observable containing the question set.
+     */
+    public Observable<QuestionSet> retrieveQuestionSet(@NotNull final String questionSetId) {
+        return restAdapter.retrieveQuestionSet(questionSetId);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#listQuestionSets(retrofit.Callback)
+     * @param callback Callback to use.
+     */
+    public void listQuestionSet(@NotNull final Callback<List<QuestionSet>> callback) {
+        restAdapter.listQuestionSets(callback);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @return Observable containing the question set.
+     */
+    @NotNull
+    public Observable<List<QuestionSet>> listQuestionSet() {
+        return restAdapter.listQuestionSets();
     }
 
     /**
