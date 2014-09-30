@@ -1,4 +1,4 @@
-package com.blockscore;
+package com.blockscore.net;
 
 import com.blockscore.models.Person;
 import com.blockscore.models.Verification;
@@ -78,5 +78,5 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @GET("/verifications")
-    Observable<Verification> listVerifications();
+    Observable<List<Verification>> listVerifications();
 }
