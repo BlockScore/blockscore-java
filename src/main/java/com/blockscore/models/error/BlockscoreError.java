@@ -8,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
  * Created by Tony Dieppa on 10/1/14.
  */
 public class BlockscoreError {
-    public static final String INVALID_REQUEST_ERROR = "invalid_request_error";
-
     @NotNull
     @JsonProperty("error")
     private RequestError mRequestError;

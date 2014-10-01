@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
  * Created by Tony Dieppa on 9/30/14.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public abstract class BasicResponse {
     @Nullable
     @JsonProperty("id")
