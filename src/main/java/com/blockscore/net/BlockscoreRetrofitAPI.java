@@ -135,7 +135,7 @@ public interface BlockscoreRetrofitAPI {
      * @param callback Callback to use.
      */
     @GET("/questions/{id}")
-    void retrieveQuestionSet(@Path("id") @NotNull final String questionSetId
+    void getQuestionSet(@Path("id") @NotNull final String questionSetId
             , @NotNull final Callback<QuestionSet> callback);
 
     /**
@@ -146,7 +146,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @GET("/questions/{id}")
-    Observable<QuestionSet> retrieveQuestionSet(@Path("id") @NotNull final String questionSetId);
+    Observable<QuestionSet> getQuestionSet(@Path("id") @NotNull final String questionSetId);
 
     /**
      * Gets a list of historical records for all verifications you have completed. Sorted
@@ -188,4 +188,42 @@ public interface BlockscoreRetrofitAPI {
      */
     @POST("/companies")
     Observable<Company> createCompany(@NotNull @Body final Company company);
+
+    /**
+     * You can pull up a single company verification at any time (typically this is used for auditing purposes). <br />
+     * Thread: Asynchronous <br />
+     * @param companyId Company ID.
+     * @param callback Callback to use.
+     */
+    @GET("/companies/{id}")
+    void getCompany(@Path("id") @NotNull final String companyId, @NotNull final Callback<QuestionSet> callback);
+
+    /**
+     * You can pull up a single company verification at any time (typically this is used for auditing purposes). <br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param companyId Company ID.
+     */
+    @NotNull
+    @GET("/companies/{id}")
+    Observable<QuestionSet> getCompany(@Path("id") @NotNull final String companyId);
+
+    /**
+     * This endpoint will allow you to see a historical record of all company verifications that you have completed.
+     * Listed from newest to oldest<br />
+     * Thread: Asynchronous <br />
+     * @param callback Callback to use.
+     */
+    @GET("/companies")
+    void listCompanies(@NotNull final Callback<List<Company>> callback);
+
+    /**
+     * This endpoint will allow you to see a historical record of all company verifications that you have completed.
+     * Listed from newest to oldest<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @GET("/companies")
+    Observable<List<Company>> listCompanies();
+
 }

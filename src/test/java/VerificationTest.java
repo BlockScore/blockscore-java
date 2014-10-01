@@ -58,7 +58,7 @@ public class VerificationTest {
         Observable<QuestionSet> step5 = step4.map(new Func1<QuestionSet, QuestionSet>() {
             @Override
             public QuestionSet call(QuestionSet questionSet) {
-                return apiClient.retrieveQuestionSet(questionSet.getId()).toBlocking().first();
+                return apiClient.getQuestionSet(questionSet.getId()).toBlocking().first();
             }
         });
         Observable<List<QuestionSet>> step6 = step5.map(new Func1<QuestionSet, List<QuestionSet>>() {
