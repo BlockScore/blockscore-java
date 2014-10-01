@@ -1,3 +1,4 @@
+import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
@@ -22,9 +23,7 @@ public class VerificationTest {
 
     @Test
     public void verificationTest() throws ParseException {
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Test creation of verification
         Verification verification = apiClient.createVerification(createTestPerson()).toBlocking().first();
@@ -59,6 +58,153 @@ public class VerificationTest {
         areQuestionSetsValid(questionSets);
     }
 
+    @Test
+    public void createBadPersonTest() throws ParseException {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+
+        try {
+            Verification verification = apiClient.createVerification(createBadTestPerson()).toBlocking().first();
+            isVerificationValid(verification);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            Assert.assertNotNull(e.getInvalidParam());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
+    @Test
+    public void getNonexistentVerification() {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+
+        try {
+            Verification verification = apiClient.getVerification("-1").toBlocking().first();
+            isVerificationValid(verification);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
+    @Test
+    public void createQuestionSetWithFakeVerification() {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+
+        try {
+            QuestionSetRequest questionSetRequest = new QuestionSetRequest();
+            questionSetRequest.setTimeLimit(0).setVerificationId("-1");
+            QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+            isQuestionSetValid(questionSet);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
+    @Test
+    public void scoreNonExistentQuestionSet() {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+
+        try {
+            QuestionSet questionSet = apiClient.scoreQuestionSet("-1", new AnswerRequest()).toBlocking().first();
+            isQuestionSetValid(questionSet);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
+    @Test
+    public void scoreQuestionSetWithNoAnswers() throws ParseException {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+
+        //Test creation of verification
+        Verification verification = apiClient.createVerification(createTestPerson()).toBlocking().first();
+        isVerificationValid(verification);
+
+        //Test getting verification
+        verification = apiClient.getVerification(verification.getId()).toBlocking().first();
+        isVerificationValid(verification);
+
+        //Test creation of a question set.
+        QuestionSetRequest questionSetRequest = new QuestionSetRequest();
+        questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
+        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+        isQuestionSetValid(questionSet);
+
+        try {
+            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), new AnswerRequest()).toBlocking()
+                    .first();
+            isQuestionSetValid(results);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
+    @Test
+    public void scoreQuestionSetWithBadAnswers() throws ParseException {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+
+        //Test creation of verification
+        Verification verification = apiClient.createVerification(createTestPerson()).toBlocking().first();
+        isVerificationValid(verification);
+
+        //Test getting verification
+        verification = apiClient.getVerification(verification.getId()).toBlocking().first();
+        isVerificationValid(verification);
+
+        //Test creation of a question set.
+        QuestionSetRequest questionSetRequest = new QuestionSetRequest();
+        questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
+        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+        isQuestionSetValid(questionSet);
+
+        try {
+            ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
+            for (Question question : questionSet.getQuestionSet()) {
+                AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1000000);
+                answered.add(answeredQuestion);
+            }
+            AnswerRequest request = new AnswerRequest(answered);
+            //Open issue for this: https://github.com/BlockScore/blockscore-api/issues/333
+            //This should return an error, but instead allows it through. This code should be updated once the bug
+            //is fixed.
+            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking()
+                    .first();
+            isQuestionSetValid(results);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        //Assert.assertNotNull(exception); //Uncomment this once the issue is resolved to confirm the code works.
+    }
+
+    @Test
+    public void getNonexistentQuestionSet() {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+
+        try {
+            QuestionSet questionSet = apiClient.getQuestionSet("-1").toBlocking().first();
+            isQuestionSetValid(questionSet);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
     /**
      * Generates a sample individual to use for this test suite.
      * @return Person to test with.
@@ -74,6 +220,24 @@ public class VerificationTest {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse("1980-08-23");
         person.setName(name).setAddress(address).setDateOfBirth(date)
+                .setIdentification(identification);
+        return person;
+    }
+
+    /**
+     * Generates a bad sample individual to use for this test suite.
+     * @return Person to test with.
+     * @throws ParseException
+     */
+    @NotNull
+    private Person createBadTestPerson() throws ParseException {
+        Person person = new Person();
+        Identification identification = new Identification();
+        identification.setSSN("0000");
+        Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formatter.parse("1980-08-23");
+        person.setAddress(address).setDateOfBirth(date)
                 .setIdentification(identification);
         return person;
     }
@@ -186,5 +350,16 @@ public class VerificationTest {
         Assert.assertNotNull(name);
         Assert.assertNotNull(name.getFirstName());
         Assert.assertNotNull(name.getLastName());
+    }
+
+    /**
+     * Sets up the API client.
+     * @return API client.
+     */
+    @NotNull
+    private BlockscoreApiClient setupBlockscoreApiClient() {
+        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.useVerboseLogs(true);
+        return new BlockscoreApiClient();
     }
 }
