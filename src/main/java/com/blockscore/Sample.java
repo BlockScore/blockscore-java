@@ -1,15 +1,11 @@
 package com.blockscore;
 
-import com.blockscore.common.CorporationType;
-import com.blockscore.models.Address;
-import com.blockscore.models.Company;
+import com.blockscore.models.WatchlistCandidate;
 import com.blockscore.net.BlockscoreApiClient;
 import rx.Observable;
 import rx.Observer;
 import rx.functions.Func1;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -22,35 +18,44 @@ public class Sample {
         BlockscoreApiClient.useVerboseLogs(true);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
-        Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
-        Company company = new Company();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = formatter.parse("1980-08-23");
-        } catch (ParseException e) {
-            //Do nothing.
-        }
-        company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
-                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
-                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
-                .setURL("https://blockscore.com").setPhoneNumber("6505555555").setIPAddress("67.160.8.182")
-                .setAddress(address);
-        Observable<Company> step1 = apiClient.createCompany(company);
-        Observable<Company> step2 = step1.map(new Func1<Company, Company>() {
+        WatchlistCandidate candidate = new WatchlistCandidate();
+        candidate.setNote("12341234").setSSN("001").setDateOfBirth(new Date()).setFirstName("John")
+                .setLastName("BredenKamp").setStreet1("1 Infinite Loop").setCity("Harare").setCountryCode("ZW");
+        Observable<WatchlistCandidate> step1 = apiClient.createWatchlistCandidate(candidate);
+        Observable<WatchlistCandidate> step2 = step1.map(new Func1<WatchlistCandidate, WatchlistCandidate>() {
             @Override
-            public Company call(Company company) {
-                return apiClient.getCompany(company.getId()).toBlocking().first();
+            public WatchlistCandidate call(WatchlistCandidate watchlistCandidate) {
+                return apiClient.updateWatchlistCandidate(watchlistCandidate.getId(), watchlistCandidate)
+                        .toBlocking().first();
             }
         });
-        Observable<List<Company>> step3 = step2.map(new Func1<Company, List<Company>>() {
+        Observable<WatchlistCandidate> step3 = step2.map(new Func1<WatchlistCandidate, WatchlistCandidate>() {
             @Override
-            public List<Company> call(Company company) {
-                return apiClient.listCompanies().toBlocking().first();
+            public WatchlistCandidate call(WatchlistCandidate watchlistCandidate) {
+                return apiClient.getWatchlistCandidate(watchlistCandidate.getId()).toBlocking().first();
             }
         });
-        step3.subscribe(new Observer<List<Company>>() {
+        Observable<List<WatchlistCandidate>> step4 = step3.map(new Func1<WatchlistCandidate
+                , List<WatchlistCandidate>>() {
+            @Override
+            public List<WatchlistCandidate> call(WatchlistCandidate watchlistCandidate) {
+                return apiClient.listWatchlistCandidate().toBlocking().first();
+            }
+        });
+        Observable<WatchlistCandidate> step5 = step4.map(new Func1<List<WatchlistCandidate>, WatchlistCandidate>() {
+            @Override
+            public WatchlistCandidate call(List<WatchlistCandidate> watchlistCandidates) {
+                apiClient.getWatchlistCandidateHistory(watchlistCandidates.get(0).getId()).toBlocking().first();
+                return watchlistCandidates.get(0);
+            }
+        });
+        Observable<WatchlistCandidate> step6 = step5.map(new Func1<WatchlistCandidate, WatchlistCandidate>() {
+            @Override
+            public WatchlistCandidate call(WatchlistCandidate watchlistCandidate) {
+                return apiClient.deleteWatchlistCandidate(watchlistCandidate.getId()).toBlocking().first();
+            }
+        });
+        step6.subscribe(new Observer<WatchlistCandidate>() {
             @Override
             public void onCompleted() {
                 System.out.println("OK");
@@ -62,7 +67,7 @@ public class Sample {
             }
 
             @Override
-            public void onNext(List<Company> companies) {
+            public void onNext(WatchlistCandidate watchlistCandidate) {
 
             }
         });

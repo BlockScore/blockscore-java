@@ -5,10 +5,7 @@ import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.Path;
+import retrofit.http.*;
 import rx.Observable;
 
 import java.util.List;
@@ -226,4 +223,119 @@ public interface BlockscoreRetrofitAPI {
     @GET("/companies")
     Observable<List<Company>> listCompanies();
 
+    /**
+     * Creates a new watchlist candidate<br />
+     * Thread: Asynchronous <br />
+     * @param candidate Watchlist candidate.
+     * @param callback Callback to use.
+     */
+    @POST("/watchlist_candidates")
+    void createWatchlistCandidate(@NotNull @Body final WatchlistCandidate candidate
+            , @NotNull final Callback<WatchlistCandidate> callback);
+
+    /**
+     * Creates a new watchlist candidate<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param candidate Watchlist candidate.
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @POST("/watchlist_candidates")
+    Observable<WatchlistCandidate> createWatchlistCandidate(@NotNull @Body final WatchlistCandidate candidate);
+
+    /**
+     * Updates a watchlist candidate<br />
+     * Thread: Asynchronous <br />
+     * @param id ID of candidate.
+     * @param candidate Watchlist candidate.
+     * @param callback Callback to use.
+     */
+    @PATCH("/watchlist_candidates/{id}")
+    void updateWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull @Body final WatchlistCandidate candidate
+            , @NotNull final Callback<WatchlistCandidate> callback);
+
+    /**
+     * Updates a watchlist candidate<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param id ID of candidate.
+     * @param candidate Watchlist candidate.
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @PATCH("/watchlist_candidates/{id}")
+    Observable<WatchlistCandidate> updateWatchlistCandidate(@NotNull @Path("id") final String id
+            , @NotNull @Body final WatchlistCandidate candidate);
+
+    /**
+     * Deletes a watchlist candidate<br />
+     * Thread: Asynchronous <br />
+     * @param id ID of candidate.
+     * @param callback Callback to use.
+     */
+    @DELETE("/watchlist_candidates/{id}")
+    void deleteWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull final Callback<WatchlistCandidate> callback);
+
+    /**
+     * Deletes a watchlist candidate<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param id ID of candidate.
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @DELETE("/watchlist_candidates/{id}")
+    Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull @Path("id") final String id);
+
+    /**
+     * Gets a watchlist candidate<br />
+     * Thread: Asynchronous <br />
+     * @param id ID of candidate.
+     * @param callback Callback to use.
+     */
+    @GET("/watchlist_candidates/{id}")
+    void getWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull final Callback<WatchlistCandidate> callback);
+
+    /**
+     * Gets a watchlist candidate<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param id ID of candidate.
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @GET("/watchlist_candidates/{id}")
+    Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull @Path("id") final String id);
+
+    /**
+     * Gets all watchlist candidates<br />
+     * Thread: Asynchronous <br />
+     * @param callback Callback to use.
+     */
+    @GET("/watchlist_candidates")
+    void listWatchlistCandidate(@NotNull final Callback<List<WatchlistCandidate>> callback);
+
+    /**
+     * Gets all watchlist candidates<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @GET("/watchlist_candidates")
+    Observable<List<WatchlistCandidate>> listWatchlistCandidate();
+
+    /**
+     * Gets the history for a watchlist candidate.<br />
+     * Thread: Asynchronous <br />
+     * @param callback Callback to use.
+     */
+    @GET("/watchlist_candidates/{id}/history")
+    void getWatchlistCandidateHistory(@NotNull @Path("id") final String id
+            , @NotNull final Callback<WatchlistCandidate> callback);
+
+    /**
+     * Gets the history for a watchlist candidate.<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @GET("/watchlist_candidates/{id}/history")
+    Observable<List<WatchlistCandidate>> getWatchlistCandidateHistory(@NotNull @Path("id") final String id);
 }

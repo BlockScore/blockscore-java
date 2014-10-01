@@ -75,7 +75,7 @@ public class WatchlistCandidate extends BasicResponse {
     }
 
     /**
-     * An additional field which can be used for arbitrary storage. is typically used for
+     * Sets an additional field which can be used for arbitrary storage. is typically used for
      * storing your internal identifiers for customer.
      * @param note Note to store.
      */
@@ -95,7 +95,7 @@ public class WatchlistCandidate extends BasicResponse {
     }
 
     /**
-     * can be either the last 4 digits of the US Social Security Number or the whole SSN.
+     * Can be either the last 4 digits of the US Social Security Number or the whole SSN.
      * @param ssn SSN to use.
      */
     @NotNull
