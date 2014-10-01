@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -15,7 +14,7 @@ import java.util.Date;
 public class Person extends BasicResponse {
     @NotNull
     @JsonProperty("date_of_birth")
-    private String mDateOfBirth;
+    private Date mDateOfBirth;
 
     @NotNull
     @JsonProperty("identification")
@@ -44,7 +43,7 @@ public class Person extends BasicResponse {
     public Person(@NotNull Name name, @NotNull Date dateOfBirth, @NotNull Identification identification
             , @NotNull Address address) {
         mName = name;
-        setDateOfBirth(dateOfBirth);
+        mDateOfBirth = dateOfBirth;
         mIdentification = identification;
         mAddress = address;
     }
@@ -56,8 +55,7 @@ public class Person extends BasicResponse {
      */
     @NotNull
     public Person setDateOfBirth(@NotNull final Date dateOfBirth) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        mDateOfBirth = format.format(dateOfBirth);
+        mDateOfBirth = dateOfBirth;
         return this;
     }
 

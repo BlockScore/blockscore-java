@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -29,7 +28,7 @@ public class Company extends BasicResponse {
 
     @Nullable
     @JsonProperty("incorp_date")
-    private String mIncorpDate;
+    private Date mIncorpDate;
 
     @Nullable
     @JsonProperty("incorp_state")
@@ -128,7 +127,7 @@ public class Company extends BasicResponse {
      * @return Incorporation date.
      */
     @Nullable
-    public String getIncorpDate() {
+    public Date getIncorpDate() {
         return mIncorpDate;
     }
 
@@ -138,8 +137,7 @@ public class Company extends BasicResponse {
      */
     @NotNull
     public Company setIncorpDate(@NotNull final Date incorpDate) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        mIncorpDate = format.format(incorpDate);
+        mIncorpDate = incorpDate;
         return this;
     }
 
