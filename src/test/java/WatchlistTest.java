@@ -21,9 +21,7 @@ public class WatchlistTest {
 
     @Test
     public void watchListTest() throws ParseException {
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Tests creation of a candidate
         WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
@@ -62,9 +60,7 @@ public class WatchlistTest {
     @Test
     public void badCandidateCreationTest() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             //Open issue for this: https://github.com/BlockScore/blockscore-api/issues/332
@@ -84,9 +80,7 @@ public class WatchlistTest {
     @Test
     public void updateNonexistentCandidateTest() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             WatchlistCandidate candidate = apiClient.updateWatchlistCandidate("1", createBadTestCandidate())
@@ -102,9 +96,7 @@ public class WatchlistTest {
     @Test
     public void getNonexistentCandidateTest() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             WatchlistCandidate candidate = apiClient.getWatchlistCandidate("1").toBlocking().first();
@@ -119,9 +111,7 @@ public class WatchlistTest {
     @Test
     public void getNonexistentWatchCandidateHistoryTest() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             List<WatchlistCandidate> candidate = apiClient.getWatchlistCandidateHistory("1").toBlocking().first();
@@ -136,9 +126,7 @@ public class WatchlistTest {
     @Test
     public void getNonexistentCandidateHits() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             List<WatchlistHit> candidate = apiClient.getWatchlistCandidateHits("1").toBlocking().first();
@@ -153,9 +141,7 @@ public class WatchlistTest {
     @Test
     public void deleteNonexistentCandidateTest() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             WatchlistCandidate candidate = apiClient.deleteWatchlistCandidate("1").toBlocking().first();
@@ -231,9 +217,21 @@ public class WatchlistTest {
      * @param hits Hits under test.
      */
     private void areHitsValid(@Nullable List<WatchlistHit> hits) {
+        Assert.assertNotNull(hits);
         for (WatchlistHit hit : hits) {
             Assert.assertNotNull(hit.getMatchingInfo());
             isCandidateValid(hit);
         }
+    }
+
+    /**
+     * Sets up the API client.
+     * @return API client.
+     */
+    @NotNull
+    private BlockscoreApiClient setupBlockscoreApiClient() {
+        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.useVerboseLogs(false);
+        return new BlockscoreApiClient();
     }
 }
