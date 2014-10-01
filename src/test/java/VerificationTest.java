@@ -64,6 +64,7 @@ public class VerificationTest {
      * @return Person to test with.
      * @throws ParseException
      */
+    @NotNull
     private Person createTestPerson() throws ParseException {
         Person person = new Person();
         Name name = new Name("John", "Pearce", "Doe");

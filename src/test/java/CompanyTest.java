@@ -41,12 +41,10 @@ public class CompanyTest {
     @Test
     public void createCompanyInvalidParameters() throws ParseException {
         InvalidRequestException exception = null;
-
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
         BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
-        //Tests creation.
         try {
             Company company = apiClient.createCompany(createBadTestCompany()).toBlocking().first();
             isCompanyValid(company);
@@ -61,12 +59,10 @@ public class CompanyTest {
     @Test
     public void getNonExistingCompany() throws ParseException {
         InvalidRequestException exception = null;
-
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(true);
+        BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
-        //Tests creation.
         try {
             Company company = apiClient.getCompany("781237129").toBlocking().first();
             isCompanyValid(company);

@@ -1,3 +1,4 @@
+import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.WatchlistCandidate;
 import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistMatch;
@@ -20,7 +21,7 @@ public class SearchTest {
     @Test
     public void searchTest() {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
+        BlockscoreApiClient.useVerboseLogs(true);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
         //Creates a watchlist candidate.
@@ -29,8 +30,31 @@ public class SearchTest {
 
         //Tests searching for him/her.
         SearchRequest request = new SearchRequest(candidate.getId());
+        request.setMatchType(SearchRequest.MatchType.PERSON);
         WatchlistSearchResults results = apiClient.searchWatchlists(request).toBlocking().first();
         areSearchResultsValid(results);
+    }
+
+    @Test
+    public void noCandidateFoundTest() {
+        InvalidRequestException exception = null;
+        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.useVerboseLogs(true);
+        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+
+        //Creates a watchlist candidate.
+        WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
+        isCandidateValid(candidate);
+
+        try {
+            SearchRequest request = new SearchRequest("1");
+            WatchlistSearchResults results = apiClient.searchWatchlists(request).toBlocking().first();
+            areSearchResultsValid(results);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
     }
 
     /**
