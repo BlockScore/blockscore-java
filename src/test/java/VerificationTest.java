@@ -15,7 +15,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by tealocean on 9/30/14.
+ * Simple test for the verification process.
+ * Created by Tony Dieppa on 9/30/14.
  */
 public class VerificationTest {
 

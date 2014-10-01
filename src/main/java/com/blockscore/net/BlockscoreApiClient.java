@@ -2,10 +2,7 @@ package com.blockscore.net;
 
 import com.blockscore.common.Constants;
 import com.blockscore.exceptions.NoApiKeyFoundException;
-import com.blockscore.models.Company;
-import com.blockscore.models.Person;
-import com.blockscore.models.QuestionSet;
-import com.blockscore.models.Verification;
+import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -295,6 +292,52 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<List<Company>> listCompanies() {
         return restAdapter.listCompanies();
+    }
+
+    /**
+     * Creates a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createWatchlistCandidate(com.blockscore.models.WatchlistCandidate, retrofit.Callback)
+     * @param candidate Watchlist candidate to create.
+     * @param callback Callback to use.
+     */
+    public void createWatchlistCandidate(@NotNull final WatchlistCandidate candidate
+            , @NotNull final Callback<WatchlistCandidate> callback) {
+        restAdapter.createWatchlistCandidate(candidate, callback);
+    }
+
+    /**
+     * Creates a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createWatchlistCandidate(com.blockscore.models.WatchlistCandidate)
+     * @param candidate Watchlist candidate to create.
+     * @return Observable containing the candidate.
+     */
+    @NotNull
+    public Observable<WatchlistCandidate> createWatchlistCandidate(@NotNull final WatchlistCandidate candidate) {
+        return restAdapter.createWatchlistCandidate(candidate);
+    }
+
+    /**
+     * Updates a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#updateWatchlistCandidate(String, com.blockscore.models.WatchlistCandidate, retrofit.Callback)
+     * @param id ID for the candidate.
+     * @param candidate Watchlist candidate to create.
+     * @param callback Callback to use.
+     */
+    public void updateWatchlistCandidate(@NotNull final String id, @NotNull final WatchlistCandidate candidate
+            , @NotNull final Callback<WatchlistCandidate> callback) {
+        restAdapter.updateWatchlistCandidate(id, candidate, callback);
+    }
+
+    /**
+     * Updates a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#updateWatchlistCandidate(String, com.blockscore.models.WatchlistCandidate)
+     * @param id ID for the candidate.
+     * @param candidate Watchlist candidate to create.
+     */
+    @NotNull
+    public Observable<WatchlistCandidate> updateWatchlistCandidate(@NotNull final String id
+            , @NotNull final WatchlistCandidate candidate) {
+        return restAdapter.updateWatchlistCandidate(id, candidate);
     }
 
     /**
