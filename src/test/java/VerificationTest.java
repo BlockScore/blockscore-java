@@ -148,6 +148,33 @@ public class VerificationTest {
      */
     private void isQuestionSetValid(@Nullable final QuestionSet questionSet) {
         Assert.assertNotNull(questionSet);
+        Assert.assertNotNull(questionSet.getVerificationId());
+        areQuestionsValid(questionSet.getQuestionSet());
+    }
+
+    /**
+     * Determines if the questions are valid.
+     * @param questionSet Questions to test.
+     */
+    private void areQuestionsValid(@Nullable final List<Question> questionSet) {
+        Assert.assertNotNull(questionSet);
+        for (Question question : questionSet) {
+            Assert.assertNotNull(question.getId());
+            Assert.assertNotNull(question.getQuestion());
+            areAnswersValid(question.getAnswers());
+        }
+    }
+
+    /**
+     * Determines if the answers are valid.
+     * @param answers Answers to use.
+     */
+    private void areAnswersValid(@Nullable final List<Answer> answers) {
+        Assert.assertNotNull(answers);
+        for (Answer answer : answers) {
+            Assert.assertNotNull(answer.getId());
+            Assert.assertNotNull(answer.getAnswer());
+        }
     }
 
     /**

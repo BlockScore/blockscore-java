@@ -28,7 +28,7 @@ public class Answer {
      * @return Possible answer.
      */
     @NotNull
-    public String getmAnswer() {
+    public String getAnswer() {
         return mAnswer;
     }
 }
