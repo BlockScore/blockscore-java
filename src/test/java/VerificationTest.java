@@ -1,4 +1,6 @@
 import com.blockscore.models.*;
+import com.blockscore.models.request.AnswerRequest;
+import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.models.results.Verification;
 import com.blockscore.net.BlockscoreApiClient;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +10,7 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,72 +23,40 @@ public class VerificationTest {
     @Test
     public void fullVerificationFlowTest() throws ParseException {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(true);
+        BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
+        //Test creation of verification
         Verification verification = apiClient.createVerification(createTestPerson()).toBlocking().first();
         isVerificationValid(verification);
 
+        //Test getting verification
+        verification = apiClient.getVerification(verification.getId()).toBlocking().first();
+        isVerificationValid(verification);
 
-//        Observable<Verification> step2 = step1.map(new Func1<Verification, Verification>() {
-//            @Override
-//            public Verification call(Verification verification) {
-//                System.out.println("Getting verification");
-//                return apiClient.getVerification(verification.getId()).toBlocking().first();
-//            }
-//        });
-//        Observable<QuestionSet> step3 = step2.map(new Func1<Verification, QuestionSet>() {
-//            @Override
-//            public QuestionSet call(Verification verification) {
-//                System.out.println("Creating question set.");
-//                QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-//                questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
-//                return apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
-//            }
-//        });
-//        Observable<QuestionSet> step4 = step3.map(new Func1<QuestionSet, QuestionSet>() {
-//            @Override
-//            public QuestionSet call(QuestionSet questionSet) {
-//                List<Question> questionList = questionSet.getQuestionSet();
-//                ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
-//                for (Question question : questionList) {
-//                    AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1);
-//                    answered.add(answeredQuestion);
-//                }
-//                AnswerRequest request = new AnswerRequest(answered);
-//                return apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking().first();
-//            }
-//        });
-//        Observable<QuestionSet> step5 = step4.map(new Func1<QuestionSet, QuestionSet>() {
-//            @Override
-//            public QuestionSet call(QuestionSet questionSet) {
-//                return apiClient.getQuestionSet(questionSet.getId()).toBlocking().first();
-//            }
-//        });
-//        Observable<List<QuestionSet>> step6 = step5.map(new Func1<QuestionSet, List<QuestionSet>>() {
-//            @Override
-//            public List<QuestionSet> call(QuestionSet questionSet) {
-//                return apiClient.listQuestionSet().toBlocking().first();
-//            }
-//        });
-//
-//
-//        step6.subscribe(new Observer<List<QuestionSet>>() {
-//            @Override
-//            public void onCompleted() {
-//                Assert.assertTrue(true);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Assert.assertTrue(false);
-//            }
-//
-//            @Override
-//            public void onNext(List<QuestionSet> questionSet) {
-//                Assert.assertTrue(questionSet != null);
-//            }
-//        });
+        //Test creation of a question set.
+        QuestionSetRequest questionSetRequest = new QuestionSetRequest();
+        questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
+        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+        isQuestionSetValid(questionSet);
+
+        //Test scoring a question set.
+        ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
+        for (Question question : questionSet.getQuestionSet()) {
+            AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1);
+            answered.add(answeredQuestion);
+        }
+        AnswerRequest request = new AnswerRequest(answered);
+        questionSet = apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking().first();
+        isQuestionSetValid(questionSet);
+
+        //Test getting a question set.
+        questionSet = apiClient.getQuestionSet(questionSet.getId()).toBlocking().first();
+        isQuestionSetValid(questionSet);
+
+        //Test listing question sets.
+        List<QuestionSet> questionSets = apiClient.listQuestionSet().toBlocking().first();
+        areQuestionSetsValid(questionSets);
     }
 
     /**
@@ -106,6 +77,10 @@ public class VerificationTest {
         return person;
     }
 
+    /**
+     * Determines if the verification is valid.
+     * @param verification Verification under test.
+     */
     private void isVerificationValid(@NotNull final Verification verification) {
         Assert.assertNotNull(verification);
         Assert.assertNotNull(verification.getId());

@@ -11,9 +11,13 @@ import java.util.List;
  * Created by tealocean on 9/30/14.
  */
 public class AnswerRequest {
-
+    @NotNull
     @JsonProperty("answers")
     private List<AnsweredQuestion> mAnswers;
+
+    public AnswerRequest() {
+        //Does nothing.
+    }
 
     public AnswerRequest(@NotNull final List<AnsweredQuestion> answers) {
         mAnswers = answers;
