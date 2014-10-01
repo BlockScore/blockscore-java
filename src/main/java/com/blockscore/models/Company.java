@@ -140,7 +140,10 @@ public class Company extends BasicResponse {
      */
     @NotNull
     public Company setIncorpDate(@NotNull final Date incorpDate) {
-        mIncorpDate = incorpDate;
+        if (mIncorpDate == null) {
+            return this;
+        }
+        mIncorpDate = new Date(incorpDate.getTime());
         return this;
     }
 

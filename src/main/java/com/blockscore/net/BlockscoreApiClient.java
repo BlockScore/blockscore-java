@@ -480,7 +480,7 @@ public class BlockscoreApiClient {
     /**
      * Handles the network layer.
      */
-    private class BlockscoreClient extends UrlConnectionClient {
+    private static final class BlockscoreClient extends UrlConnectionClient {
         private static final int CONNECT_TIMEOUT_MILLIS = 30 * 1000;
         private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
 
@@ -507,7 +507,7 @@ public class BlockscoreApiClient {
         }
     }
 
-    private class BlockscoreErrorHandler implements ErrorHandler {
+    private static final class BlockscoreErrorHandler implements ErrorHandler {
         @Override
         public Throwable handleError(RetrofitError cause) {
             Object rawError = cause.getBodyAs(BlockscoreError.class);

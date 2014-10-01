@@ -3,6 +3,7 @@ package com.blockscore.models.results;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class WatchlistSearchResults {
      */
     @NotNull
     public String[] getSearchedLists() {
-        return mSearchedLists;
+        return Arrays.copyOf(mSearchedLists, mSearchedLists.length);
     }
 
     /**

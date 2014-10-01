@@ -40,10 +40,12 @@ public class Person extends BasicResponse {
         //No initialization.
     }
 
-    public Person(@NotNull Name name, @Nullable Date dateOfBirth, @NotNull Identification identification
-            , @NotNull Address address) {
+    public Person(@NotNull final Name name, @Nullable final Date dateOfBirth
+            , @NotNull final Identification identification, @NotNull final Address address) {
         mName = name;
-        mDateOfBirth = dateOfBirth;
+        if (dateOfBirth != null) {
+            mDateOfBirth = new Date(dateOfBirth.getTime());
+        }
         mIdentification = identification;
         mAddress = address;
     }
@@ -55,7 +57,7 @@ public class Person extends BasicResponse {
      */
     @NotNull
     public Person setDateOfBirth(@NotNull final Date dateOfBirth) {
-        mDateOfBirth = dateOfBirth;
+        mDateOfBirth = new Date(dateOfBirth.getTime());
         return this;
     }
 

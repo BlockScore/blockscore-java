@@ -129,7 +129,10 @@ public class WatchlistCandidate extends BasicResponse {
      */
     @Nullable
     public Date getDateOfBirth() {
-        return mDateOfBirth;
+        if (mDateOfBirth == null) {
+            return null;
+        }
+        return new Date(mDateOfBirth.getTime());
     }
 
     /**
@@ -138,7 +141,10 @@ public class WatchlistCandidate extends BasicResponse {
      */
     @NotNull
     public WatchlistCandidate setDateOfBirth(@Nullable final Date dateOfBirth) {
-        mDateOfBirth = dateOfBirth;
+        if (dateOfBirth == null) {
+            return this;
+        }
+        mDateOfBirth = new Date(dateOfBirth.getTime());
         return this;
     }
 
