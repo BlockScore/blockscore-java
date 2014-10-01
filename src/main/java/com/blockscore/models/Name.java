@@ -1,7 +1,5 @@
 package com.blockscore.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,8 +8,6 @@ import org.jetbrains.annotations.Nullable;
  * Name model. Used to identify the name of an individual.
  * Created by tealocean on 9/29/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Name {
     @NotNull
     @JsonProperty("first")

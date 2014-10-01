@@ -1,24 +1,20 @@
 package com.blockscore.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.blockscore.models.base.BasicResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Model representing a person's identity.
  * Created by Tony Dieppa on 9/29/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Person {
+public class Person extends BasicResponse {
     @NotNull
     @JsonProperty("date_of_birth")
-    private String mDateOfBirth;
+    private Date mDateOfBirth;
 
     @NotNull
     @JsonProperty("identification")
@@ -47,7 +43,7 @@ public class Person {
     public Person(@NotNull Name name, @NotNull Date dateOfBirth, @NotNull Identification identification
             , @NotNull Address address) {
         mName = name;
-        setDateOfBirth(dateOfBirth);
+        mDateOfBirth = dateOfBirth;
         mIdentification = identification;
         mAddress = address;
     }
@@ -59,8 +55,7 @@ public class Person {
      */
     @NotNull
     public Person setDateOfBirth(@NotNull final Date dateOfBirth) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        mDateOfBirth = format.format(dateOfBirth);
+        mDateOfBirth = dateOfBirth;
         return this;
     }
 

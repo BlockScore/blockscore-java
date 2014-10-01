@@ -1,8 +1,8 @@
 package com.blockscore;
 
-import com.blockscore.models.*;
-import com.blockscore.models.request.AnswerRequest;
-import com.blockscore.models.request.QuestionSetRequest;
+import com.blockscore.common.CorporationType;
+import com.blockscore.models.Address;
+import com.blockscore.models.Company;
 import com.blockscore.net.BlockscoreApiClient;
 import rx.Observable;
 import rx.Observer;
@@ -10,7 +10,6 @@ import rx.functions.Func1;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,11 +22,8 @@ public class Sample {
         BlockscoreApiClient.useVerboseLogs(true);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
-        Person person = new Person();
-        Name name = new Name("John", "Pearce", "Doe");
-        Identification identification = new Identification();
-        identification.setSSN("0000");
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
+        Company company = new Company();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -36,67 +32,37 @@ public class Sample {
         } catch (ParseException e) {
             //Do nothing.
         }
-
-        person.setName(name).setAddress(address).setDateOfBirth(date)
-                .setIdentification(identification);
-
-        Observable<Verification> step1 = apiClient.createVerification(person);
-        Observable<Verification> step2 = step1.map(new Func1<Verification, Verification>() {
+        company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
+                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
+                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
+                .setURL("https://blockscore.com").setPhoneNumber("6505555555").setIPAddress("67.160.8.182")
+                .setAddress(address);
+        Observable<Company> step1 = apiClient.createCompany(company);
+        Observable<Company> step2 = step1.map(new Func1<Company, Company>() {
             @Override
-            public Verification call(Verification verification) {
-                System.out.println("Getting verification");
-                return apiClient.getVerification(verification.getId()).toBlocking().first();
+            public Company call(Company company) {
+                return apiClient.getCompany(company.getId()).toBlocking().first();
             }
         });
-        Observable<QuestionSet> step3 = step2.map(new Func1<Verification, QuestionSet>() {
+        Observable<List<Company>> step3 = step2.map(new Func1<Company, List<Company>>() {
             @Override
-            public QuestionSet call(Verification verification) {
-                System.out.println("Creating question set.");
-                QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-                questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
-                return apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+            public List<Company> call(Company company) {
+                return apiClient.listCompanies().toBlocking().first();
             }
         });
-        Observable<QuestionSet> step4 = step3.map(new Func1<QuestionSet, QuestionSet>() {
-            @Override
-            public QuestionSet call(QuestionSet questionSet) {
-                List<Question> questionList = questionSet.getQuestionSet();
-                ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
-                for (Question question : questionList) {
-                    AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1);
-                    answered.add(answeredQuestion);
-                }
-                AnswerRequest request = new AnswerRequest(answered);
-                return apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking().first();
-            }
-        });
-        Observable<QuestionSet> step5 = step4.map(new Func1<QuestionSet, QuestionSet>() {
-            @Override
-            public QuestionSet call(QuestionSet questionSet) {
-                return apiClient.retrieveQuestionSet(questionSet.getId()).toBlocking().first();
-            }
-        });
-        Observable<List<QuestionSet>> step6 = step5.map(new Func1<QuestionSet, List<QuestionSet>>() {
-            @Override
-            public List<QuestionSet> call(QuestionSet questionSet) {
-                return apiClient.listQuestionSet().toBlocking().first();
-            }
-        });
-
-
-        step6.subscribe(new Observer<List<QuestionSet>>() {
+        step3.subscribe(new Observer<List<Company>>() {
             @Override
             public void onCompleted() {
-                System.out.println("Victory");
+                System.out.println("OK");
             }
 
             @Override
             public void onError(Throwable e) {
-                System.out.println(e.getMessage());
+                System.out.println("ERROR");
             }
 
             @Override
-            public void onNext(List<QuestionSet> questionSet) {
+            public void onNext(List<Company> companies) {
 
             }
         });

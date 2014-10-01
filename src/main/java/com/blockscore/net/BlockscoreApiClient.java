@@ -2,19 +2,34 @@ package com.blockscore.net;
 
 import com.blockscore.common.Constants;
 import com.blockscore.exceptions.NoApiKeyFoundException;
-import com.blockscore.models.*;
+import com.blockscore.models.Company;
+import com.blockscore.models.Person;
+import com.blockscore.models.QuestionSet;
+import com.blockscore.models.Verification;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.OkUrlFactory;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
+import retrofit.client.Request;
+import retrofit.client.UrlConnectionClient;
 import retrofit.converter.JacksonConverter;
 import rx.Observable;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The Blockscore Java API client.
@@ -45,9 +60,20 @@ public class BlockscoreApiClient {
 
     public BlockscoreApiClient() {
         RestAdapter.Builder restBuilder = new RestAdapter.Builder()
-                .setClient(new OkClient())
-                .setConverter(new JacksonConverter())
+                .setClient(new BlockscoreClient())
                 .setEndpoint(Constants.getDomain());
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        JacksonConverter converter = new JacksonConverter(mapper);
+        restBuilder.setConverter(converter);
 
         //Sets up the authentication headers and accept headers.
         restBuilder.setRequestInterceptor(new RequestInterceptor() {
@@ -172,23 +198,23 @@ public class BlockscoreApiClient {
 
     /**
      * This allows you to retrieve a question set you have created.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String, retrofit.Callback)
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#getQuestionSet(String, retrofit.Callback)
      * @param questionSetId Question set ID
      * @param callback Callback to use.
      */
-    public void retrieveQuestionSet(@NotNull final String questionSetId
+    public void getQuestionSet(@NotNull final String questionSetId
             , @NotNull final Callback<QuestionSet> callback) {
-        restAdapter.retrieveQuestionSet(questionSetId, callback);
+        restAdapter.getQuestionSet(questionSetId, callback);
     }
 
     /**
      * This allows you to retrieve a question set you have created.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#getQuestionSet(String)
      * @param questionSetId Question set ID
      * @return Observable containing the question set.
      */
-    public Observable<QuestionSet> retrieveQuestionSet(@NotNull final String questionSetId) {
-        return restAdapter.retrieveQuestionSet(questionSetId);
+    public Observable<QuestionSet> getQuestionSet(@NotNull final String questionSetId) {
+        return restAdapter.getQuestionSet(questionSetId);
     }
 
     /**
@@ -202,12 +228,73 @@ public class BlockscoreApiClient {
 
     /**
      * This allows you to retrieve a question set you have created.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @see BlockscoreRetrofitAPI#listQuestionSets()
      * @return Observable containing the question set.
      */
     @NotNull
     public Observable<List<QuestionSet>> listQuestionSet() {
         return restAdapter.listQuestionSets();
+    }
+
+    /**
+     * Creates a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company, retrofit.Callback)
+     * @param company Company to create.
+     * @param callback Callback to use.
+     */
+    public void createCompany(@NotNull final Company company, @NotNull final Callback<Company> callback) {
+        restAdapter.createCompany(company, callback);
+    }
+
+    /**
+     * Creates a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
+     * @param company Company to create.
+     * @return Observable containing the company.
+     */
+    @NotNull
+    public Observable<Company> createCompany(@NotNull final Company company) {
+        return restAdapter.createCompany(company);
+    }
+
+    /**
+     * Retrieves a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company, retrofit.Callback)
+     * @param id Company ID.
+     * @param callback Callback to use.
+     */
+    public void getCompany(@NotNull final String id, @NotNull final Callback<Company> callback) {
+        restAdapter.getCompany(id, callback);
+    }
+
+    /**
+     * Retrieves a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
+     * @param id Company ID.
+     * @return Observable containing the company.
+     */
+    @NotNull
+    public Observable<Company> getCompany(@NotNull final String id) {
+        return restAdapter.getCompany(id);
+    }
+
+    /**
+     * Lists your verified companies.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#listCompanies(retrofit.Callback)
+     * @param callback Callback to use.
+     */
+    public void listCompanies(@NotNull final Callback<List<Company>> callback) {
+        restAdapter.listCompanies(callback);
+    }
+
+    /**
+     * Lists your verified companies.
+     * @see BlockscoreRetrofitAPI#listCompanies()
+     * @return Observable containing the list of companies.
+     */
+    @NotNull
+    public Observable<List<Company>> listCompanies() {
+        return restAdapter.listCompanies();
     }
 
     /**
@@ -220,5 +307,35 @@ public class BlockscoreApiClient {
             throw new NoApiKeyFoundException();
         }
         return "Basic " + Base64.getEncoder().encodeToString(sApiKey.getBytes());
+    }
+
+    /**
+     * Handles the network layer.
+     */
+    private class BlockscoreClient extends UrlConnectionClient {
+        private static final int CONNECT_TIMEOUT_MILLIS = 30 * 1000;
+        private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
+
+        private final OkUrlFactory okUrlFactory;
+
+        public BlockscoreClient() {
+            okUrlFactory = new OkUrlFactory(generateHTTPClient());
+        }
+
+        public BlockscoreClient(OkHttpClient client) {
+            okUrlFactory = new OkUrlFactory(client);
+        }
+
+        private OkHttpClient generateHTTPClient() {
+            OkHttpClient client = new OkHttpClient();
+            client.setConnectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+            client.setReadTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+            return client;
+        }
+
+        @Override
+        protected HttpURLConnection openConnection(Request request) throws IOException {
+            return okUrlFactory.open(new URL(request.getUrl()));
+        }
     }
 }

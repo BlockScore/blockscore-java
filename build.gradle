@@ -1,7 +1,7 @@
 apply plugin: 'java'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
-apply plugin: 'checkstyle'
+//apply plugin: 'findbugs'
+//apply plugin: 'pmd'
+//apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.7
 version = '1.0'
@@ -22,6 +22,13 @@ dependencies {
 
     //Used for testing only.
     testCompile 'junit:junit:+'
+}
+
+test {
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed'
+    }
 }
 
 tasks.withType(FindBugs) {
