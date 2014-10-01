@@ -24,6 +24,14 @@ dependencies {
     testCompile 'junit:junit:+'
 }
 
+jar {
+    manifest {
+        attributes("Implementation-Title": "Blockscore Java API"
+                , "Implementation-Version": version
+                , "Implementation-Vendor": "Blockscore Inc.")
+    }
+}
+
 test {
     testLogging {
         // Show that tests are run in the command-line output
