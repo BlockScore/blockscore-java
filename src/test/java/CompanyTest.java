@@ -4,9 +4,6 @@ import com.blockscore.models.Company;
 import com.blockscore.net.BlockscoreApiClient;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
-import rx.Observer;
-import rx.functions.Func1;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,57 +17,73 @@ import java.util.List;
 public class CompanyTest {
 
     @Test
-    public void fullVerificationFlowTest() throws ParseException {
+    public void companyTest() throws ParseException {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(true);
+        BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
-        Observable<Company> step1 = apiClient.createCompany(createTestCompany());
-        Observable<Company> step2 = step1.map(new Func1<Company, Company>() {
-            @Override
-            public Company call(Company company) {
-                return apiClient.getCompany(company.getId()).toBlocking().first();
-            }
-        });
-        Observable<List<Company>> step3 = step2.map(new Func1<Company, List<Company>>() {
-            @Override
-            public List<Company> call(Company company) {
-                return apiClient.listCompanies().toBlocking().first();
-            }
-        });
-        step3.subscribe(new Observer<List<Company>>() {
-            @Override
-            public void onCompleted() {
-                Assert.assertTrue(true);
-            }
+        Company company = apiClient.createCompany(createTestCompany()).toBlocking().first();
+        isCompanyValid(company);
 
-            @Override
-            public void onError(Throwable e) {
-                Assert.assertTrue(false);
-            }
+        company = apiClient.getCompany(company.getId()).toBlocking().first();
+        isCompanyValid(company);
 
-            @Override
-            public void onNext(List<Company> companies) {
-                Assert.assertTrue(companies != null);
-            }
-        });
+        List<Company> companies = apiClient.listCompanies().toBlocking().first();
+        isListOfCompaniesValid(companies);
     }
 
+    /**
+     * Generates a sample company to use for this test suite.
+     * @return Fake company.
+     * @throws ParseException
+     */
     private Company createTestCompany() throws ParseException {
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         Company company = new Company();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = formatter.parse("1980-08-23");
-        } catch (ParseException e) {
-            //Do nothing.
-        }
+        Date date = formatter.parse("1980-08-23");
         return company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
                 .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
                 .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
                 .setURL("https://blockscore.com").setPhoneNumber("6505555555").setIPAddress("67.160.8.182")
                 .setAddress(address);
+    }
+
+    /**
+     * Tests to see if the company object is valid.
+     * @param company Company to test.
+     */
+    private void isCompanyValid(Company company) {
+        Assert.assertNotEquals(company, null);
+        Assert.assertNotEquals(company.getId(), null);
+        Assert.assertNotEquals(company.getEntityName(), null);
+        Assert.assertNotEquals(company.getTaxId(), null);
+        Assert.assertNotEquals(company.getIncorpCountryCode(), null);
+        Assert.assertNotEquals(company.getIncorpType(), null);
+        isAddressValid(company.getAddress());
+    }
+
+    /**
+     * Examines the address and ensures it is valid.
+     * @param address Address to test.
+     */
+    private void isAddressValid(Address address) {
+        Assert.assertNotEquals(address, null);
+        Assert.assertNotEquals(address.getStreet1(), null);
+        Assert.assertNotEquals(address.getState(), null);
+        Assert.assertNotEquals(address.getPostalCode(), null);
+        Assert.assertNotEquals(address.getCountryCode(), null);
+        Assert.assertNotEquals(address.getCity(), null);
+    }
+
+    /**
+     * Tests a list of companies to ensure they are valid.
+     * @param companies Companies to test.
+     */
+    private void isListOfCompaniesValid(List<Company> companies) {
+        for (Company company : companies) {
+            isCompanyValid(company);
+        }
     }
 }
