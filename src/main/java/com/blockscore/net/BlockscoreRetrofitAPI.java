@@ -3,6 +3,10 @@ package com.blockscore.net;
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
+import com.blockscore.models.request.SearchRequest;
+import com.blockscore.models.results.Verification;
+import com.blockscore.models.results.WatchlistHit;
+import com.blockscore.models.results.WatchlistSearchResults;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
 import retrofit.http.*;
@@ -360,4 +364,19 @@ public interface BlockscoreRetrofitAPI {
     @NotNull
     @GET("/watchlist_candidates/{id}/hits")
     Observable<List<WatchlistHit>> getWatchlistCandidateHits(@NotNull @Path("id") final String id);
+
+    /**
+     * Searches the watchlists for the candidate.
+     * @param searchRequest Search inquiry
+     */
+    @POST("/watchlists")
+    void searchWatchlists(@NotNull final SearchRequest searchRequest
+            , @NotNull final Callback<WatchlistSearchResults> callback);
+
+    /**
+     * Searches the watchlists for the candidate.
+     * @param searchRequest Search inquiry
+     */
+    @POST("/watchlists")
+    Observable<WatchlistSearchResults> searchWatchlists(@NotNull final SearchRequest searchRequest);
 }

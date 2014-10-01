@@ -5,6 +5,8 @@ import com.blockscore.exceptions.NoApiKeyFoundException;
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
+import com.blockscore.models.results.Verification;
+import com.blockscore.models.results.WatchlistHit;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

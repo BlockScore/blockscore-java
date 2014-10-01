@@ -10,7 +10,5 @@ public class Sample {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
         BlockscoreApiClient.useVerboseLogs(true);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
-
-
     }
 }

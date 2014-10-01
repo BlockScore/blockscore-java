@@ -1,6 +1,9 @@
-package com.blockscore.models;
+package com.blockscore.models.results;
 
 import com.blockscore.common.ValidityStatus;
+import com.blockscore.models.Details;
+import com.blockscore.models.Person;
+import com.blockscore.models.QuestionSet;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

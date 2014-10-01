@@ -1,6 +1,7 @@
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
+import com.blockscore.models.results.Verification;
 import com.blockscore.net.BlockscoreApiClient;
 import org.junit.Assert;
 import org.junit.Test;

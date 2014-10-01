@@ -1,5 +1,6 @@
-package com.blockscore.models;
+package com.blockscore.models.results;
 
+import com.blockscore.models.WatchlistCandidate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.Nullable;
 
