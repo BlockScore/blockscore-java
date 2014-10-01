@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * Created by Tony Dieppa on 9/30/14.
  */
 public enum CorporationType {
-    CORP("corporation"), LLC("llc"), PARTNERSHIP("partnership"), SoleProprietor("sp"), OTHER("other");
+    CORP("corporation"), LLC("llc"), PARTNERSHIP("partnership"), SOLEPROPRIETORSHIP("sp"), OTHER("other");
 
     private final String mValue;
 
@@ -26,5 +26,24 @@ public enum CorporationType {
     @Override
     public String toString() {
         return mValue;
+    }
+
+    /**
+     * Converts a string to a corporation type enum.
+     * @param value Value to convert.
+     * @return Corporation type.
+     */
+    public static CorporationType toEnum(@NotNull final String value) {
+        if (value.equalsIgnoreCase(CORP.toString())) {
+            return CORP;
+        } else if (value.equalsIgnoreCase(LLC.toString())) {
+            return LLC;
+        } else if (value.equalsIgnoreCase(PARTNERSHIP.toString())) {
+            return PARTNERSHIP;
+        } else if (value.equalsIgnoreCase(SOLEPROPRIETORSHIP.toString())) {
+            return SOLEPROPRIETORSHIP;
+        } else {
+            return OTHER;
+        }
     }
 }

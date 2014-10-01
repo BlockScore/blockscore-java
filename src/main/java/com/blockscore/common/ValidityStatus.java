@@ -22,4 +22,18 @@ public enum ValidityStatus {
     public boolean isEqualTo(final String value) {
         return mValue.equalsIgnoreCase(value);
     }
+
+    /**
+     * Converts a string to a corporation type enum.
+     * @param value Value to convert.
+     * @return Corporation type.
+     */
+    @NotNull
+    public static ValidityStatus toEnum(@NotNull final String value) {
+        if (value.equalsIgnoreCase(VALID.toString())) {
+            return VALID;
+        } else {
+            return INVALID;
+        }
+    }
 }

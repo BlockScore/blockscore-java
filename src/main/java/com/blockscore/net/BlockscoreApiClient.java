@@ -8,6 +8,10 @@ import com.blockscore.models.QuestionSet;
 import com.blockscore.models.Verification;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
 import retrofit.RequestInterceptor;
@@ -16,6 +20,7 @@ import retrofit.client.OkClient;
 import retrofit.converter.JacksonConverter;
 import rx.Observable;
 
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.List;
 
@@ -49,8 +54,19 @@ public class BlockscoreApiClient {
     public BlockscoreApiClient() {
         RestAdapter.Builder restBuilder = new RestAdapter.Builder()
                 .setClient(new OkClient())
-                .setConverter(new JacksonConverter())
                 .setEndpoint(Constants.getDomain());
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        JacksonConverter converter = new JacksonConverter(mapper);
+        restBuilder.setConverter(converter);
 
         //Sets up the authentication headers and accept headers.
         restBuilder.setRequestInterceptor(new RequestInterceptor() {

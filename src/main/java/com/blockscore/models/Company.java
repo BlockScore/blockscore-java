@@ -3,8 +3,6 @@ package com.blockscore.models;
 import com.blockscore.common.CorporationType;
 import com.blockscore.common.ValidityStatus;
 import com.blockscore.models.base.BasicResponse;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,12 +14,10 @@ import java.util.Date;
  * Model object for a company
  * Created by Tony Dieppa on 9/30/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Company extends BasicResponse {
     @Nullable
     @JsonProperty("status")
-    private ValidityStatus mStatus;
+    private String mStatus;
 
     @NotNull
     @JsonProperty("entity_name")
@@ -80,15 +76,12 @@ public class Company extends BasicResponse {
     private Details mDetails;
 
     /**
-     * Returns the validity status for this company.
-     * @return Validity status.
+     * Returns either valid or invalid and is the culmination of whether or not the passed
+     * in information is valid against various databases and signals.
+     * @return True if valid.
      */
-    @Nullable
-    public ValidityStatus getStatus() {
-        if (mStatus == null) {
-            System.out.println("Not yet validated with Blockscore.");
-        }
-        return mStatus;
+    public boolean isValid() {
+        return ValidityStatus.VALID.isEqualTo(mStatus);
     }
 
     /**
@@ -195,7 +188,7 @@ public class Company extends BasicResponse {
      */
     @NotNull
     public CorporationType getIncorpType() {
-        return CorporationType.valueOf(mIncorpType);
+        return CorporationType.toEnum(mIncorpType);
     }
 
     /**
@@ -342,7 +335,7 @@ public class Company extends BasicResponse {
      * A breakdown of some of the information that determines the status element.
      * @return Details breakdown.
      */
-    @NotNull
+    @Nullable
     public Details getDetails() {
         return mDetails;
     }

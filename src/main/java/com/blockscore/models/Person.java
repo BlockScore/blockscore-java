@@ -1,8 +1,6 @@
 package com.blockscore.models;
 
 import com.blockscore.models.base.BasicResponse;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,8 +12,6 @@ import java.util.Date;
  * Model representing a person's identity.
  * Created by Tony Dieppa on 9/29/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Person extends BasicResponse {
     @NotNull
     @JsonProperty("date_of_birth")
