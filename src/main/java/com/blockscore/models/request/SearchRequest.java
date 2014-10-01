@@ -17,6 +17,10 @@ public class SearchRequest {
     @JsonProperty("match_type")
     private String mMatchType;
 
+    public SearchRequest() {
+        //Do nothing.
+    }
+
     public SearchRequest(@NotNull final String id) {
         mId = id;
     }

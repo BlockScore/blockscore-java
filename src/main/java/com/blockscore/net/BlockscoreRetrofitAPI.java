@@ -370,7 +370,7 @@ public interface BlockscoreRetrofitAPI {
      * @param searchRequest Search inquiry
      */
     @POST("/watchlists")
-    void searchWatchlists(@NotNull final SearchRequest searchRequest
+    void searchWatchlists(@NotNull @Body final SearchRequest searchRequest
             , @NotNull final Callback<WatchlistSearchResults> callback);
 
     /**
@@ -378,5 +378,5 @@ public interface BlockscoreRetrofitAPI {
      * @param searchRequest Search inquiry
      */
     @POST("/watchlists")
-    Observable<WatchlistSearchResults> searchWatchlists(@NotNull final SearchRequest searchRequest);
+    Observable<WatchlistSearchResults> searchWatchlists(@NotNull @Body final SearchRequest searchRequest);
 }
