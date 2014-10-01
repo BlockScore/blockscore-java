@@ -3,12 +3,13 @@ package com.blockscore.models.results;
 import com.blockscore.models.WatchlistCandidate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Watchlist match.
  * Created by Tony Dieppa on 9/30/14.
  */
-public class WatchlistMatch extends WatchlistHit {
+public class WatchlistMatch {
     @JsonProperty("confidence")
     private double mConfidence;
 
@@ -19,6 +20,19 @@ public class WatchlistMatch extends WatchlistHit {
     @NotNull
     @JsonProperty("matching_record")
     private WatchlistCandidate mCandidate;
+
+    @Nullable
+    @JsonProperty("matching_info")
+    private String[] mMatchingInfo;
+
+    /**
+     * Gets matching info for this hit.
+     * @return Matching info.
+     */
+    @Nullable
+    public String[] getMatchingInfo() {
+        return mMatchingInfo;
+    }
 
     /**
      * Gets the confidence rating.

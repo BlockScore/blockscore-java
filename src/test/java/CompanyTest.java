@@ -2,6 +2,8 @@ import com.blockscore.common.CorporationType;
 import com.blockscore.models.Address;
 import com.blockscore.models.Company;
 import com.blockscore.net.BlockscoreApiClient;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,6 +39,7 @@ public class CompanyTest {
      * @return Fake company.
      * @throws ParseException
      */
+    @NotNull
     private Company createTestCompany() throws ParseException {
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         Company company = new Company();
@@ -54,13 +57,13 @@ public class CompanyTest {
      * Tests to see if the company object is valid.
      * @param company Company to test.
      */
-    private void isCompanyValid(Company company) {
-        Assert.assertNotEquals(company, null);
-        Assert.assertNotEquals(company.getId(), null);
-        Assert.assertNotEquals(company.getEntityName(), null);
-        Assert.assertNotEquals(company.getTaxId(), null);
-        Assert.assertNotEquals(company.getIncorpCountryCode(), null);
-        Assert.assertNotEquals(company.getIncorpType(), null);
+    private void isCompanyValid(@Nullable final Company company) {
+        Assert.assertNotNull(company);
+        Assert.assertNotNull(company.getId());
+        Assert.assertNotNull(company.getEntityName());
+        Assert.assertNotNull(company.getTaxId());
+        Assert.assertNotNull(company.getIncorpCountryCode());
+        Assert.assertNotNull(company.getIncorpType());
         isAddressValid(company.getAddress());
     }
 
@@ -68,20 +71,21 @@ public class CompanyTest {
      * Examines the address and ensures it is valid.
      * @param address Address to test.
      */
-    private void isAddressValid(Address address) {
-        Assert.assertNotEquals(address, null);
-        Assert.assertNotEquals(address.getStreet1(), null);
-        Assert.assertNotEquals(address.getState(), null);
-        Assert.assertNotEquals(address.getPostalCode(), null);
-        Assert.assertNotEquals(address.getCountryCode(), null);
-        Assert.assertNotEquals(address.getCity(), null);
+    private void isAddressValid(@Nullable final Address address) {
+        Assert.assertNotNull(address);
+        Assert.assertNotNull(address.getStreet1());
+        Assert.assertNotNull(address.getState());
+        Assert.assertNotNull(address.getPostalCode());
+        Assert.assertNotNull(address.getCountryCode());
+        Assert.assertNotNull(address.getCity());
     }
 
     /**
      * Tests a list of companies to ensure they are valid.
      * @param companies Companies to test.
      */
-    private void isListOfCompaniesValid(List<Company> companies) {
+    private void isListOfCompaniesValid(@Nullable final List<Company> companies) {
+        Assert.assertNotNull(companies);
         for (Company company : companies) {
             isCompanyValid(company);
         }

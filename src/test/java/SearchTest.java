@@ -1,15 +1,15 @@
 import com.blockscore.models.WatchlistCandidate;
 import com.blockscore.models.request.SearchRequest;
+import com.blockscore.models.results.WatchlistMatch;
 import com.blockscore.models.results.WatchlistSearchResults;
 import com.blockscore.net.BlockscoreApiClient;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
-import rx.Observer;
-import rx.functions.Func1;
 
-import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Simple test for searching watchlists
@@ -18,42 +18,72 @@ import java.util.Date;
 public class SearchTest {
 
     @Test
-    public void fullVerificationFlowTest() throws ParseException {
+    public void fullVerificationFlowTest() {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(true);
+        BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
+        WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
+        isCandidateValid(candidate);
 
-        Observable<WatchlistCandidate> step1 = apiClient.createWatchlistCandidate(createTestCandidate());
-        Observable<WatchlistSearchResults> step2 = step1.map(new Func1<WatchlistCandidate, WatchlistSearchResults>() {
-            @Override
-            public WatchlistSearchResults call(WatchlistCandidate candidate) {
-                SearchRequest request = new SearchRequest(candidate.getId());
-                return apiClient.searchWatchlists(request).toBlocking().first();
-            }
-        });
-        step2.subscribe(new Observer<WatchlistSearchResults>() {
-            @Override
-            public void onCompleted() {
-                Assert.assertTrue(true);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Assert.assertTrue(false);
-            }
-
-            @Override
-            public void onNext(WatchlistSearchResults watchlistSearchResults) {
-                Assert.assertTrue(watchlistSearchResults != null);
-            }
-        });
+        SearchRequest request = new SearchRequest(candidate.getId());
+        WatchlistSearchResults results = apiClient.searchWatchlists(request).toBlocking().first();
+        areSearchResultsValid(results);
     }
 
-    private WatchlistCandidate createTestCandidate() throws ParseException {
+    /**
+     * Generates a sample watchlist candidate to use for this test suite.
+     * @return Fake candidate.
+     */
+    @NotNull
+    private WatchlistCandidate createTestCandidate() {
         WatchlistCandidate candidate = new WatchlistCandidate();
         candidate.setNote("12341234").setSSN("001").setDateOfBirth(new Date()).setFirstName("John")
                 .setLastName("BredenKamp").setStreet1("1 Infinite Loop").setCity("Harare").setCountryCode("ZW");
         return candidate;
+    }
+
+    /**
+     * Determines if this candidate is valid.
+     * @param candidate True if valid.
+     */
+    private void isCandidateValid(@Nullable final WatchlistCandidate candidate) {
+        Assert.assertNotNull(candidate);
+        Assert.assertNotNull(candidate.getId());
+    }
+
+    /**
+     * Determines if the results are valid.
+     * @param results Results to test.
+     */
+    private void areSearchResultsValid(@Nullable final WatchlistSearchResults results) {
+        Assert.assertNotNull(results);
+        Assert.assertNotNull(results.getSearchedLists());
+        Assert.assertNotNull(results.getMatches());
+        areMatchesValid(results.getMatches());
+    }
+
+    /**
+     * Cycles through the matches to determine validity.
+     * @param matches Matches under test.
+     */
+    private void areMatchesValid(@Nullable final List<WatchlistMatch> matches) {
+        Assert.assertNotNull(matches);
+        for (WatchlistMatch match : matches) {
+            isMatchValid(match);
+        }
+    }
+
+    /**
+     * Determines if the match is valid.
+     * @param match Match under test.
+     */
+    private void isMatchValid(@Nullable final WatchlistMatch match) {
+        Assert.assertNotNull(match);
+        Assert.assertNotNull(match.getMatchingInfo());
+        Assert.assertNotNull(match.getWatchList());
+        Assert.assertNotNull(match.getMatchingRecord());
+
+        Assert.assertNotNull(match.getMatchingRecord().getId());
     }
 }
