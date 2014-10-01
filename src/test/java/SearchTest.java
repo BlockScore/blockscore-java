@@ -20,9 +20,7 @@ public class SearchTest {
 
     @Test
     public void searchTest() {
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(true);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Creates a watchlist candidate.
         WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
@@ -38,9 +36,7 @@ public class SearchTest {
     @Test
     public void noCandidateFoundTest() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(true);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Creates a watchlist candidate.
         WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
@@ -111,5 +107,16 @@ public class SearchTest {
         Assert.assertNotNull(match.getMatchingRecord());
 
         Assert.assertNotNull(match.getMatchingRecord().getId());
+    }
+
+    /**
+     * Sets up the API client.
+     * @return API client.
+     */
+    @NotNull
+    private BlockscoreApiClient setupBlockscoreApiClient() {
+        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.useVerboseLogs(false);
+        return new BlockscoreApiClient();
     }
 }

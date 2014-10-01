@@ -21,9 +21,7 @@ public class CompanyTest {
 
     @Test
     public void companyTest() throws ParseException {
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Tests creation.
         Company company = apiClient.createCompany(createTestCompany()).toBlocking().first();
@@ -41,9 +39,7 @@ public class CompanyTest {
     @Test
     public void createCompanyInvalidParameters() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             Company company = apiClient.createCompany(createBadTestCompany()).toBlocking().first();
@@ -59,9 +55,7 @@ public class CompanyTest {
     @Test
     public void getNonExistingCompany() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
-        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             Company company = apiClient.getCompany("781237129").toBlocking().first();
@@ -145,5 +139,16 @@ public class CompanyTest {
         for (Company company : companies) {
             isCompanyValid(company);
         }
+    }
+
+    /**
+     * Sets up the API client.
+     * @return API client.
+     */
+    @NotNull
+    private BlockscoreApiClient setupBlockscoreApiClient() {
+        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.useVerboseLogs(false);
+        return new BlockscoreApiClient();
     }
 }
