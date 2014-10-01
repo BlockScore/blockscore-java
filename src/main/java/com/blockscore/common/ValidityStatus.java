@@ -36,4 +36,9 @@ public enum ValidityStatus {
             return INVALID;
         }
     }
+
+    @Override
+    public String toString() {
+        return mValue;
+    }
 }

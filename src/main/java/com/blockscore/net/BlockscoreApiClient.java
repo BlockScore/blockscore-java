@@ -1,8 +1,16 @@
 package com.blockscore.net;
 
+import com.blockscore.common.BlockscoreErrorType;
 import com.blockscore.common.Constants;
+import com.blockscore.exceptions.APIException;
+import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.exceptions.NoApiKeyFoundException;
-import com.blockscore.models.*;
+import com.blockscore.models.Company;
+import com.blockscore.models.Person;
+import com.blockscore.models.QuestionSet;
+import com.blockscore.models.WatchlistCandidate;
+import com.blockscore.models.error.BlockscoreError;
+import com.blockscore.models.error.RequestError;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.models.request.SearchRequest;
@@ -16,9 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
 import org.jetbrains.annotations.NotNull;
-import retrofit.Callback;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
+import retrofit.*;
 import retrofit.client.Request;
 import retrofit.client.UrlConnectionClient;
 import retrofit.converter.JacksonConverter;
@@ -84,6 +90,7 @@ public class BlockscoreApiClient {
                 request.addHeader(Constants.ACCEPT_HEADER, Constants.getAcceptHeaders());
             }
         });
+        restBuilder.setErrorHandler(new BlockscoreErrorHandler());
 
         restBuilder.setLogLevel(sLogLevel);
         restAdapter = restBuilder.build().create(BlockscoreRetrofitAPI.class);
@@ -497,6 +504,28 @@ public class BlockscoreApiClient {
         @Override
         protected HttpURLConnection openConnection(Request request) throws IOException {
             return okUrlFactory.open(new URL(request.getUrl()));
+        }
+    }
+
+    private class BlockscoreErrorHandler implements ErrorHandler {
+        @Override
+        public Throwable handleError(RetrofitError cause) {
+            Object rawError = cause.getBodyAs(BlockscoreError.class);
+            if (rawError instanceof BlockscoreError) {
+                BlockscoreError error = (BlockscoreError) rawError;
+                RequestError requestError = error.getError();
+                if (requestError.getErrorType() == BlockscoreErrorType.INVALID) {
+                    return new InvalidRequestException(error);
+                } else if (requestError.getErrorType() == BlockscoreErrorType.API) {
+                    return new APIException(error);
+                } else {
+                    //Theoretically, this should never happen, unless the API has changed to break something.
+                    String msg = String.format("An unknown error has occurred. Please contact support. Error type: %s"
+                            , requestError.getErrorType().toString());
+                    return new RuntimeException(msg);
+                }
+            }
+            return cause;
         }
     }
 }

@@ -1,4 +1,5 @@
 import com.blockscore.common.CorporationType;
+import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Address;
 import com.blockscore.models.Company;
 import com.blockscore.net.BlockscoreApiClient;
@@ -37,6 +38,26 @@ public class CompanyTest {
         isListOfCompaniesValid(companies);
     }
 
+    @Test
+    public void createCompanyInvalidParameters() throws ParseException {
+        InvalidRequestException exception = null;
+
+        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.useVerboseLogs(false);
+        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+
+        //Tests creation.
+        try {
+            Company company = apiClient.createCompany(createBadTestCompany()).toBlocking().first();
+            isCompanyValid(company);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            Assert.assertNotNull(e.getInvalidParam());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
     /**
      * Generates a sample company to use for this test suite.
      * @return Fake company.
@@ -54,6 +75,24 @@ public class CompanyTest {
                 .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
                 .setURL("https://blockscore.com").setPhoneNumber("6505555555").setIPAddress("67.160.8.182")
                 .setAddress(address);
+    }
+
+    /**
+     * Generates a bad company to use for this test suite.
+     * @return Bad company.
+     * @throws ParseException
+     */
+    @NotNull
+    private Company createBadTestCompany() throws ParseException {
+        Company company = new Company();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formatter.parse("1980-08-23");
+        return company;
+//        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
+//                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
+//                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
+//                .setURL("https://blockscore.com");
     }
 
     /**
