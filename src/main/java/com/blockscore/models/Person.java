@@ -113,4 +113,58 @@ public class Person extends BasicResponse {
         mName = name;
         return this;
     }
+
+    /**
+     * Get the date of birth for this individual.
+     * @return Date of birth.
+     */
+    @NotNull
+    public Date getDateOfBirth() {
+        return mDateOfBirth;
+    }
+
+    /**
+     * Gets the identification for this person.
+     * @return Identification used.
+     */
+    @NotNull
+    public Identification getIdentification() {
+        return mIdentification;
+    }
+
+    /**
+     * Gets the name of this individual.
+     * @return Name.
+     */
+    @NotNull
+    public Name getName() {
+        return mName;
+    }
+
+    /**
+     * Gets the address for this individual.
+     * @return Address.
+     */
+    @NotNull
+    public Address getAddress() {
+        return mAddress;
+    }
+
+    /**
+     * Gets phone number of the individual (if available)
+     * @return Phone number
+     */
+    @Nullable
+    public String getPhoneNumber() {
+        return mPhoneNumber;
+    }
+
+    /**
+     * Gets the IP address for this person. (if available)
+     * @return IP address.
+     */
+    @Nullable
+    public String getIPAddress() {
+        return mIPAddress;
+    }
 }

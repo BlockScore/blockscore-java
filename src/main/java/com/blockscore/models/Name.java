@@ -44,7 +44,7 @@ public class Name {
      * Sets the middle name (optional)
      * @param middle Middle name.
      */
-    public void setMiddle(@Nullable final String middle) {
+    public void setMiddleName(@Nullable final String middle) {
         mMiddle = middle;
     }
 
@@ -52,7 +52,34 @@ public class Name {
      * Sets the last name.
      * @param last Last name.
      */
-    public void setLast(@NotNull final String last) {
+    public void setLastName(@NotNull final String last) {
         mLast = last;
+    }
+
+    /**
+     * Gets the first name.
+     * @return First name.
+     */
+    @NotNull
+    public String getFirstName() {
+        return mFirstName;
+    }
+
+    /**
+     * Gets the middle name. (Optional)
+     * @return Middle name.
+     */
+    @Nullable
+    public String getMiddleName() {
+        return mMiddle;
+    }
+
+    /**
+     * Gets the last name.
+     * @return Last name.
+     */
+    @NotNull
+    public String getLastName() {
+        return mLast;
     }
 }

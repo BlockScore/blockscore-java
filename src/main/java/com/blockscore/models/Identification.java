@@ -32,4 +32,22 @@ public class Identification {
     public void setSSN(@Nullable String ssn) {
         mSSN = ssn;
     }
+
+    /**
+     * Gets the passport number for this person.
+     * @return Passport number.
+     */
+    @Nullable
+    public String getPassport() {
+        return mPassport;
+    }
+
+    /**
+     * Gets the SSN of this person.
+     * @return SSN.
+     */
+    @Nullable
+    public String getSSN() {
+        return mSSN;
+    }
 }

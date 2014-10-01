@@ -73,7 +73,7 @@ public class Details {
         if (mAddressRisk == null) {
             return null;
         }
-        return AddressRisk.valueOf(mAddressRisk.toLowerCase());
+        return AddressRisk.toEnum(mAddressRisk.toLowerCase());
     }
 
     /**
@@ -110,11 +110,7 @@ public class Details {
      */
     @Nullable
     private MatchRank getMatchRank(final String matchResult) {
-        try {
-            return MatchRank.valueOf(matchResult.toLowerCase());
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
+        return MatchRank.toEnum(matchResult.toLowerCase());
     }
 
     public enum MatchRank {
@@ -131,6 +127,25 @@ public class Details {
         public String toString() {
             return mValue;
         }
+
+        /**
+         * Converts a string to a enum.
+         * @param value Value to convert.
+         * @return Enum
+         */
+        public static MatchRank toEnum(@NotNull final String value) {
+            if (value.equalsIgnoreCase(MATCH.toString())) {
+                return MATCH;
+            } else if (value.equalsIgnoreCase(PARTIAL_MATCH.toString())) {
+                return PARTIAL_MATCH;
+            } else if (value.equalsIgnoreCase(NOMATCH.toString())) {
+                return NOMATCH;
+            } else if (value.equalsIgnoreCase(MISMATCH.toString())) {
+                return MISMATCH;
+            } else {
+                return NO_DATA;
+            }
+        }
     }
 
     public enum AddressRisk {
@@ -145,6 +160,23 @@ public class Details {
         @Override
         public String toString() {
             return mValue;
+        }
+
+        /**
+         * Converts a string to a enum.
+         * @param value Value to convert.
+         * @return Enum
+         */
+        public static AddressRisk toEnum(@NotNull final String value) {
+            if (value.equalsIgnoreCase(HIGH.toString())) {
+                return HIGH;
+            } else if (value.equalsIgnoreCase(LOW.toString())) {
+                return LOW;
+            } else if (value.equalsIgnoreCase(NOMATCH.toString())) {
+                return NOMATCH;
+            } else {
+                return NO_DATA;
+            }
         }
     }
 }
