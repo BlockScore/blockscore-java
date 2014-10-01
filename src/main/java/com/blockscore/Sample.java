@@ -1,13 +1,17 @@
 package com.blockscore;
 
 import com.blockscore.common.CorporationType;
-import com.blockscore.models.*;
+import com.blockscore.models.Address;
+import com.blockscore.models.Company;
 import com.blockscore.net.BlockscoreApiClient;
+import rx.Observable;
 import rx.Observer;
+import rx.functions.Func1;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Example class on how to use the Blockscore API client.
@@ -33,19 +37,32 @@ public class Sample {
                 .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
                 .setURL("https://blockscore.com").setPhoneNumber("6505555555").setIPAddress("67.160.8.182")
                 .setAddress(address);
-        apiClient.createCompany(company).subscribe(new Observer<Company>() {
+        Observable<Company> step1 = apiClient.createCompany(company);
+        Observable<Company> step2 = step1.map(new Func1<Company, Company>() {
+            @Override
+            public Company call(Company company) {
+                return apiClient.getCompany(company.getId()).toBlocking().first();
+            }
+        });
+        Observable<List<Company>> step3 = step2.map(new Func1<Company, List<Company>>() {
+            @Override
+            public List<Company> call(Company company) {
+                return apiClient.listCompanies().toBlocking().first();
+            }
+        });
+        step3.subscribe(new Observer<List<Company>>() {
             @Override
             public void onCompleted() {
-                System.out.println("Yes.");
+                System.out.println("OK");
             }
 
             @Override
             public void onError(Throwable e) {
-                System.out.println(e.getMessage());
+                System.out.println("ERROR");
             }
 
             @Override
-            public void onNext(Company company) {
+            public void onNext(List<Company> companies) {
 
             }
         });

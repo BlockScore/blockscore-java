@@ -196,7 +196,7 @@ public interface BlockscoreRetrofitAPI {
      * @param callback Callback to use.
      */
     @GET("/companies/{id}")
-    void getCompany(@Path("id") @NotNull final String companyId, @NotNull final Callback<QuestionSet> callback);
+    void getCompany(@Path("id") @NotNull final String companyId, @NotNull final Callback<Company> callback);
 
     /**
      * You can pull up a single company verification at any time (typically this is used for auditing purposes). <br />
@@ -205,7 +205,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @GET("/companies/{id}")
-    Observable<QuestionSet> getCompany(@Path("id") @NotNull final String companyId);
+    Observable<Company> getCompany(@Path("id") @NotNull final String companyId);
 
     /**
      * This endpoint will allow you to see a historical record of all company verifications that you have completed.

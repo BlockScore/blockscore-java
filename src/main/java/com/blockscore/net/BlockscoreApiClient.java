@@ -260,22 +260,22 @@ public class BlockscoreApiClient {
     /**
      * Retrieves a company.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company, retrofit.Callback)
-     * @param company Company to create.
+     * @param id Company ID.
      * @param callback Callback to use.
      */
-    public void getCompany(@NotNull final Company company, @NotNull final Callback<Company> callback) {
-        restAdapter.createCompany(company, callback);
+    public void getCompany(@NotNull final String id, @NotNull final Callback<Company> callback) {
+        restAdapter.getCompany(id, callback);
     }
 
     /**
      * Retrieves a company.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
-     * @param company Company to create.
+     * @param id Company ID.
      * @return Observable containing the company.
      */
     @NotNull
-    public Observable<Company> getCompany(@NotNull final Company company) {
-        return restAdapter.createCompany(company);
+    public Observable<Company> getCompany(@NotNull final String id) {
+        return restAdapter.getCompany(id);
     }
 
     /**
