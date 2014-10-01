@@ -5,8 +5,10 @@ import com.blockscore.exceptions.NoApiKeyFoundException;
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
+import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.Verification;
 import com.blockscore.models.results.WatchlistHit;
+import com.blockscore.models.results.WatchlistSearchResults;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -435,6 +437,25 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<List<WatchlistHit>> getWatchlistCandidateHits(@NotNull final String id) {
         return restAdapter.getWatchlistCandidateHits(id);
+    }
+
+    /**
+     * Searches watchlists for a given candidate.
+     * @param searchRequest Search request to complete
+     * @param callback Callback to use.
+     */
+    public void searchWatchlists(@NotNull final SearchRequest searchRequest
+            , @NotNull final Callback<WatchlistSearchResults> callback) {
+        restAdapter.searchWatchlists(searchRequest, callback);
+    }
+
+    /**
+     * Searches watchlists for a given candidate.
+     * @param searchRequest Search request to complete
+     */
+    @NotNull
+    public Observable<WatchlistSearchResults> searchWatchlists(@NotNull final SearchRequest searchRequest) {
+        return restAdapter.searchWatchlists(searchRequest);
     }
 
     /**
