@@ -2,7 +2,10 @@ package com.blockscore.models.results;
 
 import com.blockscore.models.WatchlistCandidate;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
 
 /**
  * Model representing a watchlist hit.
@@ -17,8 +20,11 @@ public class WatchlistHit extends WatchlistCandidate {
      * Gets matching info for this hit.
      * @return Matching info.
      */
-    @Nullable
+    @NotNull
     public String[] getMatchingInfo() {
-        return mMatchingInfo;
+        if (mMatchingInfo == null) {
+            mMatchingInfo = new String[0];
+        }
+        return Arrays.copyOf(mMatchingInfo, mMatchingInfo.length);
     }
 }

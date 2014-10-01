@@ -128,7 +128,10 @@ public class Company extends BasicResponse {
      */
     @Nullable
     public Date getIncorpDate() {
-        return mIncorpDate;
+        if (mIncorpDate == null) {
+            return null;
+        }
+        return new Date(mIncorpDate.getTime());
     }
 
     /**

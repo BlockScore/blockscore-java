@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+
 /**
  * Watchlist match.
  * Created by Tony Dieppa on 9/30/14.
@@ -29,9 +31,12 @@ public class WatchlistMatch {
      * Gets matching info for this hit.
      * @return Matching info.
      */
-    @Nullable
+    @NotNull
     public String[] getMatchingInfo() {
-        return mMatchingInfo;
+        if (mMatchingInfo == null) {
+            mMatchingInfo = new String[0];
+        }
+        return Arrays.copyOf(mMatchingInfo, mMatchingInfo.length);
     }
 
     /**

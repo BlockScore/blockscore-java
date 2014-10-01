@@ -12,7 +12,7 @@ import java.util.Date;
  * Created by Tony Dieppa on 9/29/14.
  */
 public class Person extends BasicResponse {
-    @NotNull
+    @Nullable
     @JsonProperty("date_of_birth")
     private Date mDateOfBirth;
 
@@ -40,7 +40,7 @@ public class Person extends BasicResponse {
         //No initialization.
     }
 
-    public Person(@NotNull Name name, @NotNull Date dateOfBirth, @NotNull Identification identification
+    public Person(@NotNull Name name, @Nullable Date dateOfBirth, @NotNull Identification identification
             , @NotNull Address address) {
         mName = name;
         mDateOfBirth = dateOfBirth;
@@ -118,9 +118,12 @@ public class Person extends BasicResponse {
      * Get the date of birth for this individual.
      * @return Date of birth.
      */
-    @NotNull
+    @Nullable
     public Date getDateOfBirth() {
-        return mDateOfBirth;
+        if (mDateOfBirth == null) {
+            return null;
+        }
+        return new Date(mDateOfBirth.getTime());
     }
 
     /**

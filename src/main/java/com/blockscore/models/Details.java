@@ -109,7 +109,7 @@ public class Details {
      * @return Match rank.
      */
     @Nullable
-    private MatchRank getMatchRank(final String matchResult) {
+    private MatchRank getMatchRank(@Nullable final String matchResult) {
         return MatchRank.toEnum(matchResult.toLowerCase());
     }
 
@@ -133,14 +133,14 @@ public class Details {
          * @param value Value to convert.
          * @return Enum
          */
-        public static MatchRank toEnum(@NotNull final String value) {
-            if (value.equalsIgnoreCase(MATCH.toString())) {
+        public static MatchRank toEnum(@Nullable final String value) {
+            if (MATCH.toString().equalsIgnoreCase(value)) {
                 return MATCH;
-            } else if (value.equalsIgnoreCase(PARTIAL_MATCH.toString())) {
+            } else if (PARTIAL_MATCH.toString().equalsIgnoreCase(value)) {
                 return PARTIAL_MATCH;
-            } else if (value.equalsIgnoreCase(NOMATCH.toString())) {
+            } else if (NOMATCH.toString().equalsIgnoreCase(value)) {
                 return NOMATCH;
-            } else if (value.equalsIgnoreCase(MISMATCH.toString())) {
+            } else if (MISMATCH.toString().equalsIgnoreCase(value)) {
                 return MISMATCH;
             } else {
                 return NO_DATA;
