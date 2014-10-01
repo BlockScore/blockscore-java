@@ -324,6 +324,7 @@ public interface BlockscoreRetrofitAPI {
     /**
      * Gets the history for a watchlist candidate.<br />
      * Thread: Asynchronous <br />
+     * @param id ID for the candidate.
      * @param callback Callback to use.
      */
     @GET("/watchlist_candidates/{id}/history")
@@ -333,9 +334,30 @@ public interface BlockscoreRetrofitAPI {
     /**
      * Gets the history for a watchlist candidate.<br />
      * Thread: Any [Determined by settings on Observable] <br />
+     * @param id ID for the candidate.
      * @return Observable holding the list of companies.
      */
     @NotNull
     @GET("/watchlist_candidates/{id}/history")
     Observable<List<WatchlistCandidate>> getWatchlistCandidateHistory(@NotNull @Path("id") final String id);
+
+    /**
+     * Gets the hits for a watchlist candidate.<br />
+     * Thread: Asynchronous <br />
+     * @param id ID for the candidate.
+     * @param callback Callback to use.
+     */
+    @GET("/watchlist_candidates/{id}/hits")
+    void getWatchlistCandidateHits(@NotNull @Path("id") final String id
+            , @NotNull final Callback<WatchlistHit> callback);
+
+    /**
+     * Gets the hits for a watchlist candidate.<br />
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @param id ID for the candidate.
+     * @return Observable holding the list of companies.
+     */
+    @NotNull
+    @GET("/watchlist_candidates/{id}/hits")
+    Observable<List<WatchlistHit>> getWatchlistCandidateHits(@NotNull @Path("id") final String id);
 }

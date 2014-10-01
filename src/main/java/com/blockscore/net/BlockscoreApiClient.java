@@ -417,6 +417,25 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Gets the hits for a watchlist candidate.
+     * @param id ID for the candidate.
+     * @param callback Callback to use.
+     */
+    public void getWatchlistCandidateHits(@NotNull final String id
+            , @NotNull final Callback<WatchlistHit> callback) {
+        restAdapter.getWatchlistCandidateHits(id, callback);
+    }
+
+    /**
+     * Gets the hits for a watchlist candidate.
+     * @param id ID for the candidate.
+     */
+    @NotNull
+    public Observable<List<WatchlistHit>> getWatchlistCandidateHits(@NotNull final String id) {
+        return restAdapter.getWatchlistCandidateHits(id);
+    }
+
+    /**
      * Encodes the API key for Basic authentication.
      * @return API key encoded with Base 64.
      */

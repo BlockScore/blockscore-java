@@ -52,10 +52,17 @@ public class Sample {
         Observable<WatchlistCandidate> step6 = step5.map(new Func1<WatchlistCandidate, WatchlistCandidate>() {
             @Override
             public WatchlistCandidate call(WatchlistCandidate watchlistCandidate) {
+                apiClient.getWatchlistCandidateHits(watchlistCandidate.getId()).toBlocking().first();
+                return watchlistCandidate;
+            }
+        });
+        Observable<WatchlistCandidate> step7 = step6.map(new Func1<WatchlistCandidate, WatchlistCandidate>() {
+            @Override
+            public WatchlistCandidate call(WatchlistCandidate watchlistCandidate) {
                 return apiClient.deleteWatchlistCandidate(watchlistCandidate.getId()).toBlocking().first();
             }
         });
-        step6.subscribe(new Observer<WatchlistCandidate>() {
+        step7.subscribe(new Observer<WatchlistCandidate>() {
             @Override
             public void onCompleted() {
                 System.out.println("OK");
