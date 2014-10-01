@@ -18,14 +18,16 @@ import java.util.List;
 public class SearchTest {
 
     @Test
-    public void fullVerificationFlowTest() {
+    public void searchTest() {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
         BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
+        //Creates a watchlist candidate.
         WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
         isCandidateValid(candidate);
 
+        //Tests searching for him/her.
         SearchRequest request = new SearchRequest(candidate.getId());
         WatchlistSearchResults results = apiClient.searchWatchlists(request).toBlocking().first();
         areSearchResultsValid(results);

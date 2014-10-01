@@ -24,12 +24,15 @@ public class CompanyTest {
         BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
+        //Tests creation.
         Company company = apiClient.createCompany(createTestCompany()).toBlocking().first();
         isCompanyValid(company);
 
+        //Tests getting the company.
         company = apiClient.getCompany(company.getId()).toBlocking().first();
         isCompanyValid(company);
 
+        //Tests listing the companies
         List<Company> companies = apiClient.listCompanies().toBlocking().first();
         isListOfCompaniesValid(companies);
     }

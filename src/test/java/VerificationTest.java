@@ -21,7 +21,7 @@ import java.util.List;
 public class VerificationTest {
 
     @Test
-    public void fullVerificationFlowTest() throws ParseException {
+    public void verificationTest() throws ParseException {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
         BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();

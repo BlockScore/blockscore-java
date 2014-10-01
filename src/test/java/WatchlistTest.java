@@ -1,5 +1,6 @@
 import com.blockscore.models.WatchlistCandidate;
 import com.blockscore.net.BlockscoreApiClient;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Test;
 import rx.Observable;
@@ -82,6 +83,12 @@ public class WatchlistTest {
         });
     }
 
+    /**
+     * Creates a test watchlist candidate.
+     * @return Watch list candidate to test.
+     * @throws ParseException
+     */
+    @NotNull
     private WatchlistCandidate createTestCandidate() throws ParseException {
         WatchlistCandidate candidate = new WatchlistCandidate();
         candidate.setNote("12341234").setSSN("001").setDateOfBirth(new Date()).setFirstName("John")
