@@ -1,4 +1,5 @@
 import com.blockscore.models.WatchlistCandidate;
+import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.net.BlockscoreApiClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +21,7 @@ public class WatchlistTest {
     @Test
     public void watchListTest() throws ParseException {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(true);
+        BlockscoreApiClient.useVerboseLogs(false);
         final BlockscoreApiClient apiClient = new BlockscoreApiClient();
 
         //Tests creation of a candidate
@@ -48,35 +49,13 @@ public class WatchlistTest {
                 .toBlocking().first();
         areCandidatesValid(history);
 
-//        Observable<WatchlistCandidate> step6 = step5.map(new Func1<WatchlistCandidate, WatchlistCandidate>() {
-//            @Override
-//            public WatchlistCandidate call(WatchlistCandidate watchlistCandidate) {
-//                apiClient.getWatchlistCandidateHits(watchlistCandidate.getId()).toBlocking().first();
-//                return watchlistCandidate;
-//            }
-//        });
-//        Observable<WatchlistCandidate> step7 = step6.map(new Func1<WatchlistCandidate, WatchlistCandidate>() {
-//            @Override
-//            public WatchlistCandidate call(WatchlistCandidate watchlistCandidate) {
-//                return apiClient.deleteWatchlistCandidate(watchlistCandidate.getId()).toBlocking().first();
-//            }
-//        });
-//        step7.subscribe(new Observer<WatchlistCandidate>() {
-//            @Override
-//            public void onCompleted() {
-//                Assert.assertTrue(true);
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Assert.assertTrue(false);
-//            }
-//
-//            @Override
-//            public void onNext(WatchlistCandidate candidate) {
-//                Assert.assertTrue(candidate != null);
-//            }
-//        });
+        //Tests the candidate hits
+        List<WatchlistHit> hits = apiClient.getWatchlistCandidateHits(candidate.getId()).toBlocking().first();
+        areHitsValid(hits);
+
+        //Tests deletion of a candidate
+        candidate = apiClient.deleteWatchlistCandidate(candidate.getId()).toBlocking().first();
+        isCandidateValid(candidate);
     }
 
     /**
@@ -134,5 +113,16 @@ public class WatchlistTest {
         Assert.assertEquals(candidate.getLastName(), "Sparrow");
         Assert.assertEquals(candidate.getStreet1(), "1 Infinite Sea");
         Assert.assertEquals(candidate.getCountryCode(), "US");
+    }
+
+    /**
+     * Tests the watchlist hits.
+     * @param hits Hits under test.
+     */
+    private void areHitsValid(@Nullable List<WatchlistHit> hits) {
+        for (WatchlistHit hit : hits) {
+            Assert.assertNotNull(hit.getMatchingInfo());
+            isCandidateValid(hit);
+        }
     }
 }
