@@ -9,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Model object for a company
  * Created by Tony Dieppa on 9/30/14.
@@ -119,11 +122,11 @@ public class Company extends BasicResponse {
     /**
      * Sets the Tax ID for this entity. The tax ID should only include the digits of the ID with
      * no extraneous characters like dashes.
-     * @param mTaxId Tax ID
+     * @param taxId Tax ID
      */
     @NotNull
-    public Company setTaxId(@NotNull final String mTaxId) {
-        this.mTaxId = mTaxId;
+    public Company setTaxId(@NotNull final String taxId) {
+        mTaxId = taxId;
         return this;
     }
 
@@ -138,11 +141,12 @@ public class Company extends BasicResponse {
 
     /**
      * Sets the incorporation date. Should be of the ISO date form (YYYY-MM-DD)
-     * @param mIncorpDate Incorporation date.
+     * @param incorpDate Incorporation date.
      */
     @NotNull
-    public Company setIncorpDate(@NotNull final String mIncorpDate) {
-        this.mIncorpDate = mIncorpDate;
+    public Company setIncorpDate(@NotNull final Date incorpDate) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        mIncorpDate = format.format(incorpDate);
         return this;
     }
 
@@ -198,8 +202,9 @@ public class Company extends BasicResponse {
      * Sets the corporation type.
      * @param incorpType Corporation type.
      */
-    public void setIncorpType(@NotNull final CorporationType incorpType) {
+    public Company setIncorpType(@NotNull final CorporationType incorpType) {
         mIncorpType = incorpType.toString();
+        return this;
     }
 
     /**
@@ -215,8 +220,9 @@ public class Company extends BasicResponse {
      * Sets the "doing business as" names.
      * @param mDbas Doing business as names.
      */
-    public void setDbas(@NotNull final String mDbas) {
+    public Company setDbas(@NotNull final String mDbas) {
         this.mDbas = mDbas;
+        return this;
     }
 
     /**
@@ -269,8 +275,9 @@ public class Company extends BasicResponse {
      * Sets the URL for this business
      * @param url URL for the business
      */
-    public void setURL(@NotNull final String url) {
+    public Company setURL(@NotNull final String url) {
         mURL = url;
+        return this;
     }
 
     /**

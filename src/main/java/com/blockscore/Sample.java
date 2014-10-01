@@ -1,5 +1,6 @@
 package com.blockscore;
 
+import com.blockscore.common.CorporationType;
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
@@ -28,7 +29,30 @@ public class Sample {
         Identification identification = new Identification();
         identification.setSSN("0000");
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
+        Company company = new Company();
 
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = formatter.parse("1980-08-23");
+        } catch (ParseException e) {
+            //Do nothing.
+        }
+        company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
+                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
+                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
+                .setURL("https://blockscore.com").setPhoneNumber("6505555555").setIPAddress("67.160.8.182")
+                .setAddress(address);
+
+
+    }
+
+    private void testPerson(final BlockscoreApiClient apiClient) {
+        Person person = new Person();
+        Name name = new Name("John", "Pearce", "Doe");
+        Identification identification = new Identification();
+        identification.setSSN("0000");
+        Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
@@ -87,7 +111,7 @@ public class Sample {
         step6.subscribe(new Observer<List<QuestionSet>>() {
             @Override
             public void onCompleted() {
-                System.out.println("Victory");
+                System.out.println("Victory for people.");
             }
 
             @Override

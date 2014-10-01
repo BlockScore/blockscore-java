@@ -2,7 +2,10 @@ package com.blockscore.net;
 
 import com.blockscore.common.Constants;
 import com.blockscore.exceptions.NoApiKeyFoundException;
-import com.blockscore.models.*;
+import com.blockscore.models.Company;
+import com.blockscore.models.Person;
+import com.blockscore.models.QuestionSet;
+import com.blockscore.models.Verification;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
 import org.jetbrains.annotations.NotNull;
@@ -208,6 +211,27 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<List<QuestionSet>> listQuestionSet() {
         return restAdapter.listQuestionSets();
+    }
+
+    /**
+     * Creates a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company, retrofit.Callback)
+     * @param company Company to create.
+     * @param callback Callback to use.
+     */
+    public void createCompany(@NotNull final Company company, @NotNull final Callback<Company> callback) {
+        restAdapter.createCompany(company, callback);
+    }
+
+    /**
+     * Creates a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
+     * @param company Company to create.
+     * @return Observable containing the company.
+     */
+    @NotNull
+    public Observable<Company> createCompany(@NotNull final Company company) {
+        return restAdapter.createCompany(company);
     }
 
     /**

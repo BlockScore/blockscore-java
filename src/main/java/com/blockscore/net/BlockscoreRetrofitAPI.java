@@ -161,9 +161,31 @@ public interface BlockscoreRetrofitAPI {
      * Allows you to see a historical record of all question sets that you have created.
      * The list is displayed in reverse chronological order (newer question sets appear first). <br />
      * Thread: Any [Determined by settings on Observable] <br />
-     * @return List of question sets.
+     * @return Observable holding the list of question sets.
      */
     @NotNull
     @GET("/questions")
     Observable<List<QuestionSet>> listQuestionSets();
+
+    /**
+     * Creates a new company. The information will be run through our company verification process
+     * and then returned with additional information that will help you determine the authenticity of the information given.
+     * Please be aware that the response time can sometimes be more than 6 seconds due to the speed of some
+     * government data sources.
+     * Thread: Asynchronous <br />
+     * @param callback Callback to use.
+     */
+    @POST("/companies")
+    void createCompany(@NotNull @Body final Company company, @NotNull final Callback<Company> callback);
+
+    /**
+     * Creates a new company. The information will be run through our company verification process
+     * and then returned with additional information that will help you determine the authenticity of the information given.
+     * Please be aware that the response time can sometimes be more than 6 seconds due to the speed of some
+     * government data sources.
+     * Thread: Any [Determined by settings on Observable] <br />
+     * @return Observable containing the Company validation.
+     */
+    @POST("/companies")
+    Observable<Company> createCompany(@NotNull @Body final Company company);
 }
