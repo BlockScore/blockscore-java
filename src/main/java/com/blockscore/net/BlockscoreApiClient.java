@@ -341,6 +341,82 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Gets a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#getWatchlistCandidate(String, retrofit.Callback)
+     * @param id ID for the candidate.
+     * @param callback Callback to use.
+     */
+    public void getWatchlistCandidate(@NotNull final String id, @NotNull final Callback<WatchlistCandidate> callback) {
+        restAdapter.getWatchlistCandidate(id, callback);
+    }
+
+    /**
+     * Gets a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#getWatchlistCandidate(String)
+     * @param id ID for the candidate.
+     */
+    @NotNull
+    public Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull final String id) {
+        return restAdapter.getWatchlistCandidate(id);
+    }
+
+    /**
+     * Lists the watchlist candidates.
+     * @see BlockscoreRetrofitAPI#listWatchlistCandidate(retrofit.Callback)
+     */
+    public void listWatchlistCandidate(@NotNull final Callback<List<WatchlistCandidate>> callback) {
+        restAdapter.listWatchlistCandidate(callback);
+    }
+
+    /**
+     * Lists the watchlist candidates.
+     * @see BlockscoreRetrofitAPI#listWatchlistCandidate()
+     * @return Observable containing the response.
+     */
+    @NotNull
+    public Observable<List<WatchlistCandidate>> listWatchlistCandidate() {
+        return restAdapter.listWatchlistCandidate();
+    }
+
+    /**
+     * Gets the watchlist candidate's history.
+     * @param id ID for the candidate.
+     * @param callback Callback to use.
+     */
+    public void getWatchlistCandidateHistory(@NotNull final String id
+            , @NotNull final Callback<WatchlistCandidate> callback) {
+        restAdapter.getWatchlistCandidateHistory(id, callback);
+    }
+
+    /**
+     * Gets the watchlist candidate's history.
+     * @param id ID for the candidate.
+     */
+    @NotNull
+    public Observable<List<WatchlistCandidate>> getWatchlistCandidateHistory(@NotNull final String id) {
+        return restAdapter.getWatchlistCandidateHistory(id);
+    }
+
+    /**
+     * Deletes a watchlist candidate.
+     * @param id ID for the candidate.
+     * @param callback Callback to use.
+     */
+    public void deleteWatchlistCandidate(@NotNull final String id
+            , @NotNull final Callback<WatchlistCandidate> callback) {
+        restAdapter.deleteWatchlistCandidate(id, callback);
+    }
+
+    /**
+     * Deletes a watchlist candidate.
+     * @param id ID for the candidate.
+     */
+    @NotNull
+    public Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull final String id) {
+        return restAdapter.deleteWatchlistCandidate(id);
+    }
+
+    /**
      * Encodes the API key for Basic authentication.
      * @return API key encoded with Base 64.
      */
