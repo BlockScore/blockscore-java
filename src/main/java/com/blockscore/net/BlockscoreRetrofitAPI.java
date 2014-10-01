@@ -251,7 +251,7 @@ public interface BlockscoreRetrofitAPI {
      * @param callback Callback to use.
      */
     @PATCH("/watchlist_candidates/{id}")
-    void updateWatchlistCandidate(@NotNull final String id, @NotNull @Body final WatchlistCandidate candidate
+    void updateWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull @Body final WatchlistCandidate candidate
             , @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
@@ -263,7 +263,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @PATCH("/watchlist_candidates/{id}")
-    Observable<WatchlistCandidate> updateWatchlistCandidate(@NotNull final String id
+    Observable<WatchlistCandidate> updateWatchlistCandidate(@NotNull @Path("id") final String id
             , @NotNull @Body final WatchlistCandidate candidate);
 
     /**
@@ -273,7 +273,7 @@ public interface BlockscoreRetrofitAPI {
      * @param callback Callback to use.
      */
     @DELETE("/watchlist_candidates/{id}")
-    void deleteWatchlistCandidate(@NotNull final String id, @NotNull final Callback<WatchlistCandidate> callback);
+    void deleteWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
      * Deletes a watchlist candidate<br />
@@ -283,7 +283,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @DELETE("/watchlist_candidates/{id}")
-    Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull final String id);
+    Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull @Path("id") final String id);
 
     /**
      * Gets a watchlist candidate<br />
@@ -292,7 +292,7 @@ public interface BlockscoreRetrofitAPI {
      * @param callback Callback to use.
      */
     @GET("/watchlist_candidates/{id}")
-    void getWatchlistCandidate(@NotNull final String id, @NotNull final Callback<WatchlistCandidate> callback);
+    void getWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
      * Gets a watchlist candidate<br />
@@ -302,14 +302,14 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @GET("/watchlist_candidates/{id}")
-    Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull final String id);
+    Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull @Path("id") final String id);
 
     /**
      * Gets all watchlist candidates<br />
      * Thread: Asynchronous <br />
      * @param callback Callback to use.
      */
-    @GET("/watchlist_candidates/{id}")
+    @GET("/watchlist_candidates")
     void listWatchlistCandidate(@NotNull final Callback<List<WatchlistCandidate>> callback);
 
     /**
@@ -318,7 +318,7 @@ public interface BlockscoreRetrofitAPI {
      * @return Observable holding the list of companies.
      */
     @NotNull
-    @GET("/watchlist_candidates/{id}")
+    @GET("/watchlist_candidates")
     Observable<List<WatchlistCandidate>> listWatchlistCandidate();
 
     /**
@@ -327,7 +327,8 @@ public interface BlockscoreRetrofitAPI {
      * @param callback Callback to use.
      */
     @GET("/watchlist_candidates/{id}/history")
-    void getWatchlistCandidateHistory(@NotNull final String id, @NotNull final Callback<WatchlistCandidate> callback);
+    void getWatchlistCandidateHistory(@NotNull @Path("id") final String id
+            , @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
      * Gets the history for a watchlist candidate.<br />
@@ -336,5 +337,5 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @GET("/watchlist_candidates/{id}/history")
-    Observable<List<WatchlistCandidate>> getWatchlistCandidateHistory(@NotNull final String id);
+    Observable<List<WatchlistCandidate>> getWatchlistCandidateHistory(@NotNull @Path("id") final String id);
 }
