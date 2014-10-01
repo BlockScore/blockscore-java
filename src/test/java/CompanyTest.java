@@ -58,6 +58,25 @@ public class CompanyTest {
         Assert.assertNotNull(exception);
     }
 
+    @Test
+    public void getNonExistingCompany() throws ParseException {
+        InvalidRequestException exception = null;
+
+        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.useVerboseLogs(true);
+        final BlockscoreApiClient apiClient = new BlockscoreApiClient();
+
+        //Tests creation.
+        try {
+            Company company = apiClient.getCompany("781237129").toBlocking().first();
+            isCompanyValid(company);
+        } catch (InvalidRequestException e) {
+            Assert.assertNotNull(e.getMessage());
+            exception = e;
+        }
+        Assert.assertNotNull(exception);
+    }
+
     /**
      * Generates a sample company to use for this test suite.
      * @return Fake company.
@@ -88,11 +107,10 @@ public class CompanyTest {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse("1980-08-23");
-        return company;
-//        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
-//                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
-//                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
-//                .setURL("https://blockscore.com");
+        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
+                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
+                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
+                .setURL("https://blockscore.com");
     }
 
     /**

@@ -32,7 +32,7 @@ public class RequestError {
      * Gets the invalid parameter.
      * @return Invalid parameter.
      */
-    @NotNull
+    @Nullable
     public String getParam() {
         return mParam;
     }
