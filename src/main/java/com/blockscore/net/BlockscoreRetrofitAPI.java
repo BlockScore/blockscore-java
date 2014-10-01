@@ -377,6 +377,7 @@ public interface BlockscoreRetrofitAPI {
      * Searches the watchlists for the candidate.
      * @param searchRequest Search inquiry
      */
+    @NotNull
     @POST("/watchlists")
     Observable<WatchlistSearchResults> searchWatchlists(@NotNull @Body final SearchRequest searchRequest);
 }

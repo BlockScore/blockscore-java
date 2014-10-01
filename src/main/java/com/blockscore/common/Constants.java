@@ -14,8 +14,8 @@ public final class Constants {
 
     private static final String BLOCKSCORE_DOMAIN = "https://api.blockscore.com";
     private static final String BLOCKSCORE_DEV_DOMAIN = "http://127.0.0.1:5400";
-    private static final int VERSION_CODE = 3;
-    private static final String ACCEPT_CONTENTS = "application/vnd.blockscore+json;version=%d";
+    private static final String VERSION_CODE = "3";
+    private static final String ACCEPT_CONTENTS = "application/vnd.blockscore+json;version=%s";
 
     /**
      * Gets the proper Accept headers for the Blockscore API.
