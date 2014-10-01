@@ -112,4 +112,58 @@ public class Address {
         mCountryCode = countryCode;
         return this;
     }
+
+    /**
+     * Gets the primary street address of the customer. This is automatically normalized.
+     * @return Line 1 of the address.
+     */
+    @NotNull
+    public String getStreet1() {
+        return mStreet1;
+    }
+
+    /**
+     * The second address line typically used for apartment or suite numbers. This is automatically normalized.
+     * @return Line 2 of the address.
+     */
+    @Nullable
+    public String getStreet2() {
+        return mStreet2;
+    }
+
+    /**
+     * The city name of the customer. This is automatically normalized.
+     * @return City of the address.
+     */
+    @NotNull
+    public String getCity() {
+        return mCity;
+    }
+
+    /**
+     * The state of the customer. Should be of the FIPS code form. For example California would be CA.
+     * @return The state of the customer.
+     */
+    @NotNull
+    public String getState() {
+        return mState;
+    }
+
+    /**
+     * The postal code, also known as the ZIP code of the address.
+     * @return Postal code for the customer.
+     */
+    @NotNull
+    public String getPostalCode() {
+        return mPostalCode;
+    }
+
+    /**
+     * The country of the customer. Should be of the ISO code form.
+     * @return Country code of the customer
+     */
+    @NotNull
+    public String getCountryCode() {
+        return mCountryCode;
+    }
 }
