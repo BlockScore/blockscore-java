@@ -41,7 +41,7 @@ public class RequestError {
      * Gets the error message.
      * @return Error message.
      */
-    @NotNull
+    @Nullable
     public String getMessage() {
         return mMessage;
     }

@@ -47,7 +47,7 @@ public class BlockscoreApiClient {
     private static RestAdapter.LogLevel sLogLevel = RestAdapter.LogLevel.NONE;
     private static String sApiKey;
 
-    private BlockscoreRetrofitAPI restAdapter;
+    private final BlockscoreRetrofitAPI restAdapter;
 
     /**
      * Initializes the API client with the API key. Must be done first or else all calls will fail.
