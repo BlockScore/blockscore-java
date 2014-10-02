@@ -30,6 +30,7 @@ dependencies {
 
     //Used for static analysis
     compile 'com.intellij:annotations:+'
+    compile 'com.google.code.findbugs:annotations:+'
 
     //Used for testing only.
     testCompile 'junit:junit:+'
@@ -56,3 +57,5 @@ tasks.withType(FindBugs) {
         html.enabled = true;
     }
 }
+
+checkstyleTest.exclude '**/src/test/**'

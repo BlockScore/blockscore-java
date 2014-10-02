@@ -4,6 +4,7 @@ import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.models.results.Verification;
 import com.blockscore.net.BlockscoreApiClient;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
@@ -151,6 +152,7 @@ public class VerificationTest {
         Assert.assertNotNull(exception);
     }
 
+    @SuppressFBWarnings(value = {"DLS"})
     @Test
     public void scoreQuestionSetWithBadAnswers() throws ParseException {
         InvalidRequestException exception = null;

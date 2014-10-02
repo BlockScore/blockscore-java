@@ -2,6 +2,7 @@ import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.WatchlistCandidate;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.net.BlockscoreApiClient;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
@@ -17,10 +18,10 @@ import java.util.List;
  * Created by Tony Dieppa on 9/30/14.
  */
 public class WatchlistTest {
-    private static final SimpleDateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
     @Test
     public void watchListTest() throws ParseException {
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Tests creation of a candidate
@@ -29,7 +30,7 @@ public class WatchlistTest {
 
         //Tests updating a candidate.
         WatchlistCandidate candidateUpdate = new WatchlistCandidate();
-        Date date = FORMATTER.parse("1986-08-23");
+        Date date = formatter.parse("1986-08-23");
         candidateUpdate.setNote("1234123").setSSN("002").setDateOfBirth(date).setFirstName("Jack")
                 .setLastName("Sparrow").setStreet1("1 Infinite Sea").setCity("Atlantis").setCountryCode("US");
         candidate = apiClient.updateWatchlistCandidate(candidate.getId(), candidateUpdate).toBlocking().first();
@@ -57,6 +58,7 @@ public class WatchlistTest {
         isCandidateValid(candidate);
     }
 
+    @SuppressFBWarnings(value = {"DLS"})
     @Test
     public void badCandidateCreationTest() throws ParseException {
         InvalidRequestException exception = null;
@@ -160,8 +162,9 @@ public class WatchlistTest {
      */
     @NotNull
     private WatchlistCandidate createTestCandidate() throws ParseException {
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         WatchlistCandidate candidate = new WatchlistCandidate();
-        Date date = FORMATTER.parse("1980-08-23");
+        Date date = formatter.parse("1980-08-23");
         candidate.setNote("12341234").setSSN("001").setDateOfBirth(date).setFirstName("John")
                 .setLastName("BredenKamp").setStreet1("1 Infinite Loop").setCity("Harare").setCountryCode("ZW");
         return candidate;
@@ -201,11 +204,12 @@ public class WatchlistTest {
      * @param candidate Candidate under test.
      * @throws ParseException
      */
-    private void didCandidateDataUpdate(@Nullable final WatchlistCandidate candidate) throws ParseException {
+    private void didCandidateDataUpdate(@NotNull final WatchlistCandidate candidate) throws ParseException {
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         isCandidateValid(candidate);
         Assert.assertEquals(candidate.getSSN(), "002");
         Assert.assertEquals(candidate.getNote(), "1234123");
-        Assert.assertEquals(candidate.getDateOfBirth(), FORMATTER.parse("1986-08-23"));
+        Assert.assertEquals(candidate.getDateOfBirth(), formatter.parse("1986-08-23"));
         Assert.assertEquals(candidate.getFirstName(), "Jack");
         Assert.assertEquals(candidate.getLastName(), "Sparrow");
         Assert.assertEquals(candidate.getStreet1(), "1 Infinite Sea");

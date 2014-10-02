@@ -82,7 +82,7 @@ public class CompanyTest {
         return company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
                 .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
                 .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
-                .setURL("https://blockscore.com").setPhoneNumber("6505555555").setIPAddress("67.160.8.182")
+                .setURL("https://blockscore.com").setPhoneNumber("6505555555")
                 .setAddress(address);
     }
 
