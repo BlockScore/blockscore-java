@@ -228,7 +228,7 @@ public interface BlockscoreRetrofitAPI {
     Observable<List<Company>> listCompanies();
 
     /**
-     * Creates a new watchlist candidate<br />
+     * Creates a new watchlist candidate. <br />
      * Thread: Asynchronous <br />
      * @param candidate Watchlist candidate.
      * @param callback Callback to use.
@@ -238,7 +238,7 @@ public interface BlockscoreRetrofitAPI {
             , @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
-     * Creates a new watchlist candidate<br />
+     * Creates a new watchlist candidate. <br />
      * Thread: Any [Determined by settings on Observable] <br />
      * @param candidate Watchlist candidate.
      * @return Observable holding the list of companies.
@@ -248,7 +248,7 @@ public interface BlockscoreRetrofitAPI {
     Observable<WatchlistCandidate> createWatchlistCandidate(@NotNull @Body final WatchlistCandidate candidate);
 
     /**
-     * Updates a watchlist candidate<br />
+     * Updates a watchlist candidate. <br />
      * Thread: Asynchronous <br />
      * @param id ID of candidate.
      * @param candidate Watchlist candidate.
@@ -259,7 +259,7 @@ public interface BlockscoreRetrofitAPI {
             , @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
-     * Updates a watchlist candidate<br />
+     * Updates a watchlist candidate. <br />
      * Thread: Any [Determined by settings on Observable] <br />
      * @param id ID of candidate.
      * @param candidate Watchlist candidate.
@@ -271,7 +271,7 @@ public interface BlockscoreRetrofitAPI {
             , @NotNull @Body final WatchlistCandidate candidate);
 
     /**
-     * Deletes a watchlist candidate<br />
+     * Deletes a watchlist candidate. <br />
      * Thread: Asynchronous <br />
      * @param id ID of candidate.
      * @param callback Callback to use.
@@ -280,7 +280,7 @@ public interface BlockscoreRetrofitAPI {
     void deleteWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
-     * Deletes a watchlist candidate<br />
+     * Deletes a watchlist candidate. <br />
      * Thread: Any [Determined by settings on Observable] <br />
      * @param id ID of candidate.
      * @return Observable holding the list of companies.
@@ -290,7 +290,7 @@ public interface BlockscoreRetrofitAPI {
     Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull @Path("id") final String id);
 
     /**
-     * Gets a watchlist candidate<br />
+     * Gets a watchlist candidate. <br />
      * Thread: Asynchronous <br />
      * @param id ID of candidate.
      * @param callback Callback to use.
@@ -299,7 +299,7 @@ public interface BlockscoreRetrofitAPI {
     void getWatchlistCandidate(@NotNull @Path("id") final String id, @NotNull final Callback<WatchlistCandidate> callback);
 
     /**
-     * Gets a watchlist candidate<br />
+     * Gets a watchlist candidate. <br />
      * Thread: Any [Determined by settings on Observable] <br />
      * @param id ID of candidate.
      * @return Observable holding the list of companies.
@@ -309,7 +309,7 @@ public interface BlockscoreRetrofitAPI {
     Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull @Path("id") final String id);
 
     /**
-     * Gets all watchlist candidates<br />
+     * Gets all watchlist candidates. <br />
      * Thread: Asynchronous <br />
      * @param callback Callback to use.
      */
@@ -317,7 +317,7 @@ public interface BlockscoreRetrofitAPI {
     void listWatchlistCandidate(@NotNull final Callback<List<WatchlistCandidate>> callback);
 
     /**
-     * Gets all watchlist candidates<br />
+     * Gets all watchlist candidates. <br />
      * Thread: Any [Determined by settings on Observable] <br />
      * @return Observable holding the list of companies.
      */
@@ -326,7 +326,7 @@ public interface BlockscoreRetrofitAPI {
     Observable<List<WatchlistCandidate>> listWatchlistCandidate();
 
     /**
-     * Gets the history for a watchlist candidate.<br />
+     * Gets the history for a watchlist candidate. <br />
      * Thread: Asynchronous <br />
      * @param id ID for the candidate.
      * @param callback Callback to use.

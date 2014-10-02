@@ -47,7 +47,7 @@ public class BlockscoreApiClient {
     private static RestAdapter.LogLevel sLogLevel = RestAdapter.LogLevel.NONE;
     private static String sApiKey;
 
-    private final BlockscoreRetrofitAPI restAdapter;
+    private final BlockscoreRetrofitAPI mRestAdapter;
 
     /**
      * Initializes the API client with the API key. Must be done first or else all calls will fail.
@@ -94,7 +94,7 @@ public class BlockscoreApiClient {
         restBuilder.setErrorHandler(new BlockscoreErrorHandler());
 
         restBuilder.setLogLevel(sLogLevel);
-        restAdapter = restBuilder.build().create(BlockscoreRetrofitAPI.class);
+        mRestAdapter = restBuilder.build().create(BlockscoreRetrofitAPI.class);
     }
 
     /**
@@ -104,7 +104,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void createVerification(@NotNull final Person person, @NotNull final Callback<Verification> callback) {
-        restAdapter.createVerification(person, callback);
+        mRestAdapter.createVerification(person, callback);
     }
 
     /**
@@ -115,7 +115,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<Verification> createVerification(@NotNull final Person person) {
-        return restAdapter.createVerification(person);
+        return mRestAdapter.createVerification(person);
     }
 
     /**
@@ -125,7 +125,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void getVerification(@NotNull final String id, final Callback<Verification> callback) {
-        restAdapter.getVerification(id, callback);
+        mRestAdapter.getVerification(id, callback);
     }
 
     /**
@@ -136,7 +136,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<Verification> getVerification(@NotNull final String id) {
-        return restAdapter.getVerification(id);
+        return mRestAdapter.getVerification(id);
     }
 
     /**
@@ -145,7 +145,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void listVerifications(@NotNull final Callback<List<Verification>> callback) {
-        restAdapter.listVerifications(callback);
+        mRestAdapter.listVerifications(callback);
     }
 
     /**
@@ -155,7 +155,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<List<Verification>> listVerifications() {
-        return restAdapter.listVerifications();
+        return mRestAdapter.listVerifications();
     }
 
     /**
@@ -166,7 +166,7 @@ public class BlockscoreApiClient {
      */
     public void createQuestionSet(@NotNull final QuestionSetRequest request
             , @NotNull final Callback<QuestionSet> callback) {
-        restAdapter.createQuestionSet(request, callback);
+        mRestAdapter.createQuestionSet(request, callback);
     }
 
     /**
@@ -177,7 +177,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<QuestionSet> createQuestionSet(@NotNull final QuestionSetRequest request) {
-        return restAdapter.createQuestionSet(request);
+        return mRestAdapter.createQuestionSet(request);
     }
 
     /**
@@ -190,7 +190,7 @@ public class BlockscoreApiClient {
     public void scoreQuestionSet(@NotNull final String questionSetId
             , @NotNull final AnswerRequest answers
             , @NotNull final Callback<QuestionSet> callback) {
-        restAdapter.scoreQuestionSet(questionSetId, answers, callback);
+        mRestAdapter.scoreQuestionSet(questionSetId, answers, callback);
     }
 
     /**
@@ -202,7 +202,7 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<QuestionSet> scoreQuestionSet(@NotNull final String questionSetId
             , @NotNull final AnswerRequest answers) {
-        return restAdapter.scoreQuestionSet(questionSetId, answers);
+        return mRestAdapter.scoreQuestionSet(questionSetId, answers);
     }
 
     /**
@@ -213,7 +213,7 @@ public class BlockscoreApiClient {
      */
     public void getQuestionSet(@NotNull final String questionSetId
             , @NotNull final Callback<QuestionSet> callback) {
-        restAdapter.getQuestionSet(questionSetId, callback);
+        mRestAdapter.getQuestionSet(questionSetId, callback);
     }
 
     /**
@@ -223,7 +223,7 @@ public class BlockscoreApiClient {
      * @return Observable containing the question set.
      */
     public Observable<QuestionSet> getQuestionSet(@NotNull final String questionSetId) {
-        return restAdapter.getQuestionSet(questionSetId);
+        return mRestAdapter.getQuestionSet(questionSetId);
     }
 
     /**
@@ -232,7 +232,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void listQuestionSet(@NotNull final Callback<List<QuestionSet>> callback) {
-        restAdapter.listQuestionSets(callback);
+        mRestAdapter.listQuestionSets(callback);
     }
 
     /**
@@ -242,7 +242,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<List<QuestionSet>> listQuestionSet() {
-        return restAdapter.listQuestionSets();
+        return mRestAdapter.listQuestionSets();
     }
 
     /**
@@ -252,7 +252,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void createCompany(@NotNull final Company company, @NotNull final Callback<Company> callback) {
-        restAdapter.createCompany(company, callback);
+        mRestAdapter.createCompany(company, callback);
     }
 
     /**
@@ -263,7 +263,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<Company> createCompany(@NotNull final Company company) {
-        return restAdapter.createCompany(company);
+        return mRestAdapter.createCompany(company);
     }
 
     /**
@@ -273,7 +273,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void getCompany(@NotNull final String id, @NotNull final Callback<Company> callback) {
-        restAdapter.getCompany(id, callback);
+        mRestAdapter.getCompany(id, callback);
     }
 
     /**
@@ -284,7 +284,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<Company> getCompany(@NotNull final String id) {
-        return restAdapter.getCompany(id);
+        return mRestAdapter.getCompany(id);
     }
 
     /**
@@ -293,7 +293,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void listCompanies(@NotNull final Callback<List<Company>> callback) {
-        restAdapter.listCompanies(callback);
+        mRestAdapter.listCompanies(callback);
     }
 
     /**
@@ -303,7 +303,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<List<Company>> listCompanies() {
-        return restAdapter.listCompanies();
+        return mRestAdapter.listCompanies();
     }
 
     /**
@@ -314,7 +314,7 @@ public class BlockscoreApiClient {
      */
     public void createWatchlistCandidate(@NotNull final WatchlistCandidate candidate
             , @NotNull final Callback<WatchlistCandidate> callback) {
-        restAdapter.createWatchlistCandidate(candidate, callback);
+        mRestAdapter.createWatchlistCandidate(candidate, callback);
     }
 
     /**
@@ -325,7 +325,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<WatchlistCandidate> createWatchlistCandidate(@NotNull final WatchlistCandidate candidate) {
-        return restAdapter.createWatchlistCandidate(candidate);
+        return mRestAdapter.createWatchlistCandidate(candidate);
     }
 
     /**
@@ -337,7 +337,7 @@ public class BlockscoreApiClient {
      */
     public void updateWatchlistCandidate(@NotNull final String id, @NotNull final WatchlistCandidate candidate
             , @NotNull final Callback<WatchlistCandidate> callback) {
-        restAdapter.updateWatchlistCandidate(id, candidate, callback);
+        mRestAdapter.updateWatchlistCandidate(id, candidate, callback);
     }
 
     /**
@@ -349,7 +349,7 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<WatchlistCandidate> updateWatchlistCandidate(@NotNull final String id
             , @NotNull final WatchlistCandidate candidate) {
-        return restAdapter.updateWatchlistCandidate(id, candidate);
+        return mRestAdapter.updateWatchlistCandidate(id, candidate);
     }
 
     /**
@@ -359,7 +359,7 @@ public class BlockscoreApiClient {
      * @param callback Callback to use.
      */
     public void getWatchlistCandidate(@NotNull final String id, @NotNull final Callback<WatchlistCandidate> callback) {
-        restAdapter.getWatchlistCandidate(id, callback);
+        mRestAdapter.getWatchlistCandidate(id, callback);
     }
 
     /**
@@ -369,7 +369,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull final String id) {
-        return restAdapter.getWatchlistCandidate(id);
+        return mRestAdapter.getWatchlistCandidate(id);
     }
 
     /**
@@ -377,7 +377,7 @@ public class BlockscoreApiClient {
      * @see BlockscoreRetrofitAPI#listWatchlistCandidate(retrofit.Callback)
      */
     public void listWatchlistCandidate(@NotNull final Callback<List<WatchlistCandidate>> callback) {
-        restAdapter.listWatchlistCandidate(callback);
+        mRestAdapter.listWatchlistCandidate(callback);
     }
 
     /**
@@ -387,7 +387,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<List<WatchlistCandidate>> listWatchlistCandidate() {
-        return restAdapter.listWatchlistCandidate();
+        return mRestAdapter.listWatchlistCandidate();
     }
 
     /**
@@ -397,7 +397,7 @@ public class BlockscoreApiClient {
      */
     public void getWatchlistCandidateHistory(@NotNull final String id
             , @NotNull final Callback<WatchlistCandidate> callback) {
-        restAdapter.getWatchlistCandidateHistory(id, callback);
+        mRestAdapter.getWatchlistCandidateHistory(id, callback);
     }
 
     /**
@@ -406,7 +406,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<List<WatchlistCandidate>> getWatchlistCandidateHistory(@NotNull final String id) {
-        return restAdapter.getWatchlistCandidateHistory(id);
+        return mRestAdapter.getWatchlistCandidateHistory(id);
     }
 
     /**
@@ -416,7 +416,7 @@ public class BlockscoreApiClient {
      */
     public void deleteWatchlistCandidate(@NotNull final String id
             , @NotNull final Callback<WatchlistCandidate> callback) {
-        restAdapter.deleteWatchlistCandidate(id, callback);
+        mRestAdapter.deleteWatchlistCandidate(id, callback);
     }
 
     /**
@@ -425,7 +425,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull final String id) {
-        return restAdapter.deleteWatchlistCandidate(id);
+        return mRestAdapter.deleteWatchlistCandidate(id);
     }
 
     /**
@@ -435,7 +435,7 @@ public class BlockscoreApiClient {
      */
     public void getWatchlistCandidateHits(@NotNull final String id
             , @NotNull final Callback<WatchlistHit> callback) {
-        restAdapter.getWatchlistCandidateHits(id, callback);
+        mRestAdapter.getWatchlistCandidateHits(id, callback);
     }
 
     /**
@@ -444,7 +444,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<List<WatchlistHit>> getWatchlistCandidateHits(@NotNull final String id) {
-        return restAdapter.getWatchlistCandidateHits(id);
+        return mRestAdapter.getWatchlistCandidateHits(id);
     }
 
     /**
@@ -454,7 +454,7 @@ public class BlockscoreApiClient {
      */
     public void searchWatchlists(@NotNull final SearchRequest searchRequest
             , @NotNull final Callback<WatchlistSearchResults> callback) {
-        restAdapter.searchWatchlists(searchRequest, callback);
+        mRestAdapter.searchWatchlists(searchRequest, callback);
     }
 
     /**
@@ -463,7 +463,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Observable<WatchlistSearchResults> searchWatchlists(@NotNull final SearchRequest searchRequest) {
-        return restAdapter.searchWatchlists(searchRequest);
+        return mRestAdapter.searchWatchlists(searchRequest);
     }
 
     /**
@@ -490,14 +490,14 @@ public class BlockscoreApiClient {
         private static final int CONNECT_TIMEOUT_MILLIS = 30 * 1000;
         private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
 
-        private final OkUrlFactory okUrlFactory;
+        private final OkUrlFactory mOkUrlFactory;
 
         public BlockscoreClient() {
-            okUrlFactory = new OkUrlFactory(generateHTTPClient());
+            mOkUrlFactory = new OkUrlFactory(generateHTTPClient());
         }
 
         public BlockscoreClient(OkHttpClient client) {
-            okUrlFactory = new OkUrlFactory(client);
+            mOkUrlFactory = new OkUrlFactory(client);
         }
 
         private OkHttpClient generateHTTPClient() {
@@ -509,7 +509,7 @@ public class BlockscoreApiClient {
 
         @Override
         protected HttpURLConnection openConnection(Request request) throws IOException {
-            return okUrlFactory.open(new URL(request.getUrl()));
+            return mOkUrlFactory.open(new URL(request.getUrl()));
         }
     }
 
