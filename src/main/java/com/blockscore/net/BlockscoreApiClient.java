@@ -120,6 +120,17 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Creates a new verification.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createVerification(com.blockscore.models.Person)
+     * @param person Person to verify.
+     * @return Verification
+     */
+    @NotNull
+    public Verification createVerificationSync(@NotNull final Person person) {
+        return mRestAdapter.createVerification(person).toBlocking().first();
+    }
+
+    /**
      * Pulls up a single verification.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#getVerification(String, retrofit.Callback)
      * @param id ID of verification to verify.
@@ -138,6 +149,17 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<Verification> getVerification(@NotNull final String id) {
         return mRestAdapter.getVerification(id);
+    }
+
+    /**
+     * Pulls up a single verification.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#getVerification(String)
+     * @param id ID of verification to verify.
+     * @return Verification
+     */
+    @NotNull
+    public Verification getVerificationSync(@NotNull final String id) {
+        return mRestAdapter.getVerification(id).toBlocking().first();
     }
 
     /**
@@ -160,6 +182,16 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Gets a list of verifications.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#listVerifications()
+     * @return The list of verification results.
+     */
+    @NotNull
+    public List<Verification> listVerificationsSync() {
+        return mRestAdapter.listVerifications().toBlocking().first();
+    }
+
+    /**
      * Creates a question set.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest, retrofit.Callback)
      * @param request Question set request.
@@ -179,6 +211,17 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<QuestionSet> createQuestionSet(@NotNull final QuestionSetRequest request) {
         return mRestAdapter.createQuestionSet(request);
+    }
+
+    /**
+     * Creates a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
+     * @param request Question set request.
+     * @return The question set.
+     */
+    @NotNull
+    public QuestionSet createQuestionSetSync(@NotNull final QuestionSetRequest request) {
+        return mRestAdapter.createQuestionSet(request).toBlocking().first();
     }
 
     /**
@@ -208,6 +251,19 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Scores a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest)
+     * @param questionSetId Question set ID
+     * @param answers Answers to questions
+     * @return Observable containing the question set.
+     */
+    @NotNull
+    public QuestionSet scoreQuestionSetSync(@NotNull final String questionSetId
+            , @NotNull final AnswerRequest answers) {
+        return mRestAdapter.scoreQuestionSet(questionSetId, answers).toBlocking().first();
+    }
+
+    /**
      * This allows you to retrieve a question set you have created.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#getQuestionSet(String, retrofit.Callback)
      * @param questionSetId Question set ID
@@ -230,6 +286,16 @@ public class BlockscoreApiClient {
 
     /**
      * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#getQuestionSet(String)
+     * @param questionSetId Question set ID
+     * @return The question set.
+     */
+    public QuestionSet getQuestionSetSync(@NotNull final String questionSetId) {
+        return mRestAdapter.getQuestionSet(questionSetId).toBlocking().first();
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#listQuestionSets(retrofit.Callback)
      * @param callback Callback to use.
      */
@@ -245,6 +311,16 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<List<QuestionSet>> listQuestionSet() {
         return mRestAdapter.listQuestionSets();
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see BlockscoreRetrofitAPI#listQuestionSets()
+     * @return List of question sets.
+     */
+    @NotNull
+    public List<QuestionSet> listQuestionSetSync() {
+        return mRestAdapter.listQuestionSets().toBlocking().first();
     }
 
     /**
@@ -269,6 +345,17 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Creates a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
+     * @param company Company to create.
+     * @return Company.
+     */
+    @NotNull
+    public Company createCompanySync(@NotNull final Company company) {
+        return mRestAdapter.createCompany(company).toBlocking().first();
+    }
+
+    /**
      * Retrieves a company.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company, retrofit.Callback)
      * @param id Company ID.
@@ -287,6 +374,17 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<Company> getCompany(@NotNull final String id) {
         return mRestAdapter.getCompany(id);
+    }
+
+    /**
+     * Retrieves a company.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
+     * @param id Company ID.
+     * @return Company.
+     */
+    @NotNull
+    public Company getCompanySync(@NotNull final String id) {
+        return mRestAdapter.getCompany(id).toBlocking().first();
     }
 
     /**
@@ -309,6 +407,16 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Lists your verified companies.
+     * @see BlockscoreRetrofitAPI#listCompanies()
+     * @return List of companies.
+     */
+    @NotNull
+    public List<Company> listCompaniesSync() {
+        return mRestAdapter.listCompanies().toBlocking().first();
+    }
+
+    /**
      * Creates a watchlist candidate.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createWatchlistCandidate(com.blockscore.models.WatchlistCandidate, retrofit.Callback)
      * @param candidate Watchlist candidate to create.
@@ -328,6 +436,17 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<WatchlistCandidate> createWatchlistCandidate(@NotNull final WatchlistCandidate candidate) {
         return mRestAdapter.createWatchlistCandidate(candidate);
+    }
+
+    /**
+     * Creates a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createWatchlistCandidate(com.blockscore.models.WatchlistCandidate)
+     * @param candidate Watchlist candidate to create.
+     * @return Candidate.
+     */
+    @NotNull
+    public WatchlistCandidate createWatchlistCandidateSync(@NotNull final WatchlistCandidate candidate) {
+        return mRestAdapter.createWatchlistCandidate(candidate).toBlocking().first();
     }
 
     /**
@@ -356,6 +475,19 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Updates a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#updateWatchlistCandidate(String, com.blockscore.models.WatchlistCandidate)
+     * @param id ID for the candidate.
+     * @param candidate Watchlist candidate to create.
+     * @return Candidate.
+     */
+    @NotNull
+    public WatchlistCandidate updateWatchlistCandidateSync(@NotNull final String id
+            , @NotNull final WatchlistCandidate candidate) {
+        return mRestAdapter.updateWatchlistCandidate(id, candidate).toBlocking().first();
+    }
+
+    /**
      * Gets a watchlist candidate.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#getWatchlistCandidate(String, retrofit.Callback)
      * @param id ID for the candidate.
@@ -369,11 +501,22 @@ public class BlockscoreApiClient {
      * Gets a watchlist candidate.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#getWatchlistCandidate(String)
      * @param id ID for the candidate.
-     * @return Obsercable containing the candidate
+     * @return Observable containing the candidate
      */
     @NotNull
     public Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull final String id) {
         return mRestAdapter.getWatchlistCandidate(id);
+    }
+
+    /**
+     * Gets a watchlist candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#getWatchlistCandidate(String)
+     * @param id ID for the candidate.
+     * @return Candidate
+     */
+    @NotNull
+    public WatchlistCandidate getWatchlistCandidateSync(@NotNull final String id) {
+        return mRestAdapter.getWatchlistCandidate(id).toBlocking().first();
     }
 
     /**
@@ -393,6 +536,16 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<List<WatchlistCandidate>> listWatchlistCandidate() {
         return mRestAdapter.listWatchlistCandidate();
+    }
+
+    /**
+     * Lists the watchlist candidates.
+     * @see BlockscoreRetrofitAPI#listWatchlistCandidate()
+     * @return Response.
+     */
+    @NotNull
+    public List<WatchlistCandidate> listWatchlistCandidateSync() {
+        return mRestAdapter.listWatchlistCandidate().toBlocking().first();
     }
 
     /**
@@ -416,6 +569,16 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Gets the watchlist candidate's history.
+     * @param id ID for the candidate.
+     * @return List of watchlist candidates.
+     */
+    @NotNull
+    public List<WatchlistCandidate> getWatchlistCandidateHistorySync(@NotNull final String id) {
+        return mRestAdapter.getWatchlistCandidateHistory(id).toBlocking().first();
+    }
+
+    /**
      * Deletes a watchlist candidate.
      * @param id ID for the candidate.
      * @param callback Callback to use.
@@ -433,6 +596,16 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull final String id) {
         return mRestAdapter.deleteWatchlistCandidate(id);
+    }
+
+    /**
+     * Deletes a watchlist candidate.
+     * @param id ID for the candidate.
+     * @return Watchlist candidate.
+     */
+    @NotNull
+    public WatchlistCandidate deleteWatchlistCandidateSync(@NotNull final String id) {
+        return mRestAdapter.deleteWatchlistCandidate(id).toBlocking().first();
     }
 
     /**
@@ -456,6 +629,16 @@ public class BlockscoreApiClient {
     }
 
     /**
+     * Gets the hits for a watchlist candidate.
+     * @param id ID for the candidate.
+     * @return List of watchlist hits.
+     */
+    @NotNull
+    public List<WatchlistHit> getWatchlistCandidateHitsSync(@NotNull final String id) {
+        return mRestAdapter.getWatchlistCandidateHits(id).toBlocking().first();
+    }
+
+    /**
      * Searches watchlists for a given candidate.
      * @param searchRequest Search request to complete
      * @param callback Callback to use.
@@ -473,6 +656,16 @@ public class BlockscoreApiClient {
     @NotNull
     public Observable<WatchlistSearchResults> searchWatchlists(@NotNull final SearchRequest searchRequest) {
         return mRestAdapter.searchWatchlists(searchRequest);
+    }
+
+    /**
+     * Searches watchlists for a given candidate.
+     * @param searchRequest Search request to complete
+     * @return Watch list search results.
+     */
+    @NotNull
+    public WatchlistSearchResults searchWatchlistsSync(@NotNull final SearchRequest searchRequest) {
+        return mRestAdapter.searchWatchlists(searchRequest).toBlocking().first();
     }
 
     /**
