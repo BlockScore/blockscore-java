@@ -10,7 +10,7 @@ public final class Constants {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String ACCEPT_HEADER = "Accept";
 
-    private static final boolean DEBUG_MODE = true;
+    private static final boolean DEBUG_MODE = false;
     private static final String BLOCKSCORE_DOMAIN = "https://api.blockscore.com";
     private static final String BLOCKSCORE_DEV_DOMAIN = "http://127.0.0.1:5400";
     private static final String VERSION_CODE = "3";

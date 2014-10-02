@@ -18,6 +18,7 @@ API Compatibility: <b>3.0</b>
 1. Checkstyle (Ensures code style) `./gradlew checkstyleMain`
 2. PMD (Checks for bugs) `./gradlew pmdMain`
 3. Findbugs (Checks for bugs) `./gradlew findbugsMain`
+4. JUnit (Tests) `./gradlew build`
 
 ##Dependencies Required (If using standard JAR)
 1. Retrofit 1.6.1+
