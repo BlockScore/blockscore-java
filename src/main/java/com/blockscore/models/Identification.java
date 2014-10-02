@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Identification model. (Stores either SSN or passport information)
- * Created by tealocean on 9/29/14.
+ * Created by Tony Dieppa on 9/29/14.
  */
 public class Identification {
 

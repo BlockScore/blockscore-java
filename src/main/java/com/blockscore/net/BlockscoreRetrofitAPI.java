@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Blockscore Java API interface.
- * Created by tealocean on 9/29/14.
+ * Created by Tony Dieppa on 9/29/14.
  */
 public interface BlockscoreRetrofitAPI {
     /**

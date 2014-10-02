@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * Watch list candidate model.
- * Created by tealocean on 9/30/14.
+ * Created by Tony Dieppa on 9/30/14.
  */
 public class WatchlistCandidate extends BasicResponse {
     @Nullable

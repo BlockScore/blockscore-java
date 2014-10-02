@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Name model. Used to identify the name of an individual.
- * Created by tealocean on 9/29/14.
+ * Created by Tony Dieppa on 9/29/14.
  */
 public class Name {
     @NotNull

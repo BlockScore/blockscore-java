@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Exception thrown when an invalid request is returned from the server.
- * Created by tealocean on 9/29/14.
+ * Created by Tony Dieppa on 9/29/14.
  */
 public class InvalidRequestException extends RuntimeException {
     private final BlockscoreError mError;

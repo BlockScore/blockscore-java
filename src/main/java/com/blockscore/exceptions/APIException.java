@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Exception thrown when an API error occurs.
- * Created by tealocean on 9/29/14.
+ * Created by Tony Dieppa on 9/29/14.
  */
 public class APIException extends RuntimeException {
     private final BlockscoreError mError;

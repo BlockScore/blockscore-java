@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Answered question model.
- * Created by tealocean on 9/30/14.
+ * Created by Tony Dieppa on 9/30/14.
  */
 public class AnsweredQuestion {
     @JsonProperty("question_id")

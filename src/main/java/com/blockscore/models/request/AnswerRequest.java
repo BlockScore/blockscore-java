@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Request object to hold answers. Used when scoring answers.
- * Created by tealocean on 9/30/14.
+ * Created by Tony Dieppa on 9/30/14.
  */
 public class AnswerRequest {
     @NotNull

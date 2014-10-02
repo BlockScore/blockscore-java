@@ -41,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * The Blockscore Java API client.
- * Created by tealocean on 9/29/14.
+ * Created by Tony Dieppa on 9/29/14.
  */
 public class BlockscoreApiClient {
     private static RestAdapter.LogLevel sLogLevel = RestAdapter.LogLevel.NONE;
