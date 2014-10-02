@@ -22,4 +22,13 @@ public class AnswerRequest {
     public AnswerRequest(@NotNull final List<AnsweredQuestion> answers) {
         mAnswers = answers;
     }
+
+    /**
+     * Gets answers currently assigned to this request.
+     * @return Answers in request.
+     */
+    @NotNull
+    public List<AnsweredQuestion> getAnswers() {
+        return mAnswers;
+    }
 }

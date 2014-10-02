@@ -2,6 +2,7 @@ package com.blockscore.models.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Question set request model. Used in creation of question sets.
@@ -39,5 +40,22 @@ public class QuestionSetRequest {
     public QuestionSetRequest setTimeLimit(final long timeLimit) {
         mTimeLimit = timeLimit;
         return this;
+    }
+
+    /**
+     * Gets the verification ID set to this request.
+     * @return Verification ID
+     */
+    @Nullable
+    public String getVerificationId() {
+        return mVerificationId;
+    }
+
+    /**
+     * Gets the time limit set to this request.
+     * @return Time limit.
+     */
+    public long getTimeLimit() {
+        return mTimeLimit;
     }
 }

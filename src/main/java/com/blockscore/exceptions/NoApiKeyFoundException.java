@@ -8,4 +8,8 @@ public class NoApiKeyFoundException extends RuntimeException {
     public NoApiKeyFoundException() {
         super("You must call BlockscoreApiClient.init() before you can use this function!");
     }
+
+    public NoApiKeyFoundException(final String notes) {
+        super(String.format("You must call BlockscoreApiClient.init() before you can use this function!%n%s", notes));
+    }
 }

@@ -31,6 +31,7 @@ import retrofit.converter.JacksonConverter;
 import rx.Observable;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -474,7 +475,12 @@ public class BlockscoreApiClient {
         if (sApiKey == null || sApiKey.isEmpty()) {
             throw new NoApiKeyFoundException();
         }
-        return "Basic " + Base64.getEncoder().encodeToString(sApiKey.getBytes());
+
+        try {
+            return "Basic " + Base64.getEncoder().encodeToString(sApiKey.getBytes("utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new NoApiKeyFoundException("UTF-8 encoding is not supported by your configuration. This is required.");
+        }
     }
 
     /**

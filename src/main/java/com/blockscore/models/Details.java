@@ -110,7 +110,7 @@ public class Details {
      */
     @Nullable
     private MatchRank getMatchRank(@Nullable final String matchResult) {
-        return MatchRank.toEnum(matchResult.toLowerCase());
+        return MatchRank.toEnum(matchResult);
     }
 
     public enum MatchRank {
