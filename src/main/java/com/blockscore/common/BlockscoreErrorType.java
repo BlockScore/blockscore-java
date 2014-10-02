@@ -26,7 +26,7 @@ public enum BlockscoreErrorType {
     /**
      * Converts a string to a enum.
      * @param value Value to convert.
-     * @return Enum
+     * @return Enum for this value.
      */
     @NotNull
     public static BlockscoreErrorType toEnum(@NotNull final String value) {
@@ -39,6 +39,10 @@ public enum BlockscoreErrorType {
         }
     }
 
+    /**
+     * Converts an enum to the string value.
+     * @return String value for enum.
+     */
     @Override
     public String toString() {
         return mValue;

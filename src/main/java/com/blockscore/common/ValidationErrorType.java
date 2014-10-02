@@ -16,7 +16,7 @@ public enum ValidationErrorType {
     }
 
     /**
-     * Returns if this status matches.
+     * Returns if this matches.
      * @return True or false.
      */
     public boolean isEqualTo(final String value) {
@@ -26,7 +26,7 @@ public enum ValidationErrorType {
     /**
      * Converts a string to a enum.
      * @param value Value to convert.
-     * @return Enum
+     * @return Validation error type
      */
     @NotNull
     public static ValidationErrorType toEnum(@NotNull final String value) {
@@ -39,6 +39,10 @@ public enum ValidationErrorType {
         }
     }
 
+    /**
+     * Converts an enum to the string value.
+     * @return String value for enum.
+     */
     @Override
     public String toString() {
         return mValue;

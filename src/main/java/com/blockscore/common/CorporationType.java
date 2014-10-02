@@ -16,13 +16,17 @@ public enum CorporationType {
     }
 
     /**
-     * Returns if this status matches.
+     * Returns if this matches.
      * @return True or false.
      */
     public boolean isEqualTo(final String value) {
         return mValue.equalsIgnoreCase(value);
     }
 
+    /**
+     * Converts an enum to the string value.
+     * @return String value for enum.
+     */
     @Override
     public String toString() {
         return mValue;
