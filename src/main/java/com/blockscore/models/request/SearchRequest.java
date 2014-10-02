@@ -47,7 +47,7 @@ public class SearchRequest {
     }
 
     /**
-     * Gets the match type (Person or Company)
+     * Gets the match type (Person or Company).
      * @return Match type.
      */
     @Nullable

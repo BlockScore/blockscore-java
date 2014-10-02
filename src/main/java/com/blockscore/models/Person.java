@@ -156,7 +156,7 @@ public class Person extends BasicResponse {
     }
 
     /**
-     * Gets phone number of the individual (if available)
+     * Gets phone number of the individual (if available).
      * @return Phone number
      */
     @Nullable

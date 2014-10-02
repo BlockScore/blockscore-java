@@ -16,6 +16,10 @@ public final class Constants {
     private static final String VERSION_CODE = "3";
     private static final String ACCEPT_CONTENTS = "application/vnd.blockscore+json;version=%s";
 
+    private Constants() {
+        //Does nothing.
+    }
+
     /**
      * Gets the proper Accept headers for the Blockscore API.
      * @return Headers to use when accessing the Blockscore API.

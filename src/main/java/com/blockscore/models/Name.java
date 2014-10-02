@@ -41,7 +41,7 @@ public class Name {
     }
 
     /**
-     * Sets the middle name (optional)
+     * Sets the middle name (optional).
      * @param middle Middle name.
      */
     public void setMiddleName(@Nullable final String middle) {

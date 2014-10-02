@@ -54,7 +54,7 @@ public class QuestionSet extends BasicResponse {
     }
 
     /**
-     * Gets the time limit (in seconds)
+     * Gets the time limit (in seconds).
      * @return Time limit.
      */
     public long getTimeLimit() {

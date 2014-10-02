@@ -215,10 +215,10 @@ public class Company extends BasicResponse {
 
     /**
      * Sets the "doing business as" names.
-     * @param mDbas Doing business as names.
+     * @param dbas Doing business as names.
      */
-    public Company setDbas(@NotNull final String mDbas) {
-        this.mDbas = mDbas;
+    public Company setDbas(@NotNull final String dbas) {
+        mDbas = dbas;
         return this;
     }
 
@@ -269,7 +269,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Sets the URL for this business
+     * Sets the URL for this business.
      * @param url URL for the business
      */
     public Company setURL(@NotNull final String url) {

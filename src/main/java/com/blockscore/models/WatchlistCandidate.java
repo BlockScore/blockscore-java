@@ -149,7 +149,7 @@ public class WatchlistCandidate extends BasicResponse {
     }
 
     /**
-     * The legal first name of the customer
+     * The legal first name of the customer.
      * @return First name.
      */
     @NotNull
@@ -158,7 +158,7 @@ public class WatchlistCandidate extends BasicResponse {
     }
 
     /**
-     * Sets the legal first name of the customer
+     * Sets the legal first name of the customer.
      * @param firstName First name.
      */
     @NotNull
@@ -168,7 +168,7 @@ public class WatchlistCandidate extends BasicResponse {
     }
 
     /**
-     * The legal middle name of the customer
+     * The legal middle name of the customer.
      * @return Middle name.
      */
     @Nullable
@@ -177,7 +177,7 @@ public class WatchlistCandidate extends BasicResponse {
     }
 
     /**
-     * Sets the legal middle name of the customer
+     * Sets the legal middle name of the customer.
      * @param middleName Middle name.
      */
     @NotNull

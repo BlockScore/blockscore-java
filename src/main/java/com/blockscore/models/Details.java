@@ -38,7 +38,7 @@ public class Details {
     private String mTaxId;
 
     /**
-     * Assesses the address match
+     * Assesses the address match.
      * @return Matching rating with the address.
      */
     @Nullable
@@ -47,7 +47,7 @@ public class Details {
     }
 
     /**
-     * Assesses the entity match
+     * Assesses the entity match.
      * @return Matching rating with the entity.
      */
     @Nullable
@@ -56,7 +56,7 @@ public class Details {
     }
 
     /**
-     * Assesses the tax ID match
+     * Assesses the tax ID match.
      * @return Matching rating with the tax ID.
      */
     @Nullable
