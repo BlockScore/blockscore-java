@@ -59,6 +59,7 @@ public class BlockscoreApiClient {
 
     /**
      * Turns on/off logging. Should be done after init(), but before API client usage.
+     * @param useVerboseLogs True to use verbose network logs.
      */
     public static void useVerboseLogs(final boolean useVerboseLogs) {
         if (useVerboseLogs) {
@@ -198,6 +199,7 @@ public class BlockscoreApiClient {
      * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest)
      * @param questionSetId Question set ID
      * @param answers Answers to questions
+     * @return Observable containing the question set.
      */
     @NotNull
     public Observable<QuestionSet> scoreQuestionSet(@NotNull final String questionSetId
@@ -345,6 +347,7 @@ public class BlockscoreApiClient {
      * @see com.blockscore.net.BlockscoreRetrofitAPI#updateWatchlistCandidate(String, com.blockscore.models.WatchlistCandidate)
      * @param id ID for the candidate.
      * @param candidate Watchlist candidate to create.
+     * @return Observable containing the candidate.
      */
     @NotNull
     public Observable<WatchlistCandidate> updateWatchlistCandidate(@NotNull final String id
@@ -366,6 +369,7 @@ public class BlockscoreApiClient {
      * Gets a watchlist candidate.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#getWatchlistCandidate(String)
      * @param id ID for the candidate.
+     * @return Obsercable containing the candidate
      */
     @NotNull
     public Observable<WatchlistCandidate> getWatchlistCandidate(@NotNull final String id) {
@@ -375,6 +379,7 @@ public class BlockscoreApiClient {
     /**
      * Lists the watchlist candidates.
      * @see BlockscoreRetrofitAPI#listWatchlistCandidate(retrofit.Callback)
+     * @param callback Callback to use.
      */
     public void listWatchlistCandidate(@NotNull final Callback<List<WatchlistCandidate>> callback) {
         mRestAdapter.listWatchlistCandidate(callback);
@@ -403,6 +408,7 @@ public class BlockscoreApiClient {
     /**
      * Gets the watchlist candidate's history.
      * @param id ID for the candidate.
+     * @return Observable containing a list of watchlist candidates.
      */
     @NotNull
     public Observable<List<WatchlistCandidate>> getWatchlistCandidateHistory(@NotNull final String id) {
@@ -422,6 +428,7 @@ public class BlockscoreApiClient {
     /**
      * Deletes a watchlist candidate.
      * @param id ID for the candidate.
+     * @return Observable containing the watchlist candidate.
      */
     @NotNull
     public Observable<WatchlistCandidate> deleteWatchlistCandidate(@NotNull final String id) {
@@ -441,6 +448,7 @@ public class BlockscoreApiClient {
     /**
      * Gets the hits for a watchlist candidate.
      * @param id ID for the candidate.
+     * @return Observable containing the list of watchlist hits.
      */
     @NotNull
     public Observable<List<WatchlistHit>> getWatchlistCandidateHits(@NotNull final String id) {
@@ -460,6 +468,7 @@ public class BlockscoreApiClient {
     /**
      * Searches watchlists for a given candidate.
      * @param searchRequest Search request to complete
+     * @return Observable containing the watch list search results.
      */
     @NotNull
     public Observable<WatchlistSearchResults> searchWatchlists(@NotNull final SearchRequest searchRequest) {

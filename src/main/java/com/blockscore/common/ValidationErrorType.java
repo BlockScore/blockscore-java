@@ -17,6 +17,7 @@ public enum ValidationErrorType {
 
     /**
      * Returns if this matches.
+     * @param value Value to test
      * @return True or false.
      */
     public boolean isEqualTo(final String value) {

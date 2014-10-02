@@ -78,6 +78,7 @@ public class WatchlistCandidate extends BasicResponse {
      * Sets an additional field which can be used for arbitrary storage. is typically used for
      * storing your internal identifiers for customer.
      * @param note Note to store.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setNote(@Nullable final String note) {
@@ -97,6 +98,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Can be either the last 4 digits of the US Social Security Number or the whole SSN.
      * @param ssn SSN to use.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setSSN(@Nullable final String ssn) {
@@ -116,6 +118,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the passport number of the individual being verified. is only used for verifying non-US customers.
      * @param passport Passport data.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setPassport(@Nullable final String passport) {
@@ -138,6 +141,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Set the date of birth of your candidate.
      * @param dateOfBirth Date of birth
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setDateOfBirth(@Nullable final Date dateOfBirth) {
@@ -160,6 +164,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the legal first name of the customer.
      * @param firstName First name.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setFirstName(@NotNull final String firstName) {
@@ -179,6 +184,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the legal middle name of the customer.
      * @param middleName Middle name.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setMiddleName(@NotNull final String middleName) {
@@ -198,6 +204,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the legal last name.
      * @param lastName Last name.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setLastName(@NotNull final String lastName) {
@@ -217,6 +224,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the primary street address of the customer. This is automatically normalized.
      * @param street1 Street address.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setStreet1(@NotNull final String street1) {
@@ -236,6 +244,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the second address line typically used for apartment or suite numbers. This is automatically normalized.
      * @param street2 Street address (line 2)
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setStreet2(@NotNull final String street2) {
@@ -255,6 +264,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the city name of the customer. This is automatically normalized.
      * @param city City name.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setCity(@NotNull final String city) {
@@ -274,6 +284,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the state of the customer. Should be of the FIPS code form. For example California would be CA.
      * @param state State
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setState(@Nullable final String state) {
@@ -293,6 +304,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the postal code.
      * @param postalCode Postal code.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setPostalCode(@Nullable final String postalCode) {
@@ -312,6 +324,7 @@ public class WatchlistCandidate extends BasicResponse {
     /**
      * Sets the country of the customer. Should be of the ISO code form.
      * @param countryCode Country code.
+     * @return this.
      */
     @NotNull
     public WatchlistCandidate setCountryCode(@Nullable final String countryCode) {

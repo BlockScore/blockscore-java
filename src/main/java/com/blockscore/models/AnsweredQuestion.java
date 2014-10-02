@@ -25,6 +25,7 @@ public class AnsweredQuestion {
     /**
      * Sets the question ID.
      * @param questionId Question ID
+     * @return this
      */
     public AnsweredQuestion setQuestionId(final int questionId) {
         mQuestionId = questionId;
@@ -34,6 +35,7 @@ public class AnsweredQuestion {
     /**
      * Sets the answer ID.
      * @param answerId ID associated with answer.
+     * @return this
      */
     public AnsweredQuestion setAnswerId(final int answerId) {
         mAnswerId = answerId;

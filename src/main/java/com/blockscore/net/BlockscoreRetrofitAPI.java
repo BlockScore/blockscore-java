@@ -59,6 +59,7 @@ public interface BlockscoreRetrofitAPI {
      * took place along with all of its associated data. </p>
      * Thread: Any [Determined by settings on Observable]
      * @param id ID of verification to verify.
+     * @return Observable containing a verification.
      */
     @NotNull
     @GET("/verifications/{id}")
@@ -77,6 +78,7 @@ public interface BlockscoreRetrofitAPI {
      * <p>Gets a list of historical records for all verifications you have completed. Sorted
      * newest to oldest. </p>
      * Thread: Any [Determined by settings on Observable]
+     * @return Observable containing a list of verifications.
      */
     @NotNull
     @GET("/verifications")
@@ -100,6 +102,7 @@ public interface BlockscoreRetrofitAPI {
      * is presented in will be randomized. </p>
      * Thread: Any [Determined by settings on Observable]
      * @param request Question set request.
+     * @return Observable containing a question set
      */
     @NotNull
     @POST("/questions")
@@ -109,6 +112,7 @@ public interface BlockscoreRetrofitAPI {
      * <p>The scoring system will score it based on how many questions you submit, so if you would only like
      * to ask 3 questions, only submit the 3 questions which you would like scored. </p>
      * Thread: Asynchronous
+     * @param questionSetId Question set ID.
      * @param answers Question set request.
      * @param callback Callback to use.
      */
@@ -121,6 +125,7 @@ public interface BlockscoreRetrofitAPI {
      * <p>The scoring system will score it based on how many questions you submit, so if you would only like
      * to ask 3 questions, only submit the 3 questions which you would like scored. </p>
      * Thread: Any [Determined by settings on Observable]
+     * @param questionSetId Question set ID.
      * @param answers Question set request.
      * @return Observable containing the question set
      */

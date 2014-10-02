@@ -95,6 +95,7 @@ public class Company extends BasicResponse {
     /**
      * Name of entity. This should exclude any legal endings like "Co" or "Inc" for best results.
      * @param entityName Name
+     * @return this.
      */
     @NotNull
     public Company setEntityName(@NotNull final String entityName) {
@@ -115,6 +116,7 @@ public class Company extends BasicResponse {
      * Sets the Tax ID for this entity. The tax ID should only include the digits of the ID with
      * no extraneous characters like dashes.
      * @param taxId Tax ID
+     * @return this.
      */
     @NotNull
     public Company setTaxId(@NotNull final String taxId) {
@@ -137,6 +139,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the incorporation date. Should be of the ISO date form (YYYY-MM-DD)
      * @param incorpDate Incorporation date.
+     * @return this.
      */
     @NotNull
     public Company setIncorpDate(@NotNull final Date incorpDate) {
@@ -159,6 +162,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the incorporation state. Can be either of ISO code form or the full length name of the state.
      * @param incorpState Incorporation state.
+     * @return this.
      */
     @NotNull
     public Company setIncorpState(@NotNull final String incorpState) {
@@ -178,6 +182,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the incorporation country code. Should be of the ISO alpha-2 code form.
      * @param incorpCountryCode Country code.
+     * @return this.
      */
     @NotNull
     public Company setIncorpCountryCode(@NotNull final String incorpCountryCode) {
@@ -198,6 +203,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the corporation type.
      * @param incorpType Corporation type.
+     * @return this.
      */
     public Company setIncorpType(@NotNull final CorporationType incorpType) {
         mIncorpType = incorpType.toString();
@@ -216,6 +222,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the "doing business as" names.
      * @param dbas Doing business as names.
+     * @return this.
      */
     public Company setDbas(@NotNull final String dbas) {
         mDbas = dbas;
@@ -235,6 +242,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the registration number for this entity.
      * @param regNumber Registration number.
+     * @return this.
      */
     public Company setRegNumber(@NotNull final String regNumber) {
         mRegNumber = regNumber;
@@ -253,6 +261,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the email for this entity.
      * @param email Email for the entity.
+     * @return this.
      */
     public Company setEmail(@NotNull final String email) {
         mEmail = email;
@@ -271,6 +280,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the URL for this business.
      * @param url URL for the business
+     * @return this.
      */
     public Company setURL(@NotNull final String url) {
         mURL = url;
@@ -329,6 +339,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the address of the entity.
      * @param address Address to use.
+     * @return this.
      */
     public Company setAddress(@NotNull Address address) {
         mAddress = address;
