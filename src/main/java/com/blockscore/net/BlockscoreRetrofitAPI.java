@@ -122,6 +122,7 @@ public interface BlockscoreRetrofitAPI {
      * to ask 3 questions, only submit the 3 questions which you would like scored. </p>
      * Thread: Any [Determined by settings on Observable]
      * @param answers Question set request.
+     * @return Observable containing the question set
      */
     @NotNull
     @POST("/questions/{id}/score")
@@ -144,6 +145,7 @@ public interface BlockscoreRetrofitAPI {
      * set, we will also return the last score of your submitted answers. </p>
      * Thread: Any [Determined by settings on Observable]
      * @param questionSetId Question set ID.
+     * @return Observable containing the question set
      */
     @NotNull
     @GET("/questions/{id}")
@@ -174,6 +176,7 @@ public interface BlockscoreRetrofitAPI {
      * Please be aware that the response time can sometimes be more than 6 seconds due to the speed of some
      * government data sources. </p>
      * Thread: Asynchronous
+     * @param company Company to create.
      * @param callback Callback to use.
      */
     @POST("/companies")
@@ -185,6 +188,7 @@ public interface BlockscoreRetrofitAPI {
      * Please be aware that the response time can sometimes be more than 6 seconds due to the speed of some
      * government data sources. </p>
      * Thread: Any [Determined by settings on Observable]
+     * @param company Company to create
      * @return Observable containing the Company validation.
      */
     @POST("/companies")
@@ -203,6 +207,7 @@ public interface BlockscoreRetrofitAPI {
      * <p>You can pull up a single company verification at any time (typically this is used for auditing purposes). </p>
      * Thread: Any [Determined by settings on Observable]
      * @param companyId Company ID.
+     * @return Observable containing the company
      */
     @NotNull
     @GET("/companies/{id}")
