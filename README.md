@@ -3,8 +3,13 @@ blockscore-java
 
 An API wrapper for the BlockScore API using Java.
 
-Latest Revision: <b>3.0.1</b> <br />
+Latest Revision: <b>3.0.2</b> <br />
 API Compatibility: <b>3.0</b>
+
+##Release Notes
+Version: 3.0.2
+
+1. Fixed a bug in listing verifications.
 
 ##System Requirements (For building and usage)
 1. Java 1.7+
