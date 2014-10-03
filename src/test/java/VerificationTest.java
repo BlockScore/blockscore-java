@@ -34,6 +34,10 @@ public class VerificationTest {
         verification = apiClient.getVerification(verification.getId()).toBlocking().first();
         isVerificationValid(verification);
 
+        //Test listing verifications
+        List<Verification> verifications = apiClient.listVerificationsSync();
+        areVerificationsValid(verifications);
+
         //Test creation of a question set.
         QuestionSetRequest questionSetRequest = new QuestionSetRequest();
         questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
@@ -245,6 +249,17 @@ public class VerificationTest {
     }
 
     /**
+     * Checks for a valid verification list.
+     * @param verificationList Verifications under test.
+     */
+    private void areVerificationsValid(@Nullable final List<Verification> verificationList) {
+        Assert.assertNotNull(verificationList);
+        for (Verification verification : verificationList) {
+            isVerificationValid(verification);
+        }
+    }
+
+    /**
      * Determines if the verification is valid.
      * @param verification Verification under test.
      */
@@ -252,9 +267,9 @@ public class VerificationTest {
         Assert.assertNotNull(verification);
         Assert.assertNotNull(verification.getId());
         Assert.assertNotNull(verification.getDateOfBirth());
+        Assert.assertNotNull(verification.getQuestionSets());
 
         areDetailsValid(verification.getDetails());
-        areQuestionSetsValid(verification.getQuestionSets());
         isIdentificationValid(verification.getIdentification());
         isNameValid(verification.getName());
         isAddressValid(verification.getAddress());

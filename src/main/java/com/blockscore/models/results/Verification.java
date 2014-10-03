@@ -3,7 +3,6 @@ package com.blockscore.models.results;
 import com.blockscore.common.ValidityStatus;
 import com.blockscore.models.Details;
 import com.blockscore.models.Person;
-import com.blockscore.models.QuestionSet;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +23,7 @@ public class Verification extends Person {
 
     @NotNull
     @JsonProperty("question_sets")
-    private List<QuestionSet> mQuestionSets;
+    private List<String> mQuestionSets;
 
     /**
      * Returns either valid or invalid and is the culmination of whether or not the passed
@@ -45,11 +44,11 @@ public class Verification extends Person {
     }
 
     /**
-     * Gets the question sets associated with this verification record.
+     * Gets the question set ids associated with this verification record.
      * @return Question sets.
      */
     @NotNull
-    public List<QuestionSet> getQuestionSets() {
+    public List<String> getQuestionSets() {
         return mQuestionSets;
     }
 }
