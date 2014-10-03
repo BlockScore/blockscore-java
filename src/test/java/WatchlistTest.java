@@ -65,9 +65,6 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            //Open issue for this: https://github.com/BlockScore/blockscore-api/issues/332
-            //This should return an error, but instead allows it through. This code should be updated once the bug
-            //is fixed.
             WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createBadTestCandidate()).toBlocking()
                     .first();
             isCandidateValid(candidate);
@@ -76,7 +73,7 @@ public class WatchlistTest {
             Assert.assertNotNull(e.getInvalidParam());
             exception = e;
         }
-        Assert.assertNotNull(exception); //Uncomment this once the issue is resolved to confirm the code works.
+        Assert.assertNotNull(exception);
     }
 
     @Test
