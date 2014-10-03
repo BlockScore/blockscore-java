@@ -76,7 +76,7 @@ public class WatchlistTest {
             Assert.assertNotNull(e.getInvalidParam());
             exception = e;
         }
-        //Assert.assertNotNull(exception); //Uncomment this once the issue is resolved to confirm the code works.
+        Assert.assertNotNull(exception); //Uncomment this once the issue is resolved to confirm the code works.
     }
 
     @Test
@@ -235,7 +235,7 @@ public class WatchlistTest {
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
         BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
-        BlockscoreApiClient.useVerboseLogs(false);
+        BlockscoreApiClient.useVerboseLogs(true);
         return new BlockscoreApiClient();
     }
 }
