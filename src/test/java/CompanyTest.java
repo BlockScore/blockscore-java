@@ -147,7 +147,7 @@ public class CompanyTest {
      */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.init("sk_test_a1ed66cc16a7cbc9f262f51869da31b3");
         BlockscoreApiClient.useVerboseLogs(false);
         return new BlockscoreApiClient();
     }

@@ -58,24 +58,6 @@ public class WatchlistTest {
         isCandidateValid(candidate);
     }
 
-    @SuppressFBWarnings(value = {"DLS"})
-    @Test
-    public void badCandidateCreationTest() throws ParseException {
-        InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
-
-        try {
-            WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createBadTestCandidate()).toBlocking()
-                    .first();
-            isCandidateValid(candidate);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            Assert.assertNotNull(e.getInvalidParam());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
-
     @Test
     public void updateNonexistentCandidateTest() {
         InvalidRequestException exception = null;
@@ -231,7 +213,7 @@ public class WatchlistTest {
      */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
-        BlockscoreApiClient.init("sk_test_3380b53cc2ae5b78910344c49f334c2e");
+        BlockscoreApiClient.init("sk_test_a1ed66cc16a7cbc9f262f51869da31b3");
         BlockscoreApiClient.useVerboseLogs(true);
         return new BlockscoreApiClient();
     }
