@@ -181,7 +181,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @GET("/watchlist_candidates")
-    List<Candidate> listCandidate();
+    List<Candidate> listCandidates();
 
     /**
      * <p>Gets the history for a watchlist candidate.</p>

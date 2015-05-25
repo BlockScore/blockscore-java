@@ -373,8 +373,7 @@ public class VerificationTest {
      */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
-        BlockscoreApiClient.init("sk_test_a1ed66cc16a7cbc9f262f51869da31b3");
-        BlockscoreApiClient.useVerboseLogs(true);
-        return new BlockscoreApiClient();
+        BlockscoreApiClient.useVerboseLogs(false);
+        return new BlockscoreApiClient("sk_test_a1ed66cc16a7cbc9f262f51869da31b3");
     }
 }

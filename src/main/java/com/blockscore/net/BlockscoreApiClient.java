@@ -4,7 +4,6 @@ import com.blockscore.common.BlockscoreErrorType;
 import com.blockscore.common.Constants;
 import com.blockscore.exceptions.APIException;
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.exceptions.NoApiKeyFoundException;
 import com.blockscore.models.Company;
 import com.blockscore.models.Person;
 import com.blockscore.models.QuestionSet;
@@ -50,14 +49,6 @@ public class BlockscoreApiClient {
     private final BlockscoreRetrofitAPI mRestAdapter;
 
     /**
-     * Initializes the API client with the API key. Must be done first or else all calls will fail.
-     * @param apiKey API key to use.
-     */
-    public static void init(@NotNull final String apiKey) {
-        sApiKey = apiKey + ":";
-    }
-
-    /**
      * Turns on/off logging. Should be done after init(), but before API client usage.
      * @param useVerboseLogs True to use verbose network logs.
      */
@@ -67,7 +58,9 @@ public class BlockscoreApiClient {
         }
     }
 
-    public BlockscoreApiClient() {
+    public BlockscoreApiClient(@NotNull final String apiKey) {
+        sApiKey = apiKey + ":";
+
         RestAdapter.Builder restBuilder = new RestAdapter.Builder()
                 .setClient(new BlockscoreClient())
                 .setEndpoint(Constants.getDomain());
@@ -249,7 +242,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public List<Candidate> listCandidates() {
-        return mRestAdapter.listCandidate();
+        return mRestAdapter.listCandidates();
     }
 
     /**
@@ -298,14 +291,11 @@ public class BlockscoreApiClient {
      */
     @NotNull
     private String getEncodedAuthorization() {
-        if (sApiKey == null || sApiKey.isEmpty()) {
-            throw new NoApiKeyFoundException();
-        }
-
         try {
             return "Basic " + Base64.getEncoder().encodeToString(sApiKey.getBytes("utf-8"));
-        } catch (UnsupportedEncodingException e) {
-            throw new NoApiKeyFoundException("UTF-8 encoding is not supported by your configuration. This is required.");
+        } catch(UnsupportedEncodingException e) {
+            //TODO: change to an appropriate response
+            return null;
         }
     }
 
