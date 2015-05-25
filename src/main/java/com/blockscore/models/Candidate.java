@@ -11,7 +11,7 @@ import java.util.Date;
  * Watch list candidate model.
  * Created by Tony Dieppa on 9/30/14.
  */
-public class WatchlistCandidate extends BasicResponse {
+public class Candidate extends BasicResponse {
     @Nullable
     @JsonProperty("note")
     private String mNote;
@@ -81,7 +81,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setNote(@Nullable final String note) {
+    public Candidate setNote(@Nullable final String note) {
         mNote = note;
         return this;
     }
@@ -101,7 +101,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setSSN(@Nullable final String ssn) {
+    public Candidate setSSN(@Nullable final String ssn) {
         mSSN = ssn;
         return this;
     }
@@ -121,7 +121,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setPassport(@Nullable final String passport) {
+    public Candidate setPassport(@Nullable final String passport) {
         mPassport = passport;
         return this;
     }
@@ -144,7 +144,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setDateOfBirth(@Nullable final Date dateOfBirth) {
+    public Candidate setDateOfBirth(@Nullable final Date dateOfBirth) {
         if (dateOfBirth == null) {
             return this;
         }
@@ -167,7 +167,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setFirstName(@NotNull final String firstName) {
+    public Candidate setFirstName(@NotNull final String firstName) {
         mFirstName = firstName;
         return this;
     }
@@ -187,7 +187,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setMiddleName(@NotNull final String middleName) {
+    public Candidate setMiddleName(@NotNull final String middleName) {
         mMiddleName = middleName;
         return this;
     }
@@ -207,7 +207,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setLastName(@NotNull final String lastName) {
+    public Candidate setLastName(@NotNull final String lastName) {
         mLastName = lastName;
         return this;
     }
@@ -227,7 +227,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setStreet1(@NotNull final String street1) {
+    public Candidate setStreet1(@NotNull final String street1) {
         mStreet1 = street1;
         return this;
     }
@@ -247,7 +247,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setStreet2(@NotNull final String street2) {
+    public Candidate setStreet2(@NotNull final String street2) {
         mStreet2 = street2;
         return this;
     }
@@ -267,7 +267,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setCity(@NotNull final String city) {
+    public Candidate setCity(@NotNull final String city) {
         mCity = city;
         return this;
     }
@@ -287,7 +287,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setState(@Nullable final String state) {
+    public Candidate setState(@Nullable final String state) {
         mState = state;
         return this;
     }
@@ -307,7 +307,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setPostalCode(@Nullable final String postalCode) {
+    public Candidate setPostalCode(@Nullable final String postalCode) {
         mPostalCode = postalCode;
         return this;
     }
@@ -327,7 +327,7 @@ public class WatchlistCandidate extends BasicResponse {
      * @return this.
      */
     @NotNull
-    public WatchlistCandidate setCountryCode(@Nullable final String countryCode) {
+    public Candidate setCountryCode(@Nullable final String countryCode) {
         mCountryCode = countryCode;
         return this;
     }

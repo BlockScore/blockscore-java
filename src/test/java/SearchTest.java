@@ -1,5 +1,5 @@
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.WatchlistCandidate;
+import com.blockscore.models.Candidate;
 import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistMatch;
 import com.blockscore.models.results.WatchlistSearchResults;
@@ -22,14 +22,14 @@ public class SearchTest {
     public void searchTest() {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
-        //Creates a watchlist candidate.
-        WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
+        //Creates a candidate.
+        Candidate candidate = apiClient.createCandidate(createTestCandidate());
         isCandidateValid(candidate);
 
         //Tests searching for him/her.
         SearchRequest request = new SearchRequest(candidate.getId());
         request.setMatchType(SearchRequest.MatchType.PERSON);
-        WatchlistSearchResults results = apiClient.searchWatchlists(request).toBlocking().first();
+        WatchlistSearchResults results = apiClient.searchWatchlists(request);
         areSearchResultsValid(results);
     }
 
@@ -38,13 +38,13 @@ public class SearchTest {
         InvalidRequestException exception = null;
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
-        //Creates a watchlist candidate.
-        WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
+        //Creates a candidate.
+        Candidate candidate = apiClient.createCandidate(createTestCandidate());
         isCandidateValid(candidate);
 
         try {
             SearchRequest request = new SearchRequest("1");
-            WatchlistSearchResults results = apiClient.searchWatchlists(request).toBlocking().first();
+            WatchlistSearchResults results = apiClient.searchWatchlists(request);
             areSearchResultsValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -54,12 +54,12 @@ public class SearchTest {
     }
 
     /**
-     * Generates a sample watchlist candidate to use for this test suite.
+     * Generates a sample candidate to use for this test suite.
      * @return Fake candidate.
      */
     @NotNull
-    private WatchlistCandidate createTestCandidate() {
-        WatchlistCandidate candidate = new WatchlistCandidate();
+    private Candidate createTestCandidate() {
+        Candidate candidate = new Candidate();
         candidate.setNote("12341234").setSSN("001").setDateOfBirth(new Date()).setFirstName("John")
                 .setLastName("BredenKamp").setStreet1("1 Infinite Loop").setCity("Harare").setCountryCode("ZW");
         return candidate;
@@ -69,7 +69,7 @@ public class SearchTest {
      * Determines if this candidate is valid.
      * @param candidate True if valid.
      */
-    private void isCandidateValid(@Nullable final WatchlistCandidate candidate) {
+    private void isCandidateValid(@Nullable final Candidate candidate) {
         Assert.assertNotNull(candidate);
         Assert.assertNotNull(candidate.getId());
     }

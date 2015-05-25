@@ -13,7 +13,7 @@ public class APIClientTest {
         NoApiKeyFoundException error = null;
         BlockscoreApiClient apiClient = new BlockscoreApiClient();
         try {
-            apiClient.listCompanies().toBlocking().first();
+            apiClient.listCompanies();
         } catch (NoApiKeyFoundException e) {
             error = e;
         }

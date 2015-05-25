@@ -26,22 +26,22 @@ public class VerificationTest {
     public void verificationTest() throws ParseException {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
-        //Test creation of verification
-        Verification verification = apiClient.createVerification(createTestPerson()).toBlocking().first();
+        //Test creation of person
+        Verification verification = apiClient.createPerson(createTestPerson());
         isVerificationValid(verification);
 
-        //Test getting verification
-        verification = apiClient.getVerification(verification.getId()).toBlocking().first();
+        //Test getting a person
+        verification = apiClient.getPerson(verification.getId());
         isVerificationValid(verification);
 
-        //Test listing verifications
-        List<Verification> verifications = apiClient.listVerificationsSync();
+        //Test listing people
+        List<Verification> verifications = apiClient.listPeople();
         areVerificationsValid(verifications);
 
         //Test creation of a question set.
         QuestionSetRequest questionSetRequest = new QuestionSetRequest();
         questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
-        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
         isQuestionSetValid(questionSet);
 
         //Test scoring a question set.
@@ -51,15 +51,15 @@ public class VerificationTest {
             answered.add(answeredQuestion);
         }
         AnswerRequest request = new AnswerRequest(answered);
-        questionSet = apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking().first();
+        questionSet = apiClient.scoreQuestionSet(questionSet.getId(), request);
         isQuestionSetValid(questionSet);
 
         //Test getting a question set.
-        questionSet = apiClient.getQuestionSet(questionSet.getId()).toBlocking().first();
+        questionSet = apiClient.getQuestionSet(questionSet.getId());
         isQuestionSetValid(questionSet);
 
         //Test listing question sets.
-        List<QuestionSet> questionSets = apiClient.listQuestionSet().toBlocking().first();
+        List<QuestionSet> questionSets = apiClient.listQuestionSet();
         areQuestionSetsValid(questionSets);
     }
 
@@ -69,7 +69,7 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Verification verification = apiClient.createVerification(createBadTestPerson()).toBlocking().first();
+            Verification verification = apiClient.createPerson(createBadTestPerson());
             isVerificationValid(verification);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -85,7 +85,7 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Verification verification = apiClient.getVerification("-1").toBlocking().first();
+            Verification verification = apiClient.getPerson("-1");
             isVerificationValid(verification);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -102,7 +102,7 @@ public class VerificationTest {
         try {
             QuestionSetRequest questionSetRequest = new QuestionSetRequest();
             questionSetRequest.setTimeLimit(0).setVerificationId("-1");
-            QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+            QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
             isQuestionSetValid(questionSet);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -117,7 +117,7 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            QuestionSet questionSet = apiClient.scoreQuestionSet("-1", new AnswerRequest()).toBlocking().first();
+            QuestionSet questionSet = apiClient.scoreQuestionSet("-1", new AnswerRequest());
             isQuestionSetValid(questionSet);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -132,22 +132,21 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Test creation of verification
-        Verification verification = apiClient.createVerification(createTestPerson()).toBlocking().first();
+        Verification verification = apiClient.createPerson(createTestPerson());
         isVerificationValid(verification);
 
         //Test getting verification
-        verification = apiClient.getVerification(verification.getId()).toBlocking().first();
+        verification = apiClient.getPerson(verification.getId());
         isVerificationValid(verification);
 
         //Test creation of a question set.
         QuestionSetRequest questionSetRequest = new QuestionSetRequest();
         questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
-        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
         isQuestionSetValid(questionSet);
 
         try {
-            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), new AnswerRequest()).toBlocking()
-                    .first();
+            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), new AnswerRequest());
             isQuestionSetValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -163,17 +162,17 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Test creation of verification
-        Verification verification = apiClient.createVerification(createTestPerson()).toBlocking().first();
+        Verification verification = apiClient.createPerson(createTestPerson());
         isVerificationValid(verification);
 
         //Test getting verification
-        verification = apiClient.getVerification(verification.getId()).toBlocking().first();
+        verification = apiClient.getPerson(verification.getId());
         isVerificationValid(verification);
 
         //Test creation of a question set.
         QuestionSetRequest questionSetRequest = new QuestionSetRequest();
         questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
-        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest).toBlocking().first();
+        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
         isQuestionSetValid(questionSet);
 
         try {
@@ -186,8 +185,7 @@ public class VerificationTest {
             //Open issue for this: https://github.com/BlockScore/blockscore-api/issues/333
             //This should return an error, but instead allows it through. This code should be updated once the bug
             //is fixed.
-            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), request).toBlocking()
-                    .first();
+            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), new AnswerRequest());
             isQuestionSetValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -202,7 +200,7 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            QuestionSet questionSet = apiClient.getQuestionSet("-1").toBlocking().first();
+            QuestionSet questionSet = apiClient.getQuestionSet("-1");
             isQuestionSetValid(questionSet);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());

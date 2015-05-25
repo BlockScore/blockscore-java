@@ -1,5 +1,5 @@
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.WatchlistCandidate;
+import com.blockscore.models.Candidate;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.net.BlockscoreApiClient;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -25,36 +25,36 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Tests creation of a candidate
-        WatchlistCandidate candidate = apiClient.createWatchlistCandidate(createTestCandidate()).toBlocking().first();
+        Candidate candidate = apiClient.createCandidate(createTestCandidate());
         isCandidateValid(candidate);
 
         //Tests updating a candidate.
-        WatchlistCandidate candidateUpdate = new WatchlistCandidate();
+        Candidate candidateUpdate = new Candidate();
         Date date = formatter.parse("1986-08-23");
         candidateUpdate.setNote("1234123").setSSN("002").setDateOfBirth(date).setFirstName("Jack")
                 .setLastName("Sparrow").setStreet1("1 Infinite Sea").setCity("Atlantis").setCountryCode("US");
-        candidate = apiClient.updateWatchlistCandidate(candidate.getId(), candidateUpdate).toBlocking().first();
+        candidate = apiClient.updateCandidate(candidate.getId(), candidateUpdate);
         didCandidateDataUpdate(candidate);
 
         //Tests getting a candidate
-        candidate = apiClient.getWatchlistCandidate(candidate.getId()).toBlocking().first();
+        candidate = apiClient.getCandidate(candidate.getId());
         isCandidateValid(candidate);
 
         //Tests listing candidates
-        List<WatchlistCandidate> candidateList = apiClient.listWatchlistCandidate().toBlocking().first();
+        List<Candidate> candidateList = apiClient.listCandidates();
         areCandidatesValid(candidateList);
 
         //Tests watch list candidate history
-        List<WatchlistCandidate> history = apiClient.getWatchlistCandidateHistory(candidateList.get(0).getId())
-                .toBlocking().first();
+        List<Candidate> history = apiClient.getCandidateHistory(candidateList.get(0).getId())
+                ;
         areCandidatesValid(history);
 
         //Tests the candidate hits
-        List<WatchlistHit> hits = apiClient.getWatchlistCandidateHits(candidate.getId()).toBlocking().first();
+        List<WatchlistHit> hits = apiClient.getCandidateHits(candidate.getId());
         areHitsValid(hits);
 
         //Tests deletion of a candidate
-        candidate = apiClient.deleteWatchlistCandidate(candidate.getId()).toBlocking().first();
+        candidate = apiClient.deleteCandidate(candidate.getId());
         isCandidateValid(candidate);
     }
 
@@ -64,8 +64,8 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            WatchlistCandidate candidate = apiClient.updateWatchlistCandidate("1", createBadTestCandidate())
-                    .toBlocking().first();
+            Candidate candidate = apiClient.updateCandidate("1", createBadTestCandidate())
+                    ;
             isCandidateValid(candidate);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -80,7 +80,7 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            WatchlistCandidate candidate = apiClient.getWatchlistCandidate("1").toBlocking().first();
+            Candidate candidate = apiClient.getCandidate("1");
             isCandidateValid(candidate);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -95,7 +95,7 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            List<WatchlistCandidate> candidate = apiClient.getWatchlistCandidateHistory("1").toBlocking().first();
+            List<Candidate> candidate = apiClient.getCandidateHistory("1");
             areCandidatesValid(candidate);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -110,7 +110,7 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            List<WatchlistHit> candidate = apiClient.getWatchlistCandidateHits("1").toBlocking().first();
+            List<WatchlistHit> candidate = apiClient.getCandidateHits("1");
             areHitsValid(candidate);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -125,7 +125,7 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            WatchlistCandidate candidate = apiClient.deleteWatchlistCandidate("1").toBlocking().first();
+            Candidate candidate = apiClient.deleteCandidate("1");
             isCandidateValid(candidate);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -140,9 +140,9 @@ public class WatchlistTest {
      * @throws ParseException
      */
     @NotNull
-    private WatchlistCandidate createTestCandidate() throws ParseException {
+    private Candidate createTestCandidate() throws ParseException {
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        WatchlistCandidate candidate = new WatchlistCandidate();
+        Candidate candidate = new Candidate();
         Date date = formatter.parse("1980-08-23");
         candidate.setNote("12341234").setSSN("001").setDateOfBirth(date).setFirstName("John")
                 .setLastName("BredenKamp").setStreet1("1 Infinite Loop").setCity("Harare").setCountryCode("ZW");
@@ -154,15 +154,15 @@ public class WatchlistTest {
      * @return Watch list candidate to test.
      */
     @NotNull
-    private WatchlistCandidate createBadTestCandidate() {
-        return new WatchlistCandidate();
+    private Candidate createBadTestCandidate() {
+        return new Candidate();
     }
 
     /**
      * Determines if this candidate is valid.
      * @param candidate True if valid.
      */
-    private void isCandidateValid(@Nullable final WatchlistCandidate candidate) {
+    private void isCandidateValid(@Nullable final Candidate candidate) {
         Assert.assertNotNull(candidate);
         Assert.assertNotNull(candidate.getId());
     }
@@ -171,9 +171,9 @@ public class WatchlistTest {
      * Tests a list of candidates.
      * @param candidates Candidates under test.
      */
-    private void areCandidatesValid(@Nullable final List<WatchlistCandidate> candidates) {
+    private void areCandidatesValid(@Nullable final List<Candidate> candidates) {
         Assert.assertNotNull(candidates);
-        for (WatchlistCandidate candidate : candidates) {
+        for (Candidate candidate : candidates) {
             isCandidateValid(candidate);
         }
     }
@@ -183,7 +183,7 @@ public class WatchlistTest {
      * @param candidate Candidate under test.
      * @throws ParseException
      */
-    private void didCandidateDataUpdate(@NotNull final WatchlistCandidate candidate) throws ParseException {
+    private void didCandidateDataUpdate(@NotNull final Candidate candidate) throws ParseException {
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         isCandidateValid(candidate);
         Assert.assertEquals(candidate.getSSN(), "002");

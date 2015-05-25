@@ -24,15 +24,15 @@ public class CompanyTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Tests creation.
-        Company company = apiClient.createCompany(createTestCompany()).toBlocking().first();
+        Company company = apiClient.createCompany(createTestCompany());
         isCompanyValid(company);
 
         //Tests getting the company.
-        company = apiClient.getCompany(company.getId()).toBlocking().first();
+        company = apiClient.getCompany(company.getId());
         isCompanyValid(company);
 
         //Tests listing the companies
-        List<Company> companies = apiClient.listCompanies().toBlocking().first();
+        List<Company> companies = apiClient.listCompanies();
         isListOfCompaniesValid(companies);
     }
 
@@ -42,7 +42,7 @@ public class CompanyTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Company company = apiClient.createCompany(createBadTestCompany()).toBlocking().first();
+            Company company = apiClient.createCompany(createBadTestCompany());
             isCompanyValid(company);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -58,7 +58,7 @@ public class CompanyTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Company company = apiClient.getCompany("781237129").toBlocking().first();
+            Company company = apiClient.getCompany("781237129");
             isCompanyValid(company);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());

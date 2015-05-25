@@ -1,6 +1,6 @@
 package com.blockscore.models.results;
 
-import com.blockscore.models.WatchlistCandidate;
+import com.blockscore.models.Candidate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ public class WatchlistMatch {
 
     @NotNull
     @JsonProperty("matching_record")
-    private WatchlistCandidate mCandidate;
+    private Candidate mCandidate;
 
     @Nullable
     @JsonProperty("matching_info")
@@ -61,7 +61,7 @@ public class WatchlistMatch {
      * @return Matching record.
      */
     @NotNull
-    public WatchlistCandidate getMatchingRecord() {
+    public Candidate getMatchingRecord() {
         return mCandidate;
     }
 }

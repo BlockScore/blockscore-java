@@ -1,6 +1,6 @@
 package com.blockscore.models.results;
 
-import com.blockscore.models.WatchlistCandidate;
+import com.blockscore.models.Candidate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Model representing a watchlist hit.
  * Created by Tony Dieppa on 9/30/14.
  */
-public class WatchlistHit extends WatchlistCandidate {
+public class WatchlistHit extends Candidate {
     @Nullable
     @JsonProperty("matching_info")
     private String[] mMatchingInfo;
