@@ -106,7 +106,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Verification createPerson(@NotNull final Person person) {
-        return mRestAdapter.createVerification(person).toBlocking().first();
+        return mRestAdapter.createVerification(person);
     }
 
     /**
@@ -117,7 +117,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Verification getPerson(@NotNull final String id) {
-        return mRestAdapter.getVerification(id).toBlocking().first();
+        return mRestAdapter.getVerification(id);
     }
 
     /**
@@ -127,7 +127,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public List<Verification> listPeople() {
-        return mRestAdapter.listVerifications().toBlocking().first();
+        return mRestAdapter.listVerifications();
     }
 
     /**
@@ -138,7 +138,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public QuestionSet createQuestionSet(@NotNull final QuestionSetRequest request) {
-        return mRestAdapter.createQuestionSet(request).toBlocking().first();
+        return mRestAdapter.createQuestionSet(request);
     }
 
     /**
@@ -151,7 +151,7 @@ public class BlockscoreApiClient {
     @NotNull
     public QuestionSet scoreQuestionSet(@NotNull final String questionSetId
             , @NotNull final AnswerRequest answers) {
-        return mRestAdapter.scoreQuestionSet(questionSetId, answers).toBlocking().first();
+        return mRestAdapter.scoreQuestionSet(questionSetId, answers);
     }
 
     /**
@@ -161,7 +161,7 @@ public class BlockscoreApiClient {
      * @return The question set.
      */
     public QuestionSet getQuestionSet(@NotNull final String questionSetId) {
-        return mRestAdapter.getQuestionSet(questionSetId).toBlocking().first();
+        return mRestAdapter.getQuestionSet(questionSetId);
     }
 
     /**
@@ -171,7 +171,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public List<QuestionSet> listQuestionSet() {
-        return mRestAdapter.listQuestionSets().toBlocking().first();
+        return mRestAdapter.listQuestionSets();
     }
 
     /**
@@ -182,7 +182,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Company createCompany(@NotNull final Company company) {
-        return mRestAdapter.createCompany(company).toBlocking().first();
+        return mRestAdapter.createCompany(company);
     }
 
     /**
@@ -193,7 +193,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Company getCompany(@NotNull final String id) {
-        return mRestAdapter.getCompany(id).toBlocking().first();
+        return mRestAdapter.getCompany(id);
     }
 
     /**
@@ -203,7 +203,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public List<Company> listCompanies() {
-        return mRestAdapter.listCompanies().toBlocking().first();
+        return mRestAdapter.listCompanies();
     }
 
     /**
@@ -214,7 +214,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Candidate createCandidate(@NotNull final Candidate candidate) {
-        return mRestAdapter.createCandidate(candidate).toBlocking().first();
+        return mRestAdapter.createCandidate(candidate);
     }
 
     /**
@@ -227,7 +227,7 @@ public class BlockscoreApiClient {
     @NotNull
     public Candidate updateCandidate(@NotNull final String id
             , @NotNull final Candidate candidate) {
-        return mRestAdapter.updateCandidate(id, candidate).toBlocking().first();
+        return mRestAdapter.updateCandidate(id, candidate);
     }
 
 
@@ -239,7 +239,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Candidate getCandidate(@NotNull final String id) {
-        return mRestAdapter.getCandidate(id).toBlocking().first();
+        return mRestAdapter.getCandidate(id);
     }
 
     /**
@@ -249,7 +249,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public List<Candidate> listCandidates() {
-        return mRestAdapter.listCandidate().toBlocking().first();
+        return mRestAdapter.listCandidate();
     }
 
     /**
@@ -259,7 +259,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public List<Candidate> getCandidateHistory(@NotNull final String id) {
-        return mRestAdapter.getCandidateHistory(id).toBlocking().first();
+        return mRestAdapter.getCandidateHistory(id);
     }
 
     /**
@@ -269,7 +269,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Candidate deleteCandidate(@NotNull final String id) {
-        return mRestAdapter.deleteCandidate(id).toBlocking().first();
+        return mRestAdapter.deleteCandidate(id);
     }
 
     /**
@@ -279,7 +279,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public List<WatchlistHit> getCandidateHits(@NotNull final String id) {
-        return mRestAdapter.getCandidateHits(id).toBlocking().first();
+        return mRestAdapter.getCandidateHits(id);
     }
 
     /**
@@ -289,7 +289,7 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public WatchlistSearchResults searchWatchlists(@NotNull final SearchRequest searchRequest) {
-        return mRestAdapter.searchWatchlists(searchRequest).toBlocking().first();
+        return mRestAdapter.searchWatchlists(searchRequest);
     }
 
     /**
