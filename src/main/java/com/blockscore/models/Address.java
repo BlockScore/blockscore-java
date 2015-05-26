@@ -10,38 +10,33 @@ import org.jetbrains.annotations.Nullable;
  */
 public class Address {
     @NotNull
-    @JsonProperty("street1")
-    private String mStreet1;
-
+    private String street1;
+    
     @Nullable
-    @JsonProperty("street2")
-    private String mStreet2;
+    private String street2;
+    
+    @NotNull
+    private String city;
 
     @NotNull
-    @JsonProperty("city")
-    private String mCity;
+    private String subdivision;
 
     @NotNull
-    @JsonProperty("state")
-    private String mState;
-
+    private String postalCode;
+    
     @NotNull
-    @JsonProperty("postal_code")
-    private String mPostalCode;
+    private String countryCode;
 
-    @NotNull
-    @JsonProperty("country_code")
-    private String mCountryCode;
 
     public Address() {
-        //Do nothing.
+        // do nothing
     }
 
     public Address(@NotNull final String street1, @Nullable final String street2, @NotNull final String city
             , @NotNull final String state, @NotNull final String postalCode, @NotNull final String countryCode) {
-        mStreet1 = street1;
-        mStreet2 = street2;
-        mCity = city;
+        this.street1 = street1;
+        this.street2 = street2;
+        this.city = city;
         mState = state;
         mPostalCode = postalCode;
         mCountryCode = countryCode;
@@ -54,7 +49,7 @@ public class Address {
      */
     @NotNull
     public Address setStreet1(@NotNull final String street1) {
-        mStreet1 = street1;
+        this.street1 = street1;
         return this;
     }
 
@@ -65,7 +60,7 @@ public class Address {
      */
     @Nullable
     public Address setStreet2(@NotNull final String street2) {
-        mStreet2 = street2;
+        this.street2 = street2;
         return this;
     }
 
@@ -76,18 +71,18 @@ public class Address {
      */
     @NotNull
     public Address setCity(@NotNull final String city) {
-        mCity = city;
+        this.city = city;
         return this;
     }
 
     /**
-     * The state of the customer. Should be of the FIPS code form. For example California would be CA.
-     * @param state State (FIPS code format)
+     * The subdivision of the customer. Should be of the FIPS code form. For example California would be CA.
+     * @param subdivision Subdivision (FIPS code format)
      * @return this
      */
     @NotNull
-    public Address setState(@NotNull final String state) {
-        mState = state;
+    public Address setSubdivision(@NotNull final String subdivision) {
+        this.subdivision = subdivision;
         return this;
     }
 
@@ -98,7 +93,7 @@ public class Address {
      */
     @NotNull
     public Address setPostalCode(@NotNull final String postalCode) {
-        mPostalCode = postalCode;
+        this.postalCode = postalCode;
         return this;
     }
 
@@ -109,7 +104,7 @@ public class Address {
      */
     @NotNull
     public Address setCountryCode(@NotNull final String countryCode) {
-        mCountryCode = countryCode;
+        this.countryCode = countryCode;
         return this;
     }
 
@@ -119,7 +114,7 @@ public class Address {
      */
     @NotNull
     public String getStreet1() {
-        return mStreet1;
+        return street1;
     }
 
     /**
@@ -128,7 +123,7 @@ public class Address {
      */
     @Nullable
     public String getStreet2() {
-        return mStreet2;
+        return street2;
     }
 
     /**
@@ -137,7 +132,7 @@ public class Address {
      */
     @NotNull
     public String getCity() {
-        return mCity;
+        return city;
     }
 
     /**
@@ -145,8 +140,8 @@ public class Address {
      * @return The state of the customer.
      */
     @NotNull
-    public String getState() {
-        return mState;
+    public String getSubdivision() {
+        return subdivision;
     }
 
     /**
@@ -155,7 +150,7 @@ public class Address {
      */
     @NotNull
     public String getPostalCode() {
-        return mPostalCode;
+        return postalCode;
     }
 
     /**
@@ -164,6 +159,6 @@ public class Address {
      */
     @NotNull
     public String getCountryCode() {
-        return mCountryCode;
+        return countryCode;
     }
 }
