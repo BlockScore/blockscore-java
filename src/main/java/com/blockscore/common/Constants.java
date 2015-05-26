@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Constants used by the Java API client.
- * Created by Tony Dieppa on 9/29/14.
  */
 public final class Constants {
     public static final String AUTHORIZATION_HEADER = "Authorization";
@@ -13,11 +12,11 @@ public final class Constants {
     private static final boolean DEBUG_MODE = false;
     private static final String BLOCKSCORE_DOMAIN = "https://api.blockscore.com";
     private static final String BLOCKSCORE_DEV_DOMAIN = "http://127.0.0.1:5400";
-    private static final String VERSION_CODE = "3";
+    private static final String VERSION_CODE = "4";
     private static final String ACCEPT_CONTENTS = "application/vnd.blockscore+json;version=%s";
 
     private Constants() {
-        //Does nothing.
+        //Prevents user from initializing the static class
     }
 
     /**
