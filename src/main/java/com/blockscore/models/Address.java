@@ -29,13 +29,13 @@ public class Address {
     }
 
     public Address(@NotNull final String street1, @Nullable final String street2, @NotNull final String city
-            , @NotNull final String state, @NotNull final String postalCode, @NotNull final String countryCode) {
+            , @NotNull final String subdivision, @NotNull final String postalCode, @NotNull final String countryCode) {
         this.street1 = street1;
         this.street2 = street2;
         this.city = city;
-        mState = state;
-        mPostalCode = postalCode;
-        mCountryCode = countryCode;
+        this.subdivision = subdivision;
+        this.postalCode = postalCode;
+        this.countryCode = countryCode;
     }
 
     /**
