@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Address model. Used to identify the address for an individual.
- * Created by Tony Dieppa on 9/29/14.
- */
 public class Address {
     @NotNull
     private String street1;
@@ -76,7 +72,8 @@ public class Address {
     }
 
     /**
-     * The subdivision of the customer. Should be of the FIPS code form. For example California would be CA.
+     * The subdivision of the entered country. For instance in the United States, this would be a 'state'.
+     * Ex: The subdivision for California would be CA.
      * @param subdivision Subdivision (FIPS code format)
      * @return this
      */
@@ -136,7 +133,7 @@ public class Address {
     }
 
     /**
-     * The state of the customer. Should be of the FIPS code form. For example California would be CA.
+     * The subdivision of the entered country. For instance in the United States, this would be a 'state'.
      * @return The state of the customer.
      */
     @NotNull
