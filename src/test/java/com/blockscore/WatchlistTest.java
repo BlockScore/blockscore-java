@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * Simple test for the company endpoints.
- * Created by Tony Dieppa on 9/30/14.
  */
 public class WatchlistTest {
     BlockscoreApiClient apiClient = setupBlockscoreApiClient();
@@ -149,11 +148,6 @@ public class WatchlistTest {
         Assert.assertNotNull(exception);
     }
 
-    /**
-     * Creates a test watchlist candidate.
-     * @return Watch list candidate to test.
-     * @throws ParseException
-     */
     @NotNull
     private Candidate createTestCandidate() {
         Address address = (new Address()).setStreet1("1 Infinite Loop")
@@ -179,29 +173,17 @@ public class WatchlistTest {
         return builder.create();
     }
 
-    /**
-     * Creates a bad test watchlist candidate.
-     * @return Watch list candidate to test.
-     */
     @NotNull
     private Candidate createBadTestCandidate() {
         Candidate.Builder builder = new Candidate.Builder(apiClient);
         return builder.create();
     }
 
-    /**
-     * Determines if this candidate is valid.
-     * @param candidate True if valid.
-     */
     private void isCandidateValid(@Nullable final Candidate candidate) {
         Assert.assertNotNull(candidate);
         Assert.assertNotNull(candidate.getId());
     }
 
-    /**
-     * Tests a list of candidates.
-     * @param candidates Candidates under test.
-     */
     private void areCandidatesValid(@Nullable final List<Candidate> candidates) {
         Assert.assertNotNull(candidates);
         for (Candidate candidate : candidates) {
@@ -209,11 +191,6 @@ public class WatchlistTest {
         }
     }
 
-    /**
-     * Tests if the candidate was updated. (PATCH)
-     * @param candidate Candidate under test.
-     * @throws ParseException
-     */
     private void didCandidateDataUpdate(@NotNull final Candidate candidate) {
         isCandidateValid(candidate);
 
@@ -223,7 +200,7 @@ public class WatchlistTest {
         } catch(ParseException e) {
             e.printStackTrace();
         }
-        
+
         Assert.assertEquals(candidate.getSSN(), "002");
         Assert.assertEquals(candidate.getNote(), "1234123");
         Assert.assertEquals(candidate.getFirstName(), "Jack");
@@ -233,10 +210,6 @@ public class WatchlistTest {
         Assert.assertEquals(address.getCountryCode(), "US");
     }
 
-    /**
-     * Tests the watchlist hits.
-     * @param hits Hits under test.
-     */
     private void areHitsValid(@Nullable List<WatchlistHit> hits) {
         Assert.assertNotNull(hits);
         for (WatchlistHit hit : hits) {
@@ -245,10 +218,6 @@ public class WatchlistTest {
         }
     }
 
-    /**
-     * Sets up the API client.
-     * @return API client.
-     */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
         BlockscoreApiClient.useVerboseLogs(false);

@@ -48,10 +48,6 @@ public class SearchTest {
         Assert.assertNotNull(exception);
     }
 
-    /**
-     * Generates a sample candidate to use for this test suite.
-     * @return Fake candidate.
-     */
     @NotNull
     private Candidate createTestCandidate() {
         Address address = (new Address()).setStreet1("1 Infinite Loop")
@@ -68,19 +64,11 @@ public class SearchTest {
         return builder.create();
     }
 
-    /**
-     * Determines if this candidate is valid.
-     * @param candidate True if valid.
-     */
     private void isCandidateValid(@Nullable final Candidate candidate) {
         Assert.assertNotNull(candidate);
         Assert.assertNotNull(candidate.getId());
     }
 
-    /**
-     * Determines if the results are valid.
-     * @param results Results to test.
-     */
     private void areSearchResultsValid(@Nullable final WatchlistSearchResults results) {
         Assert.assertNotNull(results);
         Assert.assertNotNull(results.getSearchedLists());
@@ -88,10 +76,6 @@ public class SearchTest {
         areMatchesValid(results.getMatches());
     }
 
-    /**
-     * Cycles through the matches to determine validity.
-     * @param matches Matches under test.
-     */
     private void areMatchesValid(@Nullable final List<WatchlistMatch> matches) {
         Assert.assertNotNull(matches);
         for (WatchlistMatch match : matches) {
@@ -99,10 +83,6 @@ public class SearchTest {
         }
     }
 
-    /**
-     * Determines if the match is valid.
-     * @param match Match under test.
-     */
     private void isMatchValid(@Nullable final WatchlistMatch match) {
         Assert.assertNotNull(match);
         Assert.assertNotNull(match.getMatchingInfo());
@@ -111,10 +91,6 @@ public class SearchTest {
         Assert.assertNotNull(match.getMatchingRecord().getId());
     }
 
-    /**
-     * Sets up the API client.
-     * @return API client.
-     */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
         BlockscoreApiClient.useVerboseLogs(false);
