@@ -6,23 +6,22 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Search request model for watch lists.
- * Created by Tony Dieppa on 9/30/14.
  */
 public class SearchRequest {
     @NotNull
-    @JsonProperty("watchlist_candidate_id")
-    private String mId;
+    @JsonProperty("candidate_id")
+    private String id;
 
     @Nullable
     @JsonProperty("match_type")
-    private String mMatchType;
+    private String matchType;
 
     public SearchRequest() {
         //Do nothing.
     }
 
     public SearchRequest(@NotNull final String id) {
-        mId = id;
+        this.id = id;
     }
 
     /**
@@ -31,9 +30,9 @@ public class SearchRequest {
      */
     public void setMatchType(@Nullable final MatchType matchType) {
         if (matchType == null) {
-            mMatchType = null;
+            this.matchType = null;
         } else {
-            mMatchType = matchType.toString();
+            this.matchType = matchType.toString();
         }
     }
 
@@ -43,7 +42,7 @@ public class SearchRequest {
      */
     @NotNull
     public String getId() {
-        return mId;
+        return id;
     }
 
     /**
@@ -52,21 +51,21 @@ public class SearchRequest {
      */
     @Nullable
     public MatchType getMatchType() {
-        return MatchType.toEnum(mMatchType);
+        return MatchType.toEnum(matchType);
     }
 
     public enum MatchType {
         COMPANY("company"), PERSON("person");
 
-        private final String mValue;
+        private final String value;
 
         private MatchType(@NotNull final String value) {
-            mValue = value;
+            this.value = value;
         }
 
         @Override
         public String toString() {
-            return mValue;
+            return value;
         }
 
         /**

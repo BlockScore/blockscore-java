@@ -6,26 +6,24 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Question set request model. Used in creation of question sets.
- * Created by Tony Dieppa on 9/30/14.
  */
 public class QuestionSetRequest {
 
     @NotNull
-    @JsonProperty("verification_id")
-    private String mVerificationId;
+    @JsonProperty("person_id")
+    private String personId;
 
     @JsonProperty("time_limit")
-    private long mTimeLimit = 0L;
+    private long timeLimit = 0L;
 
     /**
-     * The ID of the verification, and thus the identity, on which to base the question sets.
+     * The ID of the Person, and thus the identity, on which to base the question sets.
      * You can create multiple question sets using the same question set ID.
-     * @param verificationId Verification ID
-     * @return this
+     * @param PersonId Person ID
      */
     @NotNull
-    public QuestionSetRequest setVerificationId(@NotNull final String verificationId) {
-        mVerificationId = verificationId;
+    public QuestionSetRequest setPersonId(@NotNull final String personId) {
+        this.personId = personId;
         return this;
     }
 
@@ -34,28 +32,25 @@ public class QuestionSetRequest {
      * This is inputted in seconds and defaults to 0, which means no time limit.
      * This allows you to make sure that your customer does not take too long to answer a question set.
      * @param timeLimit Time limit.
-     * @return this
      */
     @NotNull
     public QuestionSetRequest setTimeLimit(final long timeLimit) {
-        mTimeLimit = timeLimit;
+        this.timeLimit = timeLimit;
         return this;
     }
 
     /**
-     * Gets the verification ID set to this request.
-     * @return Verification ID
+     * Gets the Person ID set to this request.
      */
     @Nullable
-    public String getVerificationId() {
-        return mVerificationId;
+    public String getPersonId() {
+        return personId;
     }
 
     /**
      * Gets the time limit set to this request.
-     * @return Time limit.
      */
     public long getTimeLimit() {
-        return mTimeLimit;
+        return timeLimit;
     }
 }
