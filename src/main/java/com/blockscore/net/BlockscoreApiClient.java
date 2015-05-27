@@ -13,8 +13,8 @@ import com.blockscore.models.error.RequestError;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.models.request.SearchRequest;
-import com.blockscore.models.results.Verification;
 import com.blockscore.models.results.WatchlistHit;
+import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.results.WatchlistSearchResults;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -40,26 +40,27 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * The Blockscore Java API client.
- * Created by Tony Dieppa on 9/29/14.
  */
 public class BlockscoreApiClient {
-    private static RestAdapter.LogLevel sLogLevel = RestAdapter.LogLevel.NONE;
-    private static String sApiKey;
+    private static RestAdapter.LogLevel logLevel = RestAdapter.LogLevel.NONE;
+    private static String apiKey;
 
-    private final BlockscoreRetrofitAPI mRestAdapter;
+    private final BlockscoreRetrofitAPI restAdapter;
 
     /**
-     * Turns on/off logging. Should be done after init(), but before API client usage.
+     * Turns on/off logging. Should be done before API client usage. // TODO: investigate making non-static? Also previous ordering of setting up /after/ calling init()
      * @param useVerboseLogs True to use verbose network logs.
      */
     public static void useVerboseLogs(final boolean useVerboseLogs) {
         if (useVerboseLogs) {
-            sLogLevel = RestAdapter.LogLevel.FULL;
+            logLevel = RestAdapter.LogLevel.FULL;
+        } else {
+            logLevel = RestAdapter.LogLevel.NONE;
         }
     }
 
     public BlockscoreApiClient(@NotNull final String apiKey) {
-        sApiKey = apiKey + ":";
+        this.apiKey = apiKey + ":";
 
         RestAdapter.Builder restBuilder = new RestAdapter.Builder()
                 .setClient(new BlockscoreClient())
@@ -87,51 +88,47 @@ public class BlockscoreApiClient {
         });
         restBuilder.setErrorHandler(new BlockscoreErrorHandler());
 
-        restBuilder.setLogLevel(sLogLevel);
-        mRestAdapter = restBuilder.build().create(BlockscoreRetrofitAPI.class);
+        restBuilder.setLogLevel(logLevel);
+        restAdapter = restBuilder.build().create(BlockscoreRetrofitAPI.class);
     }
 
     /**
-     * Creates a new verification.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createVerification(com.blockscore.models.Person)
+     * Creates a new Person.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createPerson(com.blockscore.models.Person)
      * @param person Person to verify.
-     * @return Verification
      */
     @NotNull
-    public Verification createPerson(@NotNull final Person person) {
-        return mRestAdapter.createVerification(person);
+    public Person createPerson(@NotNull final Person person) {
+        return restAdapter.createPerson(person);
     }
 
     /**
-     * Pulls up a single verification.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#getVerification(String)
-     * @param id ID of verification to verify.
-     * @return Verification
+     * Gets a single Person.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrievePerson(String)
+     * @param id ID of Person to verify.
      */
     @NotNull
-    public Verification getPerson(@NotNull final String id) {
-        return mRestAdapter.getVerification(id);
+    public Person retrievePerson(@NotNull final String id) {
+        return restAdapter.retrievePerson(id);
     }
 
     /**
-     * Gets a list of verifications.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#listVerifications()
-     * @return The list of verification results.
+     * Gets a list of Persons.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#listPersons()
      */
     @NotNull
-    public List<Verification> listPeople() {
-        return mRestAdapter.listVerifications();
+    public PaginatedResult<Person> listPeople() {
+        return restAdapter.listPeople();
     }
 
     /**
      * Creates a question set.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
      * @param request Question set request.
-     * @return The question set.
      */
     @NotNull
     public QuestionSet createQuestionSet(@NotNull final QuestionSetRequest request) {
-        return mRestAdapter.createQuestionSet(request);
+        return restAdapter.createQuestionSet(request);
     }
 
     /**
@@ -139,150 +136,136 @@ public class BlockscoreApiClient {
      * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest)
      * @param questionSetId Question set ID
      * @param answers Answers to questions
-     * @return Observable containing the question set.
      */
     @NotNull
     public QuestionSet scoreQuestionSet(@NotNull final String questionSetId
             , @NotNull final AnswerRequest answers) {
-        return mRestAdapter.scoreQuestionSet(questionSetId, answers);
+        return restAdapter.scoreQuestionSet(questionSetId, answers);
     }
 
     /**
      * This allows you to retrieve a question set you have created.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#getQuestionSet(String)
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
      * @param questionSetId Question set ID
-     * @return The question set.
      */
-    public QuestionSet getQuestionSet(@NotNull final String questionSetId) {
-        return mRestAdapter.getQuestionSet(questionSetId);
+    public QuestionSet retrieveQuestionSet(@NotNull final String questionSetId) {
+        return restAdapter.retrieveQuestionSet(questionSetId);
     }
 
     /**
      * This allows you to retrieve a question set you have created.
      * @see BlockscoreRetrofitAPI#listQuestionSets()
-     * @return List of question sets.
      */
     @NotNull
-    public List<QuestionSet> listQuestionSet() {
-        return mRestAdapter.listQuestionSets();
+    public PaginatedResult<QuestionSet> listQuestionSet() {
+        return restAdapter.listQuestionSets();
     }
 
     /**
      * Creates a company.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
      * @param company Company to create.
-     * @return Company.
      */
     @NotNull
     public Company createCompany(@NotNull final Company company) {
-        return mRestAdapter.createCompany(company);
+        return restAdapter.createCompany(company);
     }
 
     /**
-     * Retrieves a company.
+     * Gets a company.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
      * @param id Company ID.
-     * @return Company.
      */
     @NotNull
-    public Company getCompany(@NotNull final String id) {
-        return mRestAdapter.getCompany(id);
+    public Company retrieveCompany(@NotNull final String id) {
+        return restAdapter.retrieveCompany(id);
     }
 
     /**
      * Lists your verified companies.
      * @see BlockscoreRetrofitAPI#listCompanies()
-     * @return List of companies.
      */
     @NotNull
-    public List<Company> listCompanies() {
-        return mRestAdapter.listCompanies();
+    public PaginatedResult<Company> listCompanies() {
+        return restAdapter.listCompanies();
     }
 
     /**
      * Creates a watchlist candidate.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#createCandidate(com.blockscore.models.Candidate)
      * @param candidate Watchlist candidate to create.
-     * @return Candidate.
      */
     @NotNull
     public Candidate createCandidate(@NotNull final Candidate candidate) {
-        return mRestAdapter.createCandidate(candidate);
+        return restAdapter.createCandidate(candidate);
     }
 
     /**
-     * Updates a watchlist candidate.
+     * Updates a candidate.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#updateCandidate(String, com.blockscore.models.Candidate)
      * @param id ID for the candidate.
      * @param candidate Watchlist candidate to create.
-     * @return Candidate.
      */
     @NotNull
     public Candidate updateCandidate(@NotNull final String id
             , @NotNull final Candidate candidate) {
-        return mRestAdapter.updateCandidate(id, candidate);
+        return restAdapter.updateCandidate(id, candidate);
     }
 
 
     /**
-     * Gets a watchlist candidate.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#getCandidate(String)
+     * Retrieves a candidate.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveCandidate(String)
      * @param id ID for the candidate.
-     * @return Candidate
      */
     @NotNull
-    public Candidate getCandidate(@NotNull final String id) {
-        return mRestAdapter.getCandidate(id);
+    public Candidate retrieveCandidate(@NotNull final String id) {
+        return restAdapter.retrieveCandidate(id);
     }
 
     /**
-     * Lists the watchlist candidates.
+     * Lists the candidates.
      * @see BlockscoreRetrofitAPI#listCandidate()
-     * @return Response.
      */
     @NotNull
-    public List<Candidate> listCandidates() {
-        return mRestAdapter.listCandidates();
+    public PaginatedResult<Candidate> listCandidates() {
+        return restAdapter.listCandidates();
     }
 
     /**
-     * Gets the watchlist candidate's history.
+     * Gets the candidate's history.
      * @param id ID for the candidate.
-     * @return List of watchlist candidates.
      */
     @NotNull
     public List<Candidate> getCandidateHistory(@NotNull final String id) {
-        return mRestAdapter.getCandidateHistory(id);
+        return restAdapter.getCandidateHistory(id);
     }
 
     /**
-     * Deletes a watchlist candidate.
+     * Deletes a candidate.
      * @param id ID for the candidate.
-     * @return Watchlist candidate.
      */
     @NotNull
     public Candidate deleteCandidate(@NotNull final String id) {
-        return mRestAdapter.deleteCandidate(id);
+        return restAdapter.deleteCandidate(id);
     }
 
     /**
-     * Gets the hits for a watchlist candidate.
+     * Gets the watchlist hits for a candidate.
      * @param id ID for the candidate.
-     * @return List of watchlist hits.
      */
     @NotNull
-    public List<WatchlistHit> getCandidateHits(@NotNull final String id) {
-        return mRestAdapter.getCandidateHits(id);
+    public PaginatedResult<WatchlistHit> getCandidateHits(@NotNull final String id) {
+        return restAdapter.getCandidateHits(id);
     }
 
     /**
      * Searches watchlists for a given candidate.
      * @param searchRequest Search request to complete
-     * @return Watch list search results.
      */
     @NotNull
     public WatchlistSearchResults searchWatchlists(@NotNull final SearchRequest searchRequest) {
-        return mRestAdapter.searchWatchlists(searchRequest);
+        return restAdapter.searchWatchlists(searchRequest);
     }
 
     /**
@@ -292,7 +275,7 @@ public class BlockscoreApiClient {
     @NotNull
     private String getEncodedAuthorization() {
         try {
-            return "Basic " + Base64.getEncoder().encodeToString(sApiKey.getBytes("utf-8"));
+            return "Basic " + Base64.getEncoder().encodeToString(apiKey.getBytes("utf-8"));
         } catch(UnsupportedEncodingException e) {
             //TODO: change to an appropriate response
             return null;
