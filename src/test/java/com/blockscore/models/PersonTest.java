@@ -72,11 +72,6 @@ public class PersonTest {
         Assert.assertNotNull(exception);
     }
 
-    /**
-     * Generates a sample individual to use for this test suite.
-     * @return Person to test with.
-     * @throws ParseException
-     */
     @NotNull
     private Person createTestPerson() {
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
@@ -100,20 +95,12 @@ public class PersonTest {
         return builder.create();
     }
 
-    /**
-     * Generates a bad sample individual to use for this test suite.
-     * @return Person to test with.
-     */
     @NotNull
     private Person createBadTestPerson() {
         Person.Builder builder = new Person.Builder(apiClient);
         return builder.create();
     }
 
-    /**
-     * Checks for a valid person list.
-     * @param personList Persons under test.
-     */
     private void arePersonsValid(@Nullable final List<Person> personList) {
         Assert.assertNotNull(personList);
         for (Person person : personList) {
@@ -121,10 +108,6 @@ public class PersonTest {
         }
     }
 
-    /**
-     * Determines if the person is valid.
-     * @param person Person under test.
-     */
     private void isPersonValid(@NotNull final Person person) {
         Assert.assertNotNull(person);
         Assert.assertNotNull(person.getId());
@@ -135,10 +118,6 @@ public class PersonTest {
         isAddressValid(person.getAddress());
     }
 
-    /**
-     * Checks if the details of this person are complete.
-     * @param details Details under test.
-     */
     private void areDetailsValid(@NotNull final Details details) {
         Assert.assertNotNull(details);
         Assert.assertNotNull(details.getAddressRisk());
@@ -148,10 +127,6 @@ public class PersonTest {
         Assert.assertNotNull(details.getOFAC());
     }
 
-    /**
-     * Examines the address and ensures it is valid.
-     * @param address Address to test.
-     */
     private void isAddressValid(@Nullable final Address address) {
         Assert.assertNotNull(address);
         Assert.assertNotNull(address.getStreet1());
@@ -161,20 +136,12 @@ public class PersonTest {
         Assert.assertNotNull(address.getCity());
     }
 
-    /**
-     * Examines the name and ensures it is valid.
-     * @param name Name to test.
-     */
     private void isNameValid(@Nullable final Person name) {
         Assert.assertNotNull(name);
         Assert.assertNotNull(name.getFirstName());
         Assert.assertNotNull(name.getLastName());
     }
 
-    /**
-     * Sets up the API client.
-     * @return API client.
-     */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
         BlockscoreApiClient.useVerboseLogs(false);

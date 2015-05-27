@@ -24,7 +24,7 @@ public class QuestionSetTest {
     BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
     @Test
-    public void questionSetTest() throws ParseException {
+    public void questionSetTest() {
         Person person = createTestPerson();
 
         QuestionSet questionSet = person.createQuestionSet(100000);
@@ -50,13 +50,12 @@ public class QuestionSetTest {
     }
 
     @Test
-    public void scoreQuestionSetWithNoAnswers() throws ParseException {
+    public void scoreQuestionSetWithNoAnswers() {
         InvalidRequestException exception = null;
 
         //Test creation of person
         Person person = createTestPerson();
 
-        //person = apiClient.retrievePerson(person.getId()); TODO: BUG--the restAdapter dies.
         QuestionSet questionSet = person.createQuestionSet(100000);
 
         try {
@@ -71,7 +70,7 @@ public class QuestionSetTest {
 
     @SuppressFBWarnings(value = {"DLS"})
     @Test
-    public void scoreQuestionSetWithBadAnswers() throws ParseException {
+    public void scoreQuestionSetWithBadAnswers() {
         InvalidRequestException exception = null;
 
         Person person = createTestPerson();
@@ -94,7 +93,7 @@ public class QuestionSetTest {
     }
 
     @Test
-    public void getNonexistentQuestionSet() throws ParseException {
+    public void getNonexistentQuestionSet() {
         InvalidRequestException exception = null;
         Person person = createTestPerson();
 
@@ -108,11 +107,6 @@ public class QuestionSetTest {
         Assert.assertNotNull(exception);
     }
 
-    /**
-     * Generates a sample individual to use for this test suite.
-     * @return Person to test with.
-     * @throws ParseException
-     */
     @NotNull
     private Person createTestPerson() throws ParseException {
         Person.Builder builder = new Person.Builder(apiClient);
@@ -120,7 +114,12 @@ public class QuestionSetTest {
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date dob = formatter.parse("1980-08-23");
+        Date dateOfBirth = null;
+        try {
+            dateOfBirth = formatter.parse("1980-08-23");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         builder.setFirstName("John")
                .setMiddleName("Pearce")
@@ -128,14 +127,10 @@ public class QuestionSetTest {
                .setDocumentType("ssn")
                .setDocumentValue("0000")
                .setAddress(address)
-               .setDateOfBirth(dob);
+               .setDateOfBirth(dateOfBirth);
         return builder.create();
     }
 
-    /**
-     * Checks for a valid question set list.
-     * @param questionSetList Question sets under test.
-     */
     private void areQuestionSetsValid(@Nullable final List<QuestionSet> questionSetList) {
         Assert.assertNotNull(questionSetList);
         for (QuestionSet questionSet : questionSetList) {
@@ -143,20 +138,12 @@ public class QuestionSetTest {
         }
     }
 
-    /**
-     * Validates the question set.
-     * @param questionSet Question set to be tested.
-     */
     private void isQuestionSetValid(@Nullable final QuestionSet questionSet) {
         Assert.assertNotNull(questionSet);
         Assert.assertNotNull(questionSet.getPersonId());
         areQuestionsValid(questionSet.retrieveQuestionSet());
     }
 
-    /**
-     * Determines if the questions are valid.
-     * @param questionSet Questions to test.
-     */
     private void areQuestionsValid(@Nullable final List<Question> questionSet) {
         Assert.assertNotNull(questionSet);
         for (Question question : questionSet) {
@@ -166,10 +153,6 @@ public class QuestionSetTest {
         }
     }
 
-    /**
-     * Determines if the answers are valid.
-     * @param answers Answers to use.
-     */
     private void areAnswersValid(@Nullable final List<Answer> answers) {
         Assert.assertNotNull(answers);
         for (Answer answer : answers) {
@@ -178,10 +161,6 @@ public class QuestionSetTest {
         }
     }
 
-    /**
-     * Sets up the API client.
-     * @return API client.
-     */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
         BlockscoreApiClient.useVerboseLogs(false);

@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * Simple test for the company endpoints.
- * Created by Tony Dieppa on 9/30/14.
  */
 public class CompanyTest {
     BlockscoreApiClient apiClient = setupBlockscoreApiClient();
@@ -66,11 +65,6 @@ public class CompanyTest {
         Assert.assertNotNull(exception);
     }
 
-    /**
-     * Generates a sample company to use for this test suite.
-     * @return Fake company.
-     * @throws ParseException
-     */
     @NotNull
     private Company createTestCompany() throws ParseException {
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
@@ -95,21 +89,12 @@ public class CompanyTest {
         return builder.create();
     }
 
-    /**
-     * Generates a bad company to use for this test suite.
-     * @return Bad company.
-     * @throws ParseException
-     */
     @NotNull
     private Company createBadTestCompany() throws ParseException {
         Company.Builder builder = new Company.Builder(apiClient);
         return builder.create();
     }
 
-    /**
-     * Tests to see if the company object is valid.
-     * @param company Company to test.
-     */
     private void isCompanyValid(@Nullable final Company company) {
         Assert.assertNotNull(company);
         Assert.assertNotNull(company.getId());
@@ -120,10 +105,6 @@ public class CompanyTest {
         isAddressValid(company.getAddress());
     }
 
-    /**
-     * Examines the address and ensures it is valid.
-     * @param address Address to test.
-     */
     private void isAddressValid(@Nullable final Address address) {
         Assert.assertNotNull(address);
         Assert.assertNotNull(address.getStreet1());
@@ -133,10 +114,6 @@ public class CompanyTest {
         Assert.assertNotNull(address.getCity());
     }
 
-    /**
-     * Tests a list of companies to ensure they are valid.
-     * @param companies Companies to test.
-     */
     private void isListOfCompaniesValid(@Nullable final List<Company> companies) {
         Assert.assertNotNull(companies);
         for (Company company : companies) {
@@ -144,10 +121,6 @@ public class CompanyTest {
         }
     }
 
-    /**
-     * Sets up the API client.
-     * @return API client.
-     */
     @NotNull
     private BlockscoreApiClient setupBlockscoreApiClient() {
         BlockscoreApiClient.useVerboseLogs(false);
