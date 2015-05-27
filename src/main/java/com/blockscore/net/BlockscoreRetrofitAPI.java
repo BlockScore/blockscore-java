@@ -119,7 +119,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @POST("/candidates")
-    Candidate createCandidate(@NotNull @Body final Candidate candidate);
+    Candidate createCandidate(@QueryMap Map<String, String> options);
 
     /**
      * <p>Updates a candidate. </p>

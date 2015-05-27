@@ -105,10 +105,12 @@ public class Person extends BasicResponse {
     private List<String> questionSets;
 
     private Person() {
-        // Necessary for Retrofit to properly instantiate a Person response.
         // Restricts access to end user so they must use a Person.Builder to create a Person
     }
 
+    /**
+     * Sets the internal REST api adapter.
+     */
     public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
         this.restAdapter = restAdapter;
     }
@@ -285,7 +287,7 @@ public class Person extends BasicResponse {
         private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
         private transient Map<String, String> queryOptions;
 
-        public Builder(BlockscoreApiClient client) { //TODO: privatize constructor & use a Builder
+        public Builder(BlockscoreApiClient client) {
             this.restAdapter = client.getAdapter();
             queryOptions = new HashMap<String, String>();
         }
@@ -406,6 +408,10 @@ public class Person extends BasicResponse {
             return this;
         }
 
+
+        /**
+         * Creates a new Person.
+         */
         public Person create() {
             Person person = restAdapter.createPerson(queryOptions);
             person.setAdapter(restAdapter);

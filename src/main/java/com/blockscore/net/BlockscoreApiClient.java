@@ -131,16 +131,6 @@ public class BlockscoreApiClient {
     }
 
     /**
-     * Creates a watchlist candidate.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCandidate(com.blockscore.models.Candidate)
-     * @param candidate Watchlist candidate to create.
-     */
-    @NotNull
-    public Candidate createCandidate(@NotNull final Candidate candidate) {
-        return restAdapter.createCandidate(candidate);
-    }
-
-    /**
      * Updates a candidate.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#updateCandidate(String, com.blockscore.models.Candidate)
      * @param id ID for the candidate.

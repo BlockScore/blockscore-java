@@ -20,28 +20,36 @@ import java.util.List;
  * Created by Tony Dieppa on 9/30/14.
  */
 public class WatchlistTest {
+    BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
     @Test
-    public void watchListTest() throws ParseException {
+    public void watchListTest() {
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Tests creation of a candidate
-        Candidate candidate = apiClient.createCandidate(createTestCandidate());
+        Candidate candidate = createTestCandidate();
         isCandidateValid(candidate);
 
+        Address address = (new Address()).setStreet1("1 Infinite Sea")
+                                         .setCity("Atlantis")
+                                         .setCountryCode("US");
+
         //Tests updating a candidate.
-        Candidate candidateUpdate = new Candidate();
-        Date date = formatter.parse("1986-08-23");
-        candidateUpdate.setNote("1234123")
-                       .setSSN("002")
-                       .setDateOfBirth(date)
-                       .setFirstName("Jack")
-                       .setLastName("Sparrow")
-                       .setAddress((new Address()).setStreet1("1 Infinite Sea")
-                                                  .setCity("Atlantis")
-                                                  .setCountryCode("US"));
-        candidate = apiClient.updateCandidate(candidate.getId(), candidateUpdate);
+        Date date = null;
+        try {
+            date = formatter.parse("1986-08-23");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        candidate.setNote("1234123")
+                 .setSSN("002")
+                 .setDateOfBirth(date)
+                 .setFirstName("Jack")
+                 .setLastName("Sparrow")
+                 .setAddress(address);
+
+        candidate = apiClient.updateCandidate(candidate.getId(), candidate);
         didCandidateDataUpdate(candidate);
 
         //Tests getting a candidate
@@ -69,7 +77,6 @@ public class WatchlistTest {
     @Test
     public void updateNonexistentCandidateTest() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             Candidate candidate = apiClient.updateCandidate("1", createBadTestCandidate())
@@ -148,19 +155,28 @@ public class WatchlistTest {
      * @throws ParseException
      */
     @NotNull
-    private Candidate createTestCandidate() throws ParseException {
+    private Candidate createTestCandidate() {
+        Address address = (new Address()).setStreet1("1 Infinite Loop")
+                                 .setCity("Harare")
+                                 .setCountryCode("ZW");
+
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Candidate candidate = new Candidate();
-        Date date = formatter.parse("1980-08-23");
-        candidate.setNote("12341234")
+        Date date = null;
+        try {
+            date = formatter.parse("1980-08-23");
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
+
+        Candidate.Builder builder = new Candidate.Builder(apiClient);
+        builder.setNote("12341234")
                  .setSSN("001")
                  .setDateOfBirth(date)
                  .setFirstName("John")
                  .setLastName("BredenKamp")
-                 .setAddress((new Address()).setStreet1("1 Infinite Loop")
-                                          .setCity("Harare")
-                                          .setCountryCode("ZW"));
-        return candidate;
+                 .setAddress(address);
+
+        return builder.create();
     }
 
     /**
@@ -169,7 +185,8 @@ public class WatchlistTest {
      */
     @NotNull
     private Candidate createBadTestCandidate() {
-        return new Candidate();
+        Candidate.Builder builder = new Candidate.Builder(apiClient);
+        return builder.create();
     }
 
     /**
@@ -197,12 +214,18 @@ public class WatchlistTest {
      * @param candidate Candidate under test.
      * @throws ParseException
      */
-    private void didCandidateDataUpdate(@NotNull final Candidate candidate) throws ParseException {
-        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    private void didCandidateDataUpdate(@NotNull final Candidate candidate) {
         isCandidateValid(candidate);
+
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Assert.assertEquals(candidate.getDateOfBirth(), formatter.parse("1986-08-23"));
+        } catch(ParseException e) {
+            e.printStackTrace();
+        }
+        
         Assert.assertEquals(candidate.getSSN(), "002");
         Assert.assertEquals(candidate.getNote(), "1234123");
-        Assert.assertEquals(candidate.getDateOfBirth(), formatter.parse("1986-08-23"));
         Assert.assertEquals(candidate.getFirstName(), "Jack");
         Assert.assertEquals(candidate.getLastName(), "Sparrow");
         Address address = candidate.getAddress();

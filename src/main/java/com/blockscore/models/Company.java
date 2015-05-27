@@ -115,6 +115,10 @@ public class Company extends BasicResponse {
     @JsonProperty("status")
     private String status;
 
+    private Company() {
+        // Restricts access to end user so they must use a Company.Builder to create a Person
+    }
+
     /**
      * Gets the name of the entity.
      * @return Name of the entity.
@@ -264,6 +268,9 @@ public class Company extends BasicResponse {
         return ValidityStatus.VALID.isEqualTo(status);
     }
 
+    /**
+     * Sets the internal REST api adapter.
+     */
     private void setAdapter(BlockscoreRetrofitAPI restAdapter) {
         this.restAdapter = restAdapter;
     }
@@ -282,7 +289,7 @@ public class Company extends BasicResponse {
         private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
         private transient Map<String, String> queryOptions;
 
-        public Builder(BlockscoreApiClient client) { //TODO: privatize constructor & use a Builder
+        public Builder(BlockscoreApiClient client) {
             this.restAdapter = client.getAdapter();
             queryOptions = new HashMap<String, String>();
         }
@@ -444,6 +451,10 @@ public class Company extends BasicResponse {
             return this;
         }
 
+
+        /**
+         * Creates a new Company.
+         */
         public Company create() {
             Company company = restAdapter.createCompany(queryOptions);
             company.setAdapter(restAdapter);

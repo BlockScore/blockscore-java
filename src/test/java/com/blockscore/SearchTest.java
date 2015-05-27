@@ -17,13 +17,11 @@ import java.util.List;
  * Simple test for searching watchlists
  */
 public class SearchTest {
+    BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
     @Test
     public void searchTest() {
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
-
-        //Creates a candidate.
-        Candidate candidate = apiClient.createCandidate(createTestCandidate());
+        Candidate candidate = createTestCandidate();
         isCandidateValid(candidate);
 
         SearchRequest request = new SearchRequest(candidate.getId());
@@ -35,10 +33,8 @@ public class SearchTest {
     @Test
     public void noCandidateFoundTest() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
-        //Creates a candidate.
-        Candidate candidate = apiClient.createCandidate(createTestCandidate());
+        Candidate candidate = createTestCandidate();
         isCandidateValid(candidate);
 
         try {
@@ -58,16 +54,18 @@ public class SearchTest {
      */
     @NotNull
     private Candidate createTestCandidate() {
-        Candidate candidate = new Candidate();
-        candidate.setNote("12341234")
-                 .setSSN("001")
-                 .setDateOfBirth(new Date())
-                 .setFirstName("John")
-                 .setLastName("BredenKamp")
-                 .setAddress((new Address()).setStreet1("1 Infinite Loop")
-                                            .setCity("Harare")
-                                            .setCountryCode("ZW"));
-        return candidate;
+        Address address = (new Address()).setStreet1("1 Infinite Loop")
+                                         .setCity("Harare")
+                                         .setCountryCode("ZW");
+
+        Candidate.Builder builder = new Candidate.Builder(apiClient);
+        builder.setNote("12341234")
+               .setSSN("001")
+               .setDateOfBirth(new Date())
+               .setFirstName("John")
+               .setLastName("BredenKamp")
+               .setAddress(address);
+        return builder.create();
     }
 
     /**
@@ -110,7 +108,6 @@ public class SearchTest {
         Assert.assertNotNull(match.getMatchingInfo());
         Assert.assertNotNull(match.getWatchList());
         Assert.assertNotNull(match.getMatchingRecord());
-
         Assert.assertNotNull(match.getMatchingRecord().getId());
     }
 
