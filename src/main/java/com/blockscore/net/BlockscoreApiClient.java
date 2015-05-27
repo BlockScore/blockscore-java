@@ -11,7 +11,6 @@ import com.blockscore.models.Candidate;
 import com.blockscore.models.error.BlockscoreError;
 import com.blockscore.models.error.RequestError;
 import com.blockscore.models.request.AnswerRequest;
-import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.PaginatedResult;
@@ -98,8 +97,10 @@ public class BlockscoreApiClient {
      * @param person Person to verify.
      */
     @NotNull
-    public Person createPerson(@NotNull final Person person) {
-        return restAdapter.createPerson(person);
+    public Person createPerson(@NotNull final Person personRequest) {
+        Person person = restAdapter.createPerson(personRequest);
+        person.setAdapter(restAdapter);
+        return person;
     }
 
     /**
@@ -119,46 +120,6 @@ public class BlockscoreApiClient {
     @NotNull
     public PaginatedResult<Person> listPeople() {
         return restAdapter.listPeople();
-    }
-
-    /**
-     * Creates a question set.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
-     * @param request Question set request.
-     */
-    @NotNull
-    public QuestionSet createQuestionSet(@NotNull final QuestionSetRequest request) {
-        return restAdapter.createQuestionSet(request);
-    }
-
-    /**
-     * Scores a question set.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest)
-     * @param questionSetId Question set ID
-     * @param answers Answers to questions
-     */
-    @NotNull
-    public QuestionSet scoreQuestionSet(@NotNull final String questionSetId
-            , @NotNull final AnswerRequest answers) {
-        return restAdapter.scoreQuestionSet(questionSetId, answers);
-    }
-
-    /**
-     * This allows you to retrieve a question set you have created.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
-     * @param questionSetId Question set ID
-     */
-    public QuestionSet retrieveQuestionSet(@NotNull final String questionSetId) {
-        return restAdapter.retrieveQuestionSet(questionSetId);
-    }
-
-    /**
-     * This allows you to retrieve a question set you have created.
-     * @see BlockscoreRetrofitAPI#listQuestionSets()
-     */
-    @NotNull
-    public PaginatedResult<QuestionSet> listQuestionSet() {
-        return restAdapter.listQuestionSets();
     }
 
     /**
@@ -211,7 +172,6 @@ public class BlockscoreApiClient {
             , @NotNull final Candidate candidate) {
         return restAdapter.updateCandidate(id, candidate);
     }
-
 
     /**
      * Retrieves a candidate.
@@ -280,6 +240,12 @@ public class BlockscoreApiClient {
             //TODO: change to an appropriate response
             return null;
         }
+    }
+
+
+
+    public BlockscoreRetrofitAPI getAdapter() {
+        return restAdapter;
     }
 
     /**

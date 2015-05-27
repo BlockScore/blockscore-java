@@ -2,6 +2,9 @@ package com.blockscore.models;
 
 import com.blockscore.models.base.BasicResponse;
 import com.blockscore.common.ValidityStatus;
+import com.blockscore.models.results.PaginatedResult;
+import com.blockscore.net.BlockscoreApiClient;
+import com.blockscore.net.BlockscoreRetrofitAPI;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -97,10 +101,67 @@ public class Person extends BasicResponse {
     @JsonProperty("question_sets")
     private List<String> questionSets;
 
-    public Person() { //TODO: privatize & use a Builder
-        //No initialization.
+    private transient BlockscoreRetrofitAPI restAdapter;
+
+    public Person() {
+        //necessary for retrofit..?
     }
 
+    public Person(BlockscoreApiClient client) { //TODO: privatize constructor & use a Builder
+        this.restAdapter = client.getAdapter();
+    }
+
+
+    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+        this.restAdapter = restAdapter;
+    }
+
+
+    /**
+     * Creates a question set with no time limit.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
+     * @param request Question set request.
+     */
+    @NotNull
+    public QuestionSet createQuestionSet() {
+        return createQuestionSet(0L);
+    }
+
+    /**
+     * Creates a question set with a set time limit in seconds.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
+     * @param request Question set request.
+     */
+    public QuestionSet createQuestionSet(long timeLimit) {
+        HashMap queryOptions = new HashMap<String,String>();
+        queryOptions.put("person_id", getId());
+        queryOptions.put("time_limit", String.valueOf(timeLimit));
+        
+        if(restAdapter == null)
+            System.out.println("AHHHHHH. FUUUUUUCKKKKK.");
+
+        QuestionSet questionSet = restAdapter.createQuestionSet(queryOptions);
+        questionSet.setAdapter(restAdapter);
+        return questionSet;
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @param questionSetId Question set ID
+     */
+    public QuestionSet retrieveQuestionSet(@NotNull final String questionSetId) {
+        return restAdapter.retrieveQuestionSet(questionSetId);
+    }
+
+    /**
+     * This allows you to retrieve a question set you have created.
+     * @see BlockscoreRetrofitAPI#listQuestionSets()
+     */
+    @NotNull
+    public PaginatedResult<QuestionSet> listQuestionSet() {
+        return restAdapter.listQuestionSets();
+    }
     /**
      * Sets the legal first name of the customer.
      * @param firstName First name.

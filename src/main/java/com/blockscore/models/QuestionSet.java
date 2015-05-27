@@ -1,6 +1,9 @@
 package com.blockscore.models;
 
 import com.blockscore.models.base.BasicResponse;
+import com.blockscore.models.request.AnswerRequest;
+import com.blockscore.net.BlockscoreRetrofitAPI;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +29,23 @@ public class QuestionSet extends BasicResponse {
     @NotNull
     @JsonProperty("questions")
     private List<Question> questionSet;
+
+    private BlockscoreRetrofitAPI restAdapter;
+
+    /**
+     * Scores a question set.
+     * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest)
+     * @param questionSetId Question set ID
+     * @param answers Answers to questions
+     */
+    @NotNull
+    public QuestionSet score(@NotNull final AnswerRequest answers) {
+        return restAdapter.scoreQuestionSet(getId(), answers);
+    }
+
+    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+        this.restAdapter = restAdapter;
+    }
 
     /**
      * The associated person's ID.

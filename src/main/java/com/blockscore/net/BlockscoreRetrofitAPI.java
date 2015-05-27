@@ -2,7 +2,6 @@ package com.blockscore.net;
 
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
-import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.PaginatedResult;
@@ -13,6 +12,7 @@ import retrofit.http.*;
 import rx.Observable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Blockscore Java API interface.
@@ -54,7 +54,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @POST("/question_sets")
-    QuestionSet createQuestionSet(@NotNull @Body final QuestionSetRequest request);
+    QuestionSet createQuestionSet(@QueryMap Map<String, String> options);
 
     /**
      * <p>The scoring system will score it based on how many questions you submit, so if you would only like

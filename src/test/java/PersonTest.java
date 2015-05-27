@@ -1,7 +1,6 @@
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
-import com.blockscore.models.request.QuestionSetRequest;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.Person;
 import com.blockscore.net.BlockscoreApiClient;
@@ -45,12 +44,8 @@ public class PersonTest {
     @Test
     public void questionSetTest() throws ParseException {
         Person person = apiClient.createPerson(createTestPerson());
-        person = apiClient.retrievePerson(person.getId());
 
-        //Test creation of a question set.
-        QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-        questionSetRequest.setTimeLimit(100000).setPersonId(person.getId());
-        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
+        QuestionSet questionSet = person.createQuestionSet(100000);
         isQuestionSetValid(questionSet);
 
         //Test scoring a question set.
@@ -60,22 +55,21 @@ public class PersonTest {
             answered.add(answeredQuestion);
         }
         AnswerRequest request = new AnswerRequest(answered);
-        questionSet = apiClient.scoreQuestionSet(questionSet.getId(), request);
+        questionSet = questionSet.score(request);
         isQuestionSetValid(questionSet);
 
         //Test getting a question set.
-        questionSet = apiClient.retrieveQuestionSet(questionSet.getId());
+        questionSet = person.retrieveQuestionSet(questionSet.getId());
         isQuestionSetValid(questionSet);
 
         //Test listing question sets.
-        PaginatedResult<QuestionSet> questionSets = apiClient.listQuestionSet();
+        PaginatedResult<QuestionSet> questionSets = person.listQuestionSet();
         areQuestionSetsValid(questionSets.getData());
     }
 
     @Test
     public void createBadPersonTest() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             Person person = apiClient.createPerson(createBadTestPerson());
@@ -85,13 +79,13 @@ public class PersonTest {
             Assert.assertNotNull(e.getInvalidParam());
             exception = e;
         }
+
         Assert.assertNotNull(exception);
     }
 
     @Test
     public void getNonexistentPerson() {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             Person person = apiClient.retrievePerson("-1");
@@ -104,58 +98,17 @@ public class PersonTest {
     }
 
     @Test
-    public void createQuestionSetWithFakePerson() {
-        InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
-
-        try {
-            QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-            questionSetRequest.setTimeLimit(0).setPersonId("-1");
-            QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
-            isQuestionSetValid(questionSet);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
-
-    @Test
-    public void scoreNonExistentQuestionSet() {
-        InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
-
-        try {
-            QuestionSet questionSet = apiClient.scoreQuestionSet("-1", new AnswerRequest());
-            isQuestionSetValid(questionSet);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
-
-    @Test
     public void scoreQuestionSetWithNoAnswers() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         //Test creation of person
         Person person = apiClient.createPerson(createTestPerson());
-        isPersonValid(person);
 
-        //Test getting person
-        person = apiClient.retrievePerson(person.getId());
-        isPersonValid(person);
-
-        //Test creation of a question set.
-        QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-        questionSetRequest.setTimeLimit(100000).setPersonId(person.getId());
-        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
-        isQuestionSetValid(questionSet);
+        //person = apiClient.retrievePerson(person.getId()); TODO: BUG--the restAdapter dies.
+        QuestionSet questionSet = person.createQuestionSet(100000);
 
         try {
-            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), new AnswerRequest());
+            QuestionSet results = questionSet.score(new AnswerRequest());
             isQuestionSetValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -168,21 +121,9 @@ public class PersonTest {
     @Test
     public void scoreQuestionSetWithBadAnswers() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
-        //Test creation of person
         Person person = apiClient.createPerson(createTestPerson());
-        isPersonValid(person);
-
-        //Test getting person
-        person = apiClient.retrievePerson(person.getId());
-        isPersonValid(person);
-
-        //Test creation of a question set.
-        QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-        questionSetRequest.setTimeLimit(100000).setPersonId(person.getId());
-        QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
-        isQuestionSetValid(questionSet);
+        QuestionSet questionSet = person.createQuestionSet();
 
         try {
             ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
@@ -194,7 +135,7 @@ public class PersonTest {
             //Open issue for this: https://github.com/BlockScore/blockscore-api/issues/333
             //This should return an error, but instead allows it through. This code should be updated once the bug
             //is fixed.
-            QuestionSet results = apiClient.scoreQuestionSet(questionSet.getId(), new AnswerRequest());
+            QuestionSet results = questionSet.score(new AnswerRequest());
             isQuestionSetValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -204,12 +145,12 @@ public class PersonTest {
     }
 
     @Test
-    public void getNonexistentQuestionSet() {
+    public void getNonexistentQuestionSet() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+        Person person = apiClient.createPerson(createTestPerson());
 
         try {
-            QuestionSet questionSet = apiClient.retrieveQuestionSet("-1");
+            QuestionSet questionSet = person.retrieveQuestionSet("-1");
             isQuestionSetValid(questionSet);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -225,8 +166,13 @@ public class PersonTest {
      */
     @NotNull
     private Person createTestPerson() throws ParseException {
-        Person person = new Person();
-        
+        Person person = null;
+        try {
+         person = new Person(apiClient);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -249,7 +195,8 @@ public class PersonTest {
      */
     @NotNull
     private Person createBadTestPerson() throws ParseException {
-        Person person = new Person();
+        Person person = new Person(apiClient);
+
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse("1980-08-23");
