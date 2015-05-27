@@ -108,7 +108,7 @@ public class QuestionSetTest {
     }
 
     @NotNull
-    private Person createTestPerson() throws ParseException {
+    private Person createTestPerson() {
         Person.Builder builder = new Person.Builder(apiClient);
 
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
