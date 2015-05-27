@@ -24,26 +24,26 @@ public class PersonTest {
     BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
     @Test
-    public void createPersonTest() throws ParseException {
+    public void createPersonTest() {
         Person person = createTestPerson();
         isPersonValid(person);
     }
 
     @Test
-    public void retrievePersonTest() throws ParseException {
+    public void retrievePersonTest() {
         Person person = createTestPerson();
         person = apiClient.retrievePerson(person.getId());
         isPersonValid(person);
     }
 
     @Test
-    public void listPeopleTest() throws ParseException {
+    public void listPeopleTest() {
         PaginatedResult<Person> persons = apiClient.listPeople();
         arePersonsValid(persons.getData());
     }
 
     @Test
-    public void createBadPersonTest() throws ParseException {
+    public void createBadPersonTest() {
         InvalidRequestException exception = null;
 
         try {
@@ -78,31 +78,34 @@ public class PersonTest {
      * @throws ParseException
      */
     @NotNull
-    private Person createTestPerson() throws ParseException {
-        Person.Builder builder = new Person.Builder(apiClient);
-
+    private Person createTestPerson() {
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date dob = formatter.parse("1980-08-23");
+        Date dateOfBirth = null;
+        try {
+            dateOfBirth = formatter.parse("1980-08-23");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+        Person.Builder builder = new Person.Builder(apiClient);
         builder.setFirstName("John")
                .setMiddleName("Pearce")
                .setLastName("Doe")
                .setDocumentType("ssn")
                .setDocumentValue("0000")
                .setAddress(address)
-               .setDateOfBirth(dob);
+               .setDateOfBirth(dateOfBirth);
         return builder.create();
     }
 
     /**
      * Generates a bad sample individual to use for this test suite.
      * @return Person to test with.
-     * @throws ParseException
      */
     @NotNull
-    private Person createBadTestPerson() throws ParseException {
+    private Person createBadTestPerson() {
         Person.Builder builder = new Person.Builder(apiClient);
         return builder.create();
     }
@@ -129,7 +132,7 @@ public class PersonTest {
 
         areDetailsValid(person.getDetails());
         isNameValid(person);
-        //isAddressValid(person.getAddress());
+        isAddressValid(person.getAddress());
     }
 
     /**
