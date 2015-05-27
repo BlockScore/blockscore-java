@@ -75,9 +75,22 @@ public class Candidate extends BasicResponse {
         // Restricts access to end user so they must use a Candidate.Builder to create a Person
     }
 
+    /**
+     * Updates this candidate.
+     */
     public Candidate save() {
         restAdapter.updateCandidate(getId(), this);
         return this;
+    }
+
+    /**
+     * Deletes this candidate.
+     */
+    public void delete() {
+        System.out.println("CANDIDATE: " + this);
+        System.out.println("ID: " + getId());
+        System.out.println("RA: " + restAdapter);
+        restAdapter.deleteCandidate(getId());
     }
 
     /**
@@ -258,7 +271,7 @@ public class Candidate extends BasicResponse {
     /**
      * Sets the internal REST api adapter.
      */
-    private void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
         this.restAdapter = restAdapter;
     }
 

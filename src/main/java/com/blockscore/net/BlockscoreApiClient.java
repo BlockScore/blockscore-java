@@ -6,11 +6,9 @@ import com.blockscore.exceptions.APIException;
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Company;
 import com.blockscore.models.Person;
-import com.blockscore.models.QuestionSet;
 import com.blockscore.models.Candidate;
 import com.blockscore.models.error.BlockscoreError;
 import com.blockscore.models.error.RequestError;
-import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.PaginatedResult;
@@ -99,7 +97,9 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Person retrievePerson(@NotNull final String id) {
-        return restAdapter.retrievePerson(id);
+        Person person = restAdapter.retrievePerson(id);
+        person.setAdapter(restAdapter);
+        return person;
     }
 
     /**
@@ -109,6 +109,7 @@ public class BlockscoreApiClient {
     @NotNull
     public PaginatedResult<Person> listPeople() {
         return restAdapter.listPeople();
+        //TODO: BUGFIX restadapter that QuestionSet holds
     }
 
     /**
@@ -118,7 +119,9 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Company retrieveCompany(@NotNull final String id) {
-        return restAdapter.retrieveCompany(id);
+        Company company = restAdapter.retrieveCompany(id);
+        company.setAdapter(restAdapter);
+        return company;
     }
 
     /**
@@ -128,6 +131,7 @@ public class BlockscoreApiClient {
     @NotNull
     public PaginatedResult<Company> listCompanies() {
         return restAdapter.listCompanies();
+        //TODO: BUGFIX restadapter that QuestionSet holds
     }
 
     /**
@@ -137,7 +141,9 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public Candidate retrieveCandidate(@NotNull final String id) {
-        return restAdapter.retrieveCandidate(id);
+        Candidate candidate = restAdapter.retrieveCandidate(id);
+        candidate.setAdapter(restAdapter);
+        return candidate;
     }
 
     /**
@@ -147,6 +153,7 @@ public class BlockscoreApiClient {
     @NotNull
     public PaginatedResult<Candidate> listCandidates() {
         return restAdapter.listCandidates();
+        //TODO: BUGFIX restadapter that QuestionSet holds
     }
 
     /**
@@ -156,15 +163,6 @@ public class BlockscoreApiClient {
     @NotNull
     public List<Candidate> getCandidateHistory(@NotNull final String id) {
         return restAdapter.getCandidateHistory(id);
-    }
-
-    /**
-     * Deletes a candidate.
-     * @param id ID for the candidate.
-     */
-    @NotNull
-    public Candidate deleteCandidate(@NotNull final String id) {
-        return restAdapter.deleteCandidate(id);
     }
 
     /**

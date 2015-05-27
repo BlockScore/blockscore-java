@@ -271,7 +271,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the internal REST api adapter.
      */
-    private void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
         this.restAdapter = restAdapter;
     }
 

@@ -147,6 +147,7 @@ public class Person extends BasicResponse {
      */
     public QuestionSet retrieveQuestionSet(@NotNull final String questionSetId) {
         return restAdapter.retrieveQuestionSet(questionSetId);
+        //TODO: BUGFIX restadapter that QuestionSet holds
     }
 
     /**
@@ -156,6 +157,7 @@ public class Person extends BasicResponse {
     @NotNull
     public PaginatedResult<QuestionSet> listQuestionSet() {
         return restAdapter.listQuestionSets();
+        //TODO: BUGFIX restadapter that QuestionSet holds
     }
 
     /**
