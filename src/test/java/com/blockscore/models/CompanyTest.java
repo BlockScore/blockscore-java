@@ -1,9 +1,10 @@
+package com.blockscore.models;
+
 import com.blockscore.common.CorporationType;
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.Address;
-import com.blockscore.models.Company;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;

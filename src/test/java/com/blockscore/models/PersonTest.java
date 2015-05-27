@@ -1,8 +1,9 @@
+package com.blockscore.models;
+
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.results.PaginatedResult;
-import com.blockscore.models.Person;
+
 import com.blockscore.net.BlockscoreApiClient;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jetbrains.annotations.NotNull;
@@ -42,32 +43,6 @@ public class PersonTest {
     }
 
     @Test
-    public void questionSetTest() throws ParseException {
-        Person person = apiClient.createPerson(createTestPerson());
-
-        QuestionSet questionSet = person.createQuestionSet(100000);
-        isQuestionSetValid(questionSet);
-
-        //Test scoring a question set.
-        ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
-        for (Question question : questionSet.retrieveQuestionSet()) {
-            AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1);
-            answered.add(answeredQuestion);
-        }
-        AnswerRequest request = new AnswerRequest(answered);
-        questionSet = questionSet.score(request);
-        isQuestionSetValid(questionSet);
-
-        //Test getting a question set.
-        questionSet = person.retrieveQuestionSet(questionSet.getId());
-        isQuestionSetValid(questionSet);
-
-        //Test listing question sets.
-        PaginatedResult<QuestionSet> questionSets = person.listQuestionSet();
-        areQuestionSetsValid(questionSets.getData());
-    }
-
-    @Test
     public void createBadPersonTest() throws ParseException {
         InvalidRequestException exception = null;
 
@@ -90,68 +65,6 @@ public class PersonTest {
         try {
             Person person = apiClient.retrievePerson("-1");
             isPersonValid(person);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
-
-    @Test
-    public void scoreQuestionSetWithNoAnswers() throws ParseException {
-        InvalidRequestException exception = null;
-
-        //Test creation of person
-        Person person = apiClient.createPerson(createTestPerson());
-
-        //person = apiClient.retrievePerson(person.getId()); TODO: BUG--the restAdapter dies.
-        QuestionSet questionSet = person.createQuestionSet(100000);
-
-        try {
-            QuestionSet results = questionSet.score(new AnswerRequest());
-            isQuestionSetValid(results);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
-
-    @SuppressFBWarnings(value = {"DLS"})
-    @Test
-    public void scoreQuestionSetWithBadAnswers() throws ParseException {
-        InvalidRequestException exception = null;
-
-        Person person = apiClient.createPerson(createTestPerson());
-        QuestionSet questionSet = person.createQuestionSet();
-
-        try {
-            ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
-            for (Question question : questionSet.retrieveQuestionSet()) {
-                AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1000000);
-                answered.add(answeredQuestion);
-            }
-            AnswerRequest request = new AnswerRequest(answered);
-            //Open issue for this: https://github.com/BlockScore/blockscore-api/issues/333
-            //This should return an error, but instead allows it through. This code should be updated once the bug
-            //is fixed.
-            QuestionSet results = questionSet.score(new AnswerRequest());
-            isQuestionSetValid(results);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        //Assert.assertNotNull(exception); //Uncomment this once the issue is resolved to confirm the code works.
-    }
-
-    @Test
-    public void getNonexistentQuestionSet() throws ParseException {
-        InvalidRequestException exception = null;
-        Person person = apiClient.createPerson(createTestPerson());
-
-        try {
-            QuestionSet questionSet = person.retrieveQuestionSet("-1");
-            isQuestionSetValid(questionSet);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
             exception = e;
@@ -239,52 +152,6 @@ public class PersonTest {
         Assert.assertNotNull(details.getIdentfication());
         Assert.assertNotNull(details.getDateOfBirth());
         Assert.assertNotNull(details.getOFAC());
-    }
-
-    /**
-     * Checks for a valid question set list.
-     * @param questionSetList Question sets under test.
-     */
-    private void areQuestionSetsValid(@Nullable final List<QuestionSet> questionSetList) {
-        Assert.assertNotNull(questionSetList);
-        for (QuestionSet questionSet : questionSetList) {
-            isQuestionSetValid(questionSet);
-        }
-    }
-
-    /**
-     * Validates the question set.
-     * @param questionSet Question set to be tested.
-     */
-    private void isQuestionSetValid(@Nullable final QuestionSet questionSet) {
-        Assert.assertNotNull(questionSet);
-        Assert.assertNotNull(questionSet.getPersonId());
-        areQuestionsValid(questionSet.retrieveQuestionSet());
-    }
-
-    /**
-     * Determines if the questions are valid.
-     * @param questionSet Questions to test.
-     */
-    private void areQuestionsValid(@Nullable final List<Question> questionSet) {
-        Assert.assertNotNull(questionSet);
-        for (Question question : questionSet) {
-            Assert.assertNotNull(question.getId());
-            Assert.assertNotNull(question.getQuestion());
-            areAnswersValid(question.getAnswers());
-        }
-    }
-
-    /**
-     * Determines if the answers are valid.
-     * @param answers Answers to use.
-     */
-    private void areAnswersValid(@Nullable final List<Answer> answers) {
-        Assert.assertNotNull(answers);
-        for (Answer answer : answers) {
-            Assert.assertNotNull(answer.getId());
-            Assert.assertNotNull(answer.getAnswer());
-        }
     }
 
     /**
