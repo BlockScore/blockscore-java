@@ -26,7 +26,7 @@ public interface BlockscoreRetrofitAPI {
      */
     @NotNull
     @POST("/people")
-    Person createPerson(@NotNull @Body final Person person);
+    Person createPerson(@QueryMap Map<String, String> options);
 
    /**
      * <p>Retrieves a single Person. This will return a record exactly as it was when you created it.

@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import java.util.List;
  * Model representing a person's identity.
  */
 public class Person extends BasicResponse {
+    private transient BlockscoreRetrofitAPI restAdapter;
+
     // Request Fields
     @NotNull
     @JsonProperty("name_first")
@@ -101,21 +104,14 @@ public class Person extends BasicResponse {
     @JsonProperty("question_sets")
     private List<String> questionSets;
 
-    private transient BlockscoreRetrofitAPI restAdapter;
-
-    public Person() {
-        //necessary for retrofit..?
+    private Person() {
+        // Necessary for Retrofit to properly instantiate a Person response.
+        // Restricts access to end user so they must use a Person.Builder to create a Person
     }
-
-    public Person(BlockscoreApiClient client) { //TODO: privatize constructor & use a Builder
-        this.restAdapter = client.getAdapter();
-    }
-
 
     public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
         this.restAdapter = restAdapter;
     }
-
 
     /**
      * Creates a question set with no time limit.
@@ -133,12 +129,9 @@ public class Person extends BasicResponse {
      * @param request Question set request.
      */
     public QuestionSet createQuestionSet(long timeLimit) {
-        HashMap queryOptions = new HashMap<String,String>();
+        Map<String, String> queryOptions = new HashMap<String,String>();
         queryOptions.put("person_id", getId());
         queryOptions.put("time_limit", String.valueOf(timeLimit));
-        
-        if(restAdapter == null)
-            System.out.println("AHHHHHH. FUUUUUUCKKKKK.");
 
         QuestionSet questionSet = restAdapter.createQuestionSet(queryOptions);
         questionSet.setAdapter(restAdapter);
@@ -161,122 +154,6 @@ public class Person extends BasicResponse {
     @NotNull
     public PaginatedResult<QuestionSet> listQuestionSet() {
         return restAdapter.listQuestionSets();
-    }
-    /**
-     * Sets the legal first name of the customer.
-     * @param firstName First name.
-     */
-    @NotNull
-    public Person setFirstName(@NotNull final String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    /**
-     * Sets the  legal middle name of the customer (optional).
-     * @param middle Middle name.
-     */
-    @NotNull
-    public Person setMiddleName(@Nullable final String middleName) {
-        this.middleName = middleName;
-        return this;
-    }
-
-    /**
-     * Sets the legal last name of the customer.
-     * @param last Last name.
-     */
-    @NotNull
-    public Person setLastName(@NotNull final String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
-
-    /**
-     * Sets the identifying document type.
-     * @param documentType The Document type.
-     */
-    @NotNull
-    public Person setDocumentType(@NotNull final String documentType) {
-        this.documentType = documentType;
-        return this;
-    }
-
-    /**
-     * Sets the identifying document value.
-     * @param documentValue The Document value.
-     */
-    @NotNull
-    public Person setDocumentValue(@NotNull final String documentValue) {
-        this.documentValue = documentValue;
-        return this;
-    }
-
-    /**
-     * Sets the date of birth
-     * @param dateOfBirth The date of birth.
-     */
-    @NotNull
-    public Person setDateOfBirth(@NotNull final Date dateOfBirth) {
-        this.birthDay = dateOfBirth.getDay();
-        this.birthMonth = dateOfBirth.getMonth();
-        this.birthYear = dateOfBirth.getYear();
-        return this;
-    }
-
-    /**
-     * Sets the person's address.
-     * @param address The address.
-     */
-    @NotNull
-    public Person setAddress(@NotNull final Address address) {
-        this.addressStreet1 = address.getStreet1();
-        this.addressStreet2 = address.getStreet2();
-        this.addressCity = address.getCity();
-        this.addressSubdivision = address.getSubdivision();
-        this.addressPostalCode = address.getPostalCode();
-        this.addressCountryCode = address.getCountryCode();
-        return this;
-    }
-
-
-    /**
-     * Sets a person's phone number. If you set the phone number, we will use it as an additional
-     * 'positive' data point for the consumer. That is, if it is provided, it will help us identify 
-     * them, but if we cannot, they will not be penalized.
-     * @param phoneNumber Phone number for this individual.
-     * @return this.
-     */
-    @NotNull
-    public Person setPhoneNumber(@Nullable final String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    /**
-     * Sets a person's IP address. Your customers' IP address can be passed to us for storage
-     * purposes. Soon we will be using this information for anti-fraud and verification purposes.
-     * With this information we will be able to back-test your verifications when this feature is 
-     * released.
-     * @param ipAddress IP address to associate with this individual.
-     * @return this.
-     */
-    @NotNull
-    public Person setIPAddress(@Nullable final String ipAddress) {
-        this.ipAddress = ipAddress;
-        return this;
-    }
-
-    /**
-     * You can store additional information about the person here such as your internal system's
-     * identifier for this individual. This will allow you to keep track of them.
-     * @param note Note to store.
-     * @return this.
-     */
-    @NotNull
-    public Person setNote(@Nullable final String note) {
-        this.note = note;
-        return this;
     }
 
     /**
@@ -402,5 +279,137 @@ public class Person extends BasicResponse {
     @NotNull
     public List<String> getQuestionSets() {
         return questionSets;
+    }
+
+    public static class Builder {
+        private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
+        private transient Map<String, String> queryOptions;
+
+        public Builder(BlockscoreApiClient client) { //TODO: privatize constructor & use a Builder
+            this.restAdapter = client.getAdapter();
+            queryOptions = new HashMap<String, String>();
+        }
+
+        /**
+         * Sets the legal first name of the customer.
+         * @param firstName First name.
+         */
+        @NotNull
+        public Builder setFirstName(@NotNull final String firstName) {
+            queryOptions.put("name_first", firstName);
+            return this;
+        }
+
+        /**
+         * Sets the  legal middle name of the customer (optional).
+         * @param middle Middle name.
+         */
+        @NotNull
+        public Builder setMiddleName(@Nullable final String middleName) {
+            queryOptions.put("name_middle", middleName);
+            return this;
+        }
+
+        /**
+         * Sets the legal last name of the customer.
+         * @param last Last name.
+         */
+        @NotNull
+        public Builder setLastName(@NotNull final String lastName) {
+            queryOptions.put("name_last", lastName);
+            return this;
+        }
+
+        /**
+         * Sets the identifying document type.
+         * @param documentType The Document type.
+         */
+        @NotNull
+        public Builder setDocumentType(@NotNull final String documentType) {
+            queryOptions.put("document_type", documentType);
+            return this;
+        }
+
+        /**
+         * Sets the identifying document value.
+         * @param documentValue The Document value.
+         */
+        @NotNull
+        public Builder setDocumentValue(@NotNull final String documentValue) {
+            queryOptions.put("document_value", documentValue);
+            return this;
+        }
+
+        /**
+         * Sets the date of birth
+         * @param dateOfBirth The date of birth.
+         */
+        @NotNull
+        public Builder setDateOfBirth(@NotNull final Date dateOfBirth) {
+            queryOptions.put("birth_day", String.valueOf(dateOfBirth.getDay()));
+            queryOptions.put("birth_month", String.valueOf(dateOfBirth.getMonth()));
+            queryOptions.put("birth_year", String.valueOf(dateOfBirth.getYear()));
+            return this;
+        }
+
+        /**
+         * Sets the person's address.
+         * @param address The address.
+         */
+        @NotNull
+        public Builder setAddress(@NotNull final Address address) {
+            queryOptions.put("address_street1", address.getStreet1());
+            queryOptions.put("address_street2", address.getStreet2());
+            queryOptions.put("address_city", address.getCity());
+            queryOptions.put("address_subdivision", address.getSubdivision());
+            queryOptions.put("address_postal_code", address.getPostalCode());
+            queryOptions.put("address_country_code", address.getCountryCode());
+            return this;
+        }
+
+        /**
+         * Sets a person's phone number. If you set the phone number, we will use it as an additional
+         * 'positive' data point for the consumer. That is, if it is provided, it will help us identify 
+         * them, but if we cannot, they will not be penalized.
+         * @param phoneNumber Phone number for this individual.
+         * @return this.
+         */
+        @NotNull
+        public Builder setPhoneNumber(@Nullable final String phoneNumber) {
+            queryOptions.put("phone_number", phoneNumber);
+            return this;
+        }
+
+        /**
+         * Sets a person's IP address. Your customers' IP address can be passed to us for storage
+         * purposes. Soon we will be using this information for anti-fraud and verification purposes.
+         * With this information we will be able to back-test your verifications when this feature is 
+         * released.
+         * @param ipAddress IP address to associate with this individual.
+         * @return this.
+         */
+        @NotNull
+        public Builder setIPAddress(@Nullable final String ipAddress) {
+            queryOptions.put("ip_address", ipAddress);
+            return this;
+        }
+
+        /**
+         * You can store additional information about the person here such as your internal system's
+         * identifier for this individual. This will allow you to keep track of them.
+         * @param note Note to store.
+         * @return this.
+         */
+        @NotNull
+        public Builder setNote(@Nullable final String note) {
+            queryOptions.put("note", note);
+            return this;
+        }
+
+        public Person create() {
+            Person person = restAdapter.createPerson(queryOptions);
+            person.setAdapter(restAdapter);
+            return person;
+        }
     }
 }

@@ -25,7 +25,7 @@ public class QuestionSetTest {
 
     @Test
     public void questionSetTest() throws ParseException {
-        Person person = apiClient.createPerson(createTestPerson());
+        Person person = createTestPerson();
 
         QuestionSet questionSet = person.createQuestionSet(100000);
         isQuestionSetValid(questionSet);
@@ -54,7 +54,7 @@ public class QuestionSetTest {
         InvalidRequestException exception = null;
 
         //Test creation of person
-        Person person = apiClient.createPerson(createTestPerson());
+        Person person = createTestPerson();
 
         //person = apiClient.retrievePerson(person.getId()); TODO: BUG--the restAdapter dies.
         QuestionSet questionSet = person.createQuestionSet(100000);
@@ -74,7 +74,7 @@ public class QuestionSetTest {
     public void scoreQuestionSetWithBadAnswers() throws ParseException {
         InvalidRequestException exception = null;
 
-        Person person = apiClient.createPerson(createTestPerson());
+        Person person = createTestPerson();
         QuestionSet questionSet = person.createQuestionSet();
 
         try {
@@ -99,7 +99,7 @@ public class QuestionSetTest {
     @Test
     public void getNonexistentQuestionSet() throws ParseException {
         InvalidRequestException exception = null;
-        Person person = apiClient.createPerson(createTestPerson());
+        Person person = createTestPerson();
 
         try {
             QuestionSet questionSet = person.retrieveQuestionSet("-1");
@@ -118,26 +118,21 @@ public class QuestionSetTest {
      */
     @NotNull
     private Person createTestPerson() throws ParseException {
-        Person person = null;
-        try {
-         person = new Person(apiClient);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Person.Builder builder = new Person.Builder(apiClient);
 
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date dob = formatter.parse("1980-08-23");
 
-        person.setFirstName("John")
-                .setMiddleName("Pearce")
-                .setLastName("Doe")
-                .setDocumentType("ssn")
-                .setDocumentValue("0000")
-                .setAddress(address)
-                .setDateOfBirth(dob);
-        return person;
+        builder.setFirstName("John")
+               .setMiddleName("Pearce")
+               .setLastName("Doe")
+               .setDocumentType("ssn")
+               .setDocumentValue("0000")
+               .setAddress(address)
+               .setDateOfBirth(dob);
+        return builder.create();
     }
 
     /**

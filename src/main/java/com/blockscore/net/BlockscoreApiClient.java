@@ -92,18 +92,6 @@ public class BlockscoreApiClient {
     }
 
     /**
-     * Creates a new Person.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createPerson(com.blockscore.models.Person)
-     * @param person Person to verify.
-     */
-    @NotNull
-    public Person createPerson(@NotNull final Person personRequest) {
-        Person person = restAdapter.createPerson(personRequest);
-        person.setAdapter(restAdapter);
-        return person;
-    }
-
-    /**
      * Gets a single Person.
      * @see com.blockscore.net.BlockscoreRetrofitAPI#retrievePerson(String)
      * @param id ID of Person to verify.
