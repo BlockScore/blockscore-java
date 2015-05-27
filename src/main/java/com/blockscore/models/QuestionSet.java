@@ -8,57 +8,56 @@ import java.util.List;
 
 /**
  * Question set model.
- * Created by Tony Dieppa on 9/29/14.
  */
 public class QuestionSet extends BasicResponse {
     @NotNull
-    @JsonProperty("verification_id")
-    private String mVerificationId;
+    @JsonProperty("person_id")
+    private String personId;
 
     @JsonProperty("score")
-    private int mScore;
+    private int score;
 
     @JsonProperty("expired")
-    private boolean mExpired;
+    private boolean expired;
 
     @JsonProperty("time_limit")
-    private long mTimeLimit;
+    private long timeLimit;
 
     @NotNull
     @JsonProperty("questions")
-    private List<Question> mQuestionSet;
+    private List<Question> questionSet;
 
     /**
-     * The ID of the verification, and thus the identity, on which to base the question sets.
-     * @return Verification ID for this question set.
+     * The associated person's ID.
+     * @return Person ID for this question set.
      */
     @NotNull
-    public String getVerificationId() {
-        return mVerificationId;
+    public String getPersonId() {
+        return personId;
     }
 
     /**
-     * Score for the question set.
+     * The percentage (from 0.0 - 100.0) result of scoring the question set's answers.
      * @return Score
      */
     public int getScore() {
-        return mScore;
+        return score;
     }
 
     /**
-     * Determines if this set has been expired.
+     * Indicates whether the `time_limit` has been passed since the creation of the question set.
      * @return True if expired.
      */
     public boolean isExpired() {
-        return mExpired;
+        return expired;
     }
 
     /**
-     * Gets the time limit (in seconds).
+     * Gets the number of seconds after the creation of the question set before the `expired` boolean will switch to `true`.
      * @return Time limit.
      */
     public long getTimeLimit() {
-        return mTimeLimit;
+        return timeLimit;
     }
 
     /**
@@ -66,7 +65,7 @@ public class QuestionSet extends BasicResponse {
      * @return Questions available.
      */
     @NotNull
-    public List<Question> getQuestionSet() {
-        return mQuestionSet;
+    public List<Question> retrieveQuestionSet() {
+        return questionSet;
     }
 }
