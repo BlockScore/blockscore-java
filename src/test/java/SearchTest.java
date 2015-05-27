@@ -1,5 +1,6 @@
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Candidate;
+import com.blockscore.models.Address;
 import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistMatch;
 import com.blockscore.models.results.WatchlistSearchResults;
@@ -14,7 +15,6 @@ import java.util.List;
 
 /**
  * Simple test for searching watchlists
- * Created by Tony Dieppa on 9/30/14.
  */
 public class SearchTest {
 
@@ -26,7 +26,6 @@ public class SearchTest {
         Candidate candidate = apiClient.createCandidate(createTestCandidate());
         isCandidateValid(candidate);
 
-        //Tests searching for him/her.
         SearchRequest request = new SearchRequest(candidate.getId());
         request.setMatchType(SearchRequest.MatchType.PERSON);
         WatchlistSearchResults results = apiClient.searchWatchlists(request);
@@ -60,8 +59,14 @@ public class SearchTest {
     @NotNull
     private Candidate createTestCandidate() {
         Candidate candidate = new Candidate();
-        candidate.setNote("12341234").setSSN("001").setDateOfBirth(new Date()).setFirstName("John")
-                .setLastName("BredenKamp").setStreet1("1 Infinite Loop").setCity("Harare").setCountryCode("ZW");
+        candidate.setNote("12341234")
+                 .setSSN("001")
+                 .setDateOfBirth(new Date())
+                 .setFirstName("John")
+                 .setLastName("BredenKamp")
+                 .setAddress((new Address()).setStreet1("1 Infinite Loop")
+                                            .setCity("Harare")
+                                            .setCountryCode("ZW"));
         return candidate;
     }
 

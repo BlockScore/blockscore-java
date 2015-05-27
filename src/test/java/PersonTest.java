@@ -2,7 +2,8 @@ import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.*;
 import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.request.QuestionSetRequest;
-import com.blockscore.models.results.Verification;
+import com.blockscore.models.results.PaginatedResult;
+import com.blockscore.models.Person;
 import com.blockscore.net.BlockscoreApiClient;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jetbrains.annotations.NotNull;
@@ -17,36 +18,44 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Simple test for the verification process.
- * Created by Tony Dieppa on 9/30/14.
+ * Simple test for the person process.
  */
-public class VerificationTest {
+public class PersonTest {
+    BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
     @Test
-    public void verificationTest() throws ParseException {
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+    public void createPersonTest() throws ParseException {
+        Person person = apiClient.createPerson(createTestPerson());
+        isPersonValid(person);
+    }
 
-        //Test creation of person
-        Verification verification = apiClient.createPerson(createTestPerson());
-        isVerificationValid(verification);
+    @Test
+    public void retrievePersonTest() throws ParseException {
+        Person person = apiClient.createPerson(createTestPerson());
+        person = apiClient.retrievePerson(person.getId());
+        isPersonValid(person);
+    }
 
-        //Test getting a person
-        verification = apiClient.getPerson(verification.getId());
-        isVerificationValid(verification);
+    @Test
+    public void listPeopleTest() throws ParseException {
+        PaginatedResult<Person> persons = apiClient.listPeople();
+        arePersonsValid(persons.getData());
+    }
 
-        //Test listing people
-        List<Verification> verifications = apiClient.listPeople();
-        areVerificationsValid(verifications);
+    @Test
+    public void questionSetTest() throws ParseException {
+        Person person = apiClient.createPerson(createTestPerson());
+        person = apiClient.retrievePerson(person.getId());
 
         //Test creation of a question set.
         QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-        questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
+        questionSetRequest.setTimeLimit(100000).setPersonId(person.getId());
         QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
         isQuestionSetValid(questionSet);
 
         //Test scoring a question set.
         ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
-        for (Question question : questionSet.getQuestionSet()) {
+        for (Question question : questionSet.retrieveQuestionSet()) {
             AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1);
             answered.add(answeredQuestion);
         }
@@ -55,12 +64,12 @@ public class VerificationTest {
         isQuestionSetValid(questionSet);
 
         //Test getting a question set.
-        questionSet = apiClient.getQuestionSet(questionSet.getId());
+        questionSet = apiClient.retrieveQuestionSet(questionSet.getId());
         isQuestionSetValid(questionSet);
 
         //Test listing question sets.
-        List<QuestionSet> questionSets = apiClient.listQuestionSet();
-        areQuestionSetsValid(questionSets);
+        PaginatedResult<QuestionSet> questionSets = apiClient.listQuestionSet();
+        areQuestionSetsValid(questionSets.getData());
     }
 
     @Test
@@ -69,8 +78,8 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Verification verification = apiClient.createPerson(createBadTestPerson());
-            isVerificationValid(verification);
+            Person person = apiClient.createPerson(createBadTestPerson());
+            isPersonValid(person);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
             Assert.assertNotNull(e.getInvalidParam());
@@ -80,13 +89,13 @@ public class VerificationTest {
     }
 
     @Test
-    public void getNonexistentVerification() {
+    public void getNonexistentPerson() {
         InvalidRequestException exception = null;
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Verification verification = apiClient.getPerson("-1");
-            isVerificationValid(verification);
+            Person person = apiClient.retrievePerson("-1");
+            isPersonValid(person);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
             exception = e;
@@ -95,13 +104,13 @@ public class VerificationTest {
     }
 
     @Test
-    public void createQuestionSetWithFakeVerification() {
+    public void createQuestionSetWithFakePerson() {
         InvalidRequestException exception = null;
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-            questionSetRequest.setTimeLimit(0).setVerificationId("-1");
+            questionSetRequest.setTimeLimit(0).setPersonId("-1");
             QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
             isQuestionSetValid(questionSet);
         } catch (InvalidRequestException e) {
@@ -131,17 +140,17 @@ public class VerificationTest {
         InvalidRequestException exception = null;
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
-        //Test creation of verification
-        Verification verification = apiClient.createPerson(createTestPerson());
-        isVerificationValid(verification);
+        //Test creation of person
+        Person person = apiClient.createPerson(createTestPerson());
+        isPersonValid(person);
 
-        //Test getting verification
-        verification = apiClient.getPerson(verification.getId());
-        isVerificationValid(verification);
+        //Test getting person
+        person = apiClient.retrievePerson(person.getId());
+        isPersonValid(person);
 
         //Test creation of a question set.
         QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-        questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
+        questionSetRequest.setTimeLimit(100000).setPersonId(person.getId());
         QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
         isQuestionSetValid(questionSet);
 
@@ -161,23 +170,23 @@ public class VerificationTest {
         InvalidRequestException exception = null;
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
-        //Test creation of verification
-        Verification verification = apiClient.createPerson(createTestPerson());
-        isVerificationValid(verification);
+        //Test creation of person
+        Person person = apiClient.createPerson(createTestPerson());
+        isPersonValid(person);
 
-        //Test getting verification
-        verification = apiClient.getPerson(verification.getId());
-        isVerificationValid(verification);
+        //Test getting person
+        person = apiClient.retrievePerson(person.getId());
+        isPersonValid(person);
 
         //Test creation of a question set.
         QuestionSetRequest questionSetRequest = new QuestionSetRequest();
-        questionSetRequest.setTimeLimit(100000).setVerificationId(verification.getId());
+        questionSetRequest.setTimeLimit(100000).setPersonId(person.getId());
         QuestionSet questionSet = apiClient.createQuestionSet(questionSetRequest);
         isQuestionSetValid(questionSet);
 
         try {
             ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
-            for (Question question : questionSet.getQuestionSet()) {
+            for (Question question : questionSet.retrieveQuestionSet()) {
                 AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1000000);
                 answered.add(answeredQuestion);
             }
@@ -200,7 +209,7 @@ public class VerificationTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            QuestionSet questionSet = apiClient.getQuestionSet("-1");
+            QuestionSet questionSet = apiClient.retrieveQuestionSet("-1");
             isQuestionSetValid(questionSet);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -217,14 +226,19 @@ public class VerificationTest {
     @NotNull
     private Person createTestPerson() throws ParseException {
         Person person = new Person();
-        Name name = new Name("John", "Pearce", "Doe");
-        Identification identification = new Identification();
-        identification.setSSN("0000");
+        
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
+        
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = formatter.parse("1980-08-23");
-        person.setName(name).setAddress(address).setDateOfBirth(date)
-                .setIdentification(identification);
+        Date dob = formatter.parse("1980-08-23");
+
+        person.setFirstName("John")
+                .setMiddleName("Pearce")
+                .setLastName("Doe")
+                .setDocumentType("ssn")
+                .setDocumentValue("0000")
+                .setAddress(address)
+                .setDateOfBirth(dob);
         return person;
     }
 
@@ -236,45 +250,39 @@ public class VerificationTest {
     @NotNull
     private Person createBadTestPerson() throws ParseException {
         Person person = new Person();
-        Identification identification = new Identification();
-        identification.setSSN("0000");
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse("1980-08-23");
-        person.setAddress(address).setDateOfBirth(date)
-                .setIdentification(identification);
         return person;
     }
 
     /**
-     * Checks for a valid verification list.
-     * @param verificationList Verifications under test.
+     * Checks for a valid person list.
+     * @param personList Persons under test.
      */
-    private void areVerificationsValid(@Nullable final List<Verification> verificationList) {
-        Assert.assertNotNull(verificationList);
-        for (Verification verification : verificationList) {
-            isVerificationValid(verification);
+    private void arePersonsValid(@Nullable final List<Person> personList) {
+        Assert.assertNotNull(personList);
+        for (Person person : personList) {
+            isPersonValid(person);
         }
     }
 
     /**
-     * Determines if the verification is valid.
-     * @param verification Verification under test.
+     * Determines if the person is valid.
+     * @param person Person under test.
      */
-    private void isVerificationValid(@NotNull final Verification verification) {
-        Assert.assertNotNull(verification);
-        Assert.assertNotNull(verification.getId());
-        Assert.assertNotNull(verification.getDateOfBirth());
-        Assert.assertNotNull(verification.getQuestionSets());
+    private void isPersonValid(@NotNull final Person person) {
+        Assert.assertNotNull(person);
+        Assert.assertNotNull(person.getId());
+        Assert.assertNotNull(person.getQuestionSets());
 
-        areDetailsValid(verification.getDetails());
-        isIdentificationValid(verification.getIdentification());
-        isNameValid(verification.getName());
-        isAddressValid(verification.getAddress());
+        areDetailsValid(person.getDetails());
+        isNameValid(person);
+        //isAddressValid(person.getAddress());
     }
 
     /**
-     * Checks if the details of this verification are complete.
+     * Checks if the details of this person are complete.
      * @param details Details under test.
      */
     private void areDetailsValid(@NotNull final Details details) {
@@ -303,8 +311,8 @@ public class VerificationTest {
      */
     private void isQuestionSetValid(@Nullable final QuestionSet questionSet) {
         Assert.assertNotNull(questionSet);
-        Assert.assertNotNull(questionSet.getVerificationId());
-        areQuestionsValid(questionSet.getQuestionSet());
+        Assert.assertNotNull(questionSet.getPersonId());
+        areQuestionsValid(questionSet.retrieveQuestionSet());
     }
 
     /**
@@ -333,25 +341,13 @@ public class VerificationTest {
     }
 
     /**
-     * Checks to ensure a piece of identification is present.
-     * @param identification Identification under test.
-     */
-    private void isIdentificationValid(@Nullable final Identification identification) {
-        Assert.assertNotNull(identification);
-
-        //This test could use some work, but this gets the job done for now.
-        Assert.assertNotEquals("Passport and SSN cannot both be null!", identification.getPassport()
-                , identification.getSSN());
-    }
-
-    /**
      * Examines the address and ensures it is valid.
      * @param address Address to test.
      */
     private void isAddressValid(@Nullable final Address address) {
         Assert.assertNotNull(address);
         Assert.assertNotNull(address.getStreet1());
-        Assert.assertNotNull(address.getState());
+        Assert.assertNotNull(address.getSubdivision());
         Assert.assertNotNull(address.getPostalCode());
         Assert.assertNotNull(address.getCountryCode());
         Assert.assertNotNull(address.getCity());
@@ -361,7 +357,7 @@ public class VerificationTest {
      * Examines the name and ensures it is valid.
      * @param name Name to test.
      */
-    private void isNameValid(@Nullable final Name name) {
+    private void isNameValid(@Nullable final Person name) {
         Assert.assertNotNull(name);
         Assert.assertNotNull(name.getFirstName());
         Assert.assertNotNull(name.getLastName());

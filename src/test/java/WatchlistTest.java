@@ -1,6 +1,8 @@
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Candidate;
+import com.blockscore.models.Address;
 import com.blockscore.models.results.WatchlistHit;
+import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.jetbrains.annotations.NotNull;
@@ -31,27 +33,33 @@ public class WatchlistTest {
         //Tests updating a candidate.
         Candidate candidateUpdate = new Candidate();
         Date date = formatter.parse("1986-08-23");
-        candidateUpdate.setNote("1234123").setSSN("002").setDateOfBirth(date).setFirstName("Jack")
-                .setLastName("Sparrow").setStreet1("1 Infinite Sea").setCity("Atlantis").setCountryCode("US");
+        candidateUpdate.setNote("1234123")
+                       .setSSN("002")
+                       .setDateOfBirth(date)
+                       .setFirstName("Jack")
+                       .setLastName("Sparrow")
+                       .setAddress((new Address()).setStreet1("1 Infinite Sea")
+                                                  .setCity("Atlantis")
+                                                  .setCountryCode("US"));
         candidate = apiClient.updateCandidate(candidate.getId(), candidateUpdate);
         didCandidateDataUpdate(candidate);
 
         //Tests getting a candidate
-        candidate = apiClient.getCandidate(candidate.getId());
+        candidate = apiClient.retrieveCandidate(candidate.getId());
         isCandidateValid(candidate);
 
         //Tests listing candidates
-        List<Candidate> candidateList = apiClient.listCandidates();
-        areCandidatesValid(candidateList);
+        PaginatedResult<Candidate> candidateList = apiClient.listCandidates();
+        areCandidatesValid(candidateList.getData());
 
         //Tests watch list candidate history
-        List<Candidate> history = apiClient.getCandidateHistory(candidateList.get(0).getId())
+        List<Candidate> history = apiClient.getCandidateHistory(candidateList.getData().get(0).getId())
                 ;
         areCandidatesValid(history);
 
         //Tests the candidate hits
-        List<WatchlistHit> hits = apiClient.getCandidateHits(candidate.getId());
-        areHitsValid(hits);
+        PaginatedResult<WatchlistHit> hits = apiClient.getCandidateHits(candidate.getId());
+        areHitsValid(hits.getData());
 
         //Tests deletion of a candidate
         candidate = apiClient.deleteCandidate(candidate.getId());
@@ -80,7 +88,7 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Candidate candidate = apiClient.getCandidate("1");
+            Candidate candidate = apiClient.retrieveCandidate("1");
             isCandidateValid(candidate);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -110,8 +118,8 @@ public class WatchlistTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            List<WatchlistHit> candidate = apiClient.getCandidateHits("1");
-            areHitsValid(candidate);
+            PaginatedResult<WatchlistHit> candidate = apiClient.getCandidateHits("1");
+            areHitsValid(candidate.getData());
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
             exception = e;
@@ -144,8 +152,14 @@ public class WatchlistTest {
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Candidate candidate = new Candidate();
         Date date = formatter.parse("1980-08-23");
-        candidate.setNote("12341234").setSSN("001").setDateOfBirth(date).setFirstName("John")
-                .setLastName("BredenKamp").setStreet1("1 Infinite Loop").setCity("Harare").setCountryCode("ZW");
+        candidate.setNote("12341234")
+                 .setSSN("001")
+                 .setDateOfBirth(date)
+                 .setFirstName("John")
+                 .setLastName("BredenKamp")
+                 .setAddress((new Address()).setStreet1("1 Infinite Loop")
+                                          .setCity("Harare")
+                                          .setCountryCode("ZW"));
         return candidate;
     }
 
@@ -191,8 +205,9 @@ public class WatchlistTest {
         Assert.assertEquals(candidate.getDateOfBirth(), formatter.parse("1986-08-23"));
         Assert.assertEquals(candidate.getFirstName(), "Jack");
         Assert.assertEquals(candidate.getLastName(), "Sparrow");
-        Assert.assertEquals(candidate.getStreet1(), "1 Infinite Sea");
-        Assert.assertEquals(candidate.getCountryCode(), "US");
+        Address address = candidate.getAddress();
+        Assert.assertEquals(address.getStreet1(), "1 Infinite Sea");
+        Assert.assertEquals(address.getCountryCode(), "US");
     }
 
     /**

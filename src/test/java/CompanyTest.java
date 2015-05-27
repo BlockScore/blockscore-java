@@ -2,6 +2,7 @@ import com.blockscore.common.CorporationType;
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Address;
 import com.blockscore.models.Company;
+import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -28,12 +29,12 @@ public class CompanyTest {
         isCompanyValid(company);
 
         //Tests getting the company.
-        company = apiClient.getCompany(company.getId());
+        company = apiClient.retrieveCompany(company.getId());
         isCompanyValid(company);
 
         //Tests listing the companies
-        List<Company> companies = apiClient.listCompanies();
-        isListOfCompaniesValid(companies);
+        PaginatedResult<Company> companies = apiClient.listCompanies();
+        isListOfCompaniesValid(companies.getData());
     }
 
     @Test
@@ -58,7 +59,7 @@ public class CompanyTest {
         BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Company company = apiClient.getCompany("781237129");
+            Company company = apiClient.retrieveCompany("781237129");
             isCompanyValid(company);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -79,9 +80,9 @@ public class CompanyTest {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse("1980-08-23");
-        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
-                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
-                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
+        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorporationDate(date)
+                .setIncorporationState("DE").setIncorporationCountryCode("US").setIncorporationType(CorporationType.CORP)
+                .setDbas("BitRemit").setRegistrationNumber("123123123").setEmail("test@example.com")
                 .setURL("https://blockscore.com").setPhoneNumber("6505555555")
                 .setAddress(address);
     }
@@ -97,9 +98,9 @@ public class CompanyTest {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse("1980-08-23");
-        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorpDate(date)
-                .setIncorpState("DE").setIncorpCountryCode("US").setIncorpType(CorporationType.CORP)
-                .setDbas("BitRemit").setRegNumber("123123123").setEmail("test@example.com")
+        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorporationDate(date)
+                .setIncorporationState("DE").setIncorporationCountryCode("US").setIncorporationType(CorporationType.CORP)
+                .setDbas("BitRemit").setRegistrationNumber("123123123").setEmail("test@example.com")
                 .setURL("https://blockscore.com");
     }
 
@@ -112,8 +113,8 @@ public class CompanyTest {
         Assert.assertNotNull(company.getId());
         Assert.assertNotNull(company.getEntityName());
         Assert.assertNotNull(company.getTaxId());
-        Assert.assertNotNull(company.getIncorpCountryCode());
-        Assert.assertNotNull(company.getIncorpType());
+        Assert.assertNotNull(company.getIncorporationCountryCode());
+        Assert.assertNotNull(company.getIncorporationType());
         isAddressValid(company.getAddress());
     }
 
@@ -124,7 +125,7 @@ public class CompanyTest {
     private void isAddressValid(@Nullable final Address address) {
         Assert.assertNotNull(address);
         Assert.assertNotNull(address.getStreet1());
-        Assert.assertNotNull(address.getState());
+        Assert.assertNotNull(address.getSubdivision());
         Assert.assertNotNull(address.getPostalCode());
         Assert.assertNotNull(address.getCountryCode());
         Assert.assertNotNull(address.getCity());
