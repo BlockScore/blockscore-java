@@ -84,16 +84,13 @@ public class QuestionSetTest {
                 answered.add(answeredQuestion);
             }
             AnswerRequest request = new AnswerRequest(answered);
-            //Open issue for this: https://github.com/BlockScore/blockscore-api/issues/333
-            //This should return an error, but instead allows it through. This code should be updated once the bug
-            //is fixed.
             QuestionSet results = questionSet.score(new AnswerRequest());
             isQuestionSetValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
             exception = e;
         }
-        //Assert.assertNotNull(exception); //Uncomment this once the issue is resolved to confirm the code works.
+        Assert.assertNotNull(exception);
     }
 
     @Test
