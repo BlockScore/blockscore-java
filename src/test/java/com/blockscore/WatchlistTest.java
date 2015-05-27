@@ -46,9 +46,9 @@ public class WatchlistTest {
                  .setDateOfBirth(date)
                  .setFirstName("Jack")
                  .setLastName("Sparrow")
-                 .setAddress(address);
+                 .setAddress(address)
+                 .save();
 
-        candidate = apiClient.updateCandidate(candidate.getId(), candidate);
         didCandidateDataUpdate(candidate);
 
         //Tests getting a candidate
@@ -71,21 +71,6 @@ public class WatchlistTest {
         //Tests deletion of a candidate
         candidate = apiClient.deleteCandidate(candidate.getId());
         isCandidateValid(candidate);
-    }
-
-    @Test
-    public void updateNonexistentCandidateTest() {
-        InvalidRequestException exception = null;
-
-        try {
-            Candidate candidate = apiClient.updateCandidate("1", createBadTestCandidate())
-                    ;
-            isCandidateValid(candidate);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
     }
 
     @Test

@@ -75,6 +75,11 @@ public class Candidate extends BasicResponse {
         // Restricts access to end user so they must use a Candidate.Builder to create a Person
     }
 
+    public Candidate save() {
+        restAdapter.updateCandidate(getId(), this);
+        return this;
+    }
+
     /**
      * Sets the legal first name of the customer.
      * @param firstName First name.
