@@ -269,7 +269,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the name of the entity.
+     * Gets the name of the entity.
      * @return Name of the entity.
      */
     @NotNull
@@ -278,7 +278,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the Tax ID associated with this entity. 
+     * Gets the Tax ID associated with this entity. 
      * @return Tax ID
      */
     @NotNull
@@ -287,7 +287,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the incorporation state. Can be either of ISO code form or the full length name of the state.
+     * Gets the incorporation state. Can be either of ISO code form or the full length name of the state.
      * @return Incorporation state.
      */
     @Nullable
@@ -296,7 +296,7 @@ public class Company extends BasicResponse {
     }
     
     /**
-     * Returns the incorporation country code. Should be of the ISO alpha-2 code form.
+     * Gets the incorporation country code. Should be of the ISO alpha-2 code form.
      * @return Incorporation country code.
      */
     @NotNull
@@ -305,7 +305,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the corporation type. The type of legal business entity that this company
+     * Gets the corporation type. The type of legal business entity that this company
      * is such as a Limited Liability Company.
      * @return Corporation type.
      */
@@ -315,7 +315,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the date of incorporation.
+     * Gets the date of incorporation.
      * @return Incorporation date.
      */
     @Nullable
@@ -329,7 +329,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns a list of "doing business as" names, which are other names this business may be known by.
+     * Gets a list of "doing business as" names, which are other names this business may be known by.
      * @return List of DBA names.
      */
     @Nullable
@@ -338,7 +338,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the registration number. This is the number typically provided by the state of
+     * Gets the registration number. This is the number typically provided by the state of
      * incorporation which is assigned to a business. Should only include the digits of the
      * registration number with no extraneous characters like dashes.
      * @return Registration number.
@@ -349,7 +349,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the email for this entity.
+     * Gets the email for this entity.
      * @return Email.
      */
     @Nullable
@@ -358,7 +358,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the URL for the entity.
+     * Gets the URL for the entity.
      * @return URL.
      */
     @Nullable
@@ -367,7 +367,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the company's phone number.
+     * Gets the company's phone number.
      * @return Phone number.
      */
     @Nullable
@@ -376,7 +376,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns a company's IP address.
+     * Gets a company's IP address.
      * @return IP address.
      */
     @Nullable
@@ -385,7 +385,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns any additional information you have stored in the comapany's note.
+     * Gets any note data you have associated with the Company.
      * @return IP address.
      */
     @Nullable
@@ -394,7 +394,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns the address for this company.
+     * Gets the address for this company.
      * @return Address.
      */
     @NotNull
@@ -409,7 +409,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Returns either valid or invalid and is the culmination of whether or not the passed
+     * Gets either valid or invalid and is the culmination of whether or not the passed
      * in information is valid against various databases and signals.
      * @return True if valid.
      */

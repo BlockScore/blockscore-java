@@ -186,8 +186,7 @@ public class Candidate extends BasicResponse {
     }
 
     /**
-     * You can store additional information about the candidate here such as your internal system's
-     * identifier for this individual. This will allow you to keep track of them.
+     * Gets any note data you have associated with the Candidate.
      * @return Note stored.
      */
     @Nullable
