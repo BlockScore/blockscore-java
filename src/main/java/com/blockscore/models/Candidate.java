@@ -6,95 +6,108 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
- * Watch list candidate model.
- * Created by Tony Dieppa on 9/30/14.
+ * Candidate model.
  */
 public class Candidate extends BasicResponse {
+    @NotNull
+    @JsonProperty("name_first")
+    private String firstName;
+
+    @Nullable
+    @JsonProperty("name_middle")
+    private String middleName;
+
+    @NotNull
+    @JsonProperty("name_last")
+    private String lastName;
+    
     @Nullable
     @JsonProperty("note")
-    private String mNote;
+    private String note;
 
     @Nullable
     @JsonProperty("ssn")
-    private String mSSN;
+    private String socialSecurityNumber;
 
     @Nullable
     @JsonProperty("passport")
-    private String mPassport;
+    private String passport;
 
     @Nullable
     @JsonProperty("date_of_birth")
-    private Date mDateOfBirth;
+    private Date dateOfBirth;
 
     @NotNull
-    @JsonProperty("first_name")
-    private String mFirstName;
-
-    @Nullable
-    @JsonProperty("middle_name")
-    private String mMiddleName;
-
-    @NotNull
-    @JsonProperty("last_name")
-    private String mLastName;
-
-    @Nullable
     @JsonProperty("address_street1")
-    private String mStreet1;
-
+    private String addressStreet1;
+    
     @Nullable
     @JsonProperty("address_street2")
-    private String mStreet2;
-
-    @Nullable
+    private String addressStreet2;
+    
+    @NotNull
     @JsonProperty("address_city")
-    private String mCity;
+    private String addressCity;
 
-    @Nullable
-    @JsonProperty("address_state")
-    private String mState;
+    @NotNull
+    @JsonProperty("address_subdivision")
+    private String addressSubdivision;
 
-    @Nullable
+    @NotNull
     @JsonProperty("address_postal_code")
-    private String mPostalCode;
-
-    @Nullable
+    private String addressPostalCode;
+    
+    @NotNull
     @JsonProperty("address_country_code")
-    private String mCountryCode;
+    private String addressCountryCode;
 
     /**
-     * An additional field which can be used for arbitrary storage. is typically used for
-     * storing your internal identifiers for customer.
-     * @return Note stored.
+     * Sets the legal first name of the customer.
+     * @param firstName First name.
+     * @return this.
      */
-    @Nullable
-    public String getNote() {
-        return mNote;
+    @NotNull
+    public Candidate setFirstName(@NotNull final String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+   /**
+     * Sets the legal middle name of the customer.
+     * @param middleName Middle name.
+     * @return this.
+     */
+    @NotNull
+    public Candidate setMiddleName(@NotNull final String middleName) {
+        this.middleName = middleName;
+        return this;
     }
 
     /**
-     * Sets an additional field which can be used for arbitrary storage. is typically used for
-     * storing your internal identifiers for customer.
+     * Sets the legal last name.
+     * @param lastName Last name.
+     * @return this.
+     */
+    @NotNull
+    public Candidate setLastName(@NotNull final String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+    /**
+     * You can store additional information about the candidate here such as your internal system's
+     * identifier for this individual. This will allow you to keep track of them.
      * @param note Note to store.
      * @return this.
      */
     @NotNull
     public Candidate setNote(@Nullable final String note) {
-        mNote = note;
+        this.note = note;
         return this;
     }
-
-    /**
-     * Gets either the 4 digits of the US Social Security Number or the whole SSN.
-     * @return SSN
-     */
-    @Nullable
-    public String getSSN() {
-        return mSSN;
-    }
-
+    
     /**
      * Can be either the last 4 digits of the US Social Security Number or the whole SSN.
      * @param ssn SSN to use.
@@ -102,17 +115,8 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Candidate setSSN(@Nullable final String ssn) {
-        mSSN = ssn;
+        this.socialSecurityNumber = ssn;
         return this;
-    }
-
-    /**
-     * The passport number of the individual being verified. is only used for verifying non-US customers.
-     * @return Passport number.
-     */
-    @Nullable
-    public String getPassport() {
-        return mPassport;
     }
 
     /**
@@ -122,20 +126,8 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Candidate setPassport(@Nullable final String passport) {
-        mPassport = passport;
+        this.passport = passport;
         return this;
-    }
-
-    /**
-     * The date of birth of your candidate.
-     * @return Date of birth.
-     */
-    @Nullable
-    public Date getDateOfBirth() {
-        if (mDateOfBirth == null) {
-            return null;
-        }
-        return new Date(mDateOfBirth.getTime());
     }
 
     /**
@@ -148,7 +140,21 @@ public class Candidate extends BasicResponse {
         if (dateOfBirth == null) {
             return this;
         }
-        mDateOfBirth = new Date(dateOfBirth.getTime());
+        this.dateOfBirth = new Date(dateOfBirth.getTime());
+        return this;
+    }
+
+    /**
+     * Sets the primary street address for this person.
+     * @param address Primary street address.
+     */
+    public Candidate setAddress(@NotNull final Address address) {
+        this.addressStreet1 = address.getStreet1();
+        this.addressStreet2 = address.getStreet2();
+        this.addressCity = address.getCity();
+        this.addressSubdivision = address.getSubdivision();
+        this.addressPostalCode = address.getPostalCode();
+        this.addressCountryCode = address.getCountryCode();
         return this;
     }
 
@@ -156,20 +162,9 @@ public class Candidate extends BasicResponse {
      * The legal first name of the customer.
      * @return First name.
      */
-    @NotNull
+    @Nullable
     public String getFirstName() {
-        return mFirstName;
-    }
-
-    /**
-     * Sets the legal first name of the customer.
-     * @param firstName First name.
-     * @return this.
-     */
-    @NotNull
-    public Candidate setFirstName(@NotNull final String firstName) {
-        mFirstName = firstName;
-        return this;
+        return firstName;
     }
 
     /**
@@ -178,157 +173,71 @@ public class Candidate extends BasicResponse {
      */
     @Nullable
     public String getMiddleName() {
-        return mMiddleName;
-    }
-
-    /**
-     * Sets the legal middle name of the customer.
-     * @param middleName Middle name.
-     * @return this.
-     */
-    @NotNull
-    public Candidate setMiddleName(@NotNull final String middleName) {
-        mMiddleName = middleName;
-        return this;
+        return middleName;
     }
 
     /**
      * Gets the legal last name of the customer.
      * @return Last name.
      */
-    @NotNull
+    @Nullable
     public String getLastName() {
-        return mLastName;
+        return lastName;
     }
 
     /**
-     * Sets the legal last name.
-     * @param lastName Last name.
-     * @return this.
-     */
-    @NotNull
-    public Candidate setLastName(@NotNull final String lastName) {
-        mLastName = lastName;
-        return this;
-    }
-
-    /**
-     * The primary street address of the customer. This is automatically normalized.
-     * @return Street address.
+     * You can store additional information about the candidate here such as your internal system's
+     * identifier for this individual. This will allow you to keep track of them.
+     * @return Note stored.
      */
     @Nullable
-    public String getStreet1() {
-        return mStreet1;
+    public String getNote() {
+        return note;
     }
 
     /**
-     * Sets the primary street address of the customer. This is automatically normalized.
-     * @param street1 Street address.
-     * @return this.
-     */
-    @NotNull
-    public Candidate setStreet1(@NotNull final String street1) {
-        mStreet1 = street1;
-        return this;
-    }
-
-    /**
-     * The second address line typically used for apartment or suite numbers. This is automatically normalized.
-     * @return Street address (line 2)
+     * Gets either the 4 digits of the US Social Security Number or the whole SSN.
+     * @return SSN
      */
     @Nullable
-    public String getStreet2() {
-        return mStreet2;
+    public String getSSN() {
+        return socialSecurityNumber;
     }
 
     /**
-     * Sets the second address line typically used for apartment or suite numbers. This is automatically normalized.
-     * @param street2 Street address (line 2)
-     * @return this.
-     */
-    @NotNull
-    public Candidate setStreet2(@NotNull final String street2) {
-        mStreet2 = street2;
-        return this;
-    }
-
-    /**
-     * The city name of the customer. This is automatically normalized.
-     * @return City name.
+     * The passport number of the individual being verified. is only used for verifying non-US customers.
+     * @return Passport number.
      */
     @Nullable
-    public String getCity() {
-        return mCity;
+    public String getPassport() {
+        return passport;
     }
 
     /**
-     * Sets the city name of the customer. This is automatically normalized.
-     * @param city City name.
-     * @return this.
-     */
-    @NotNull
-    public Candidate setCity(@NotNull final String city) {
-        mCity = city;
-        return this;
-    }
-
-    /**
-     * Gets the state of the customer. Should be of the FIPS code form. For example California would be CA.
-     * @return State
+     * The date of birth of your candidate.
+     * @return Date of birth.
      */
     @Nullable
-    public String getState() {
-        return mState;
+    public Date getDateOfBirth() {
+        if (dateOfBirth == null) {
+            return null;
+        }
+        return new Date(dateOfBirth.getTime());
     }
 
     /**
-     * Sets the state of the customer. Should be of the FIPS code form. For example California would be CA.
-     * @param state State
-     * @return this.
-     */
-    @NotNull
-    public Candidate setState(@Nullable final String state) {
-        mState = state;
-        return this;
-    }
-
-    /**
-     * Gets the postal code.
-     * @return Postal code.
+     * Gets the primary street address for this person.
+     * @return Address.
      */
     @Nullable
-    public String getPostalCode() {
-        return mPostalCode;
+    public Address getAddress() {
+        Address addressObject = new Address(addressStreet1,
+                                            addressStreet2,
+                                            addressCity, 
+                                            addressSubdivision,
+                                            addressPostalCode,
+                                            addressCountryCode);
+        return addressObject;
     }
 
-    /**
-     * Sets the postal code.
-     * @param postalCode Postal code.
-     * @return this.
-     */
-    @NotNull
-    public Candidate setPostalCode(@Nullable final String postalCode) {
-        mPostalCode = postalCode;
-        return this;
-    }
-
-    /**
-     * The country of the customer. Should be of the ISO code form.
-     * @return Country code.
-     */
-    @Nullable
-    public String getCountryCode() {
-        return mCountryCode;
-    }
-
-    /**
-     * Sets the country of the customer. Should be of the ISO code form.
-     * @param countryCode Country code.
-     * @return this.
-     */
-    @NotNull
-    public Candidate setCountryCode(@Nullable final String countryCode) {
-        mCountryCode = countryCode;
-        return this;
-    }
 }
