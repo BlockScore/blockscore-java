@@ -6,6 +6,7 @@ import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.results.WatchlistSearchResults;
+
 import org.jetbrains.annotations.NotNull;
 import retrofit.Callback;
 import retrofit.http.*;
@@ -92,7 +93,7 @@ public interface BlockscoreRetrofitAPI {
      * @param company Company to create
      */
     @POST("/companies")
-    Company createCompany(@NotNull @Body final Company company);
+    Company createCompany(@QueryMap Map<String, String> options);
 
     /**
      * <p>You can pull up a single company Person at any time (typically this is used for auditing purposes). This will return a

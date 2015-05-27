@@ -20,13 +20,12 @@ import java.util.List;
  * Created by Tony Dieppa on 9/30/14.
  */
 public class CompanyTest {
+    BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
     @Test
     public void companyTest() throws ParseException {
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
-
         //Tests creation.
-        Company company = apiClient.createCompany(createTestCompany());
+        Company company = createTestCompany();
         isCompanyValid(company);
 
         //Tests getting the company.
@@ -41,10 +40,9 @@ public class CompanyTest {
     @Test
     public void createCompanyInvalidParameters() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
-            Company company = apiClient.createCompany(createBadTestCompany());
+            Company company = createBadTestCompany();
             isCompanyValid(company);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -57,7 +55,6 @@ public class CompanyTest {
     @Test
     public void getNonExistingCompany() throws ParseException {
         InvalidRequestException exception = null;
-        BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
         try {
             Company company = apiClient.retrieveCompany("781237129");
@@ -77,15 +74,25 @@ public class CompanyTest {
     @NotNull
     private Company createTestCompany() throws ParseException {
         Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
-        Company company = new Company();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse("1980-08-23");
-        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorporationDate(date)
-                .setIncorporationState("DE").setIncorporationCountryCode("US").setIncorporationType(CorporationType.CORP)
-                .setDbas("BitRemit").setRegistrationNumber("123123123").setEmail("test@example.com")
-                .setURL("https://blockscore.com").setPhoneNumber("6505555555")
-                .setAddress(address);
+
+        Company.Builder builder = new Company.Builder(apiClient);
+        builder.setEntityName("BlockScore")
+               .setTaxId("123410000")
+               .setIncorporationDate(date)
+               .setIncorporationState("DE")
+               .setIncorporationCountryCode("US")
+               .setIncorporationType(CorporationType.CORP)
+               .setDbas("BitRemit")
+               .setRegistrationNumber("123123123")
+               .setEmail("test@example.com")
+               .setURL("https://blockscore.com")
+               .setPhoneNumber("6505555555")
+               .setAddress(address);
+
+        return builder.create();
     }
 
     /**
@@ -95,14 +102,8 @@ public class CompanyTest {
      */
     @NotNull
     private Company createBadTestCompany() throws ParseException {
-        Company company = new Company();
-
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = formatter.parse("1980-08-23");
-        return company.setEntityName("BlockScore").setTaxId("123410000").setIncorporationDate(date)
-                .setIncorporationState("DE").setIncorporationCountryCode("US").setIncorporationType(CorporationType.CORP)
-                .setDbas("BitRemit").setRegistrationNumber("123123123").setEmail("test@example.com")
-                .setURL("https://blockscore.com");
+        Company.Builder builder = new Company.Builder(apiClient);
+        return builder.create();
     }
 
     /**

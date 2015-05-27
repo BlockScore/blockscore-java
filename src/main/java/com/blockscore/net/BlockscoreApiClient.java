@@ -15,6 +15,7 @@ import com.blockscore.models.request.SearchRequest;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.results.WatchlistSearchResults;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -108,16 +109,6 @@ public class BlockscoreApiClient {
     @NotNull
     public PaginatedResult<Person> listPeople() {
         return restAdapter.listPeople();
-    }
-
-    /**
-     * Creates a company.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
-     * @param company Company to create.
-     */
-    @NotNull
-    public Company createCompany(@NotNull final Company company) {
-        return restAdapter.createCompany(company);
     }
 
     /**

@@ -3,17 +3,24 @@ package com.blockscore.models;
 import com.blockscore.common.CorporationType;
 import com.blockscore.common.ValidityStatus;
 import com.blockscore.models.base.BasicResponse;
+import com.blockscore.net.BlockscoreApiClient;
+import com.blockscore.net.BlockscoreRetrofitAPI;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.GregorianCalendar;
 
 /**
  * Company model
  */
 public class Company extends BasicResponse {
+    private BlockscoreRetrofitAPI restAdapter;
+
     // Request fields
     @NotNull
     @JsonProperty("entity_name")
@@ -107,166 +114,6 @@ public class Company extends BasicResponse {
     @Nullable
     @JsonProperty("status")
     private String status;
-
-    /**
-     * Name of entity. This should exclude any legal endings like "Co" or "Inc" for best results.
-     * @param entityName Name
-     * @return this.
-     */
-    @NotNull
-    public Company setEntityName(@NotNull final String entityName) {
-        this.entityName = entityName;
-        return this;
-    }
-
-    /**
-     * Sets the Tax ID for this entity. The tax ID should only include the digits of the ID with
-     * no extraneous characters like dashes.
-     * @param taxId Tax ID
-     * @return this.
-     */
-    @NotNull
-    public Company setTaxId(@NotNull final String taxId) {
-        this.taxId = taxId;
-        return this;
-    }
-
-    /**
-     * Sets the incorporation state. Can be either of ISO code form or the full length name of the state.
-     * @param incorporationState Incorporation state.
-     * @return this.
-     */
-    @NotNull
-    public Company setIncorporationState(@Nullable final String incorporationState) {
-        this.incorporationState = incorporationState;
-        return this;
-    }
-
-    /**
-     * Sets the incorporation country code. Should be of the ISO alpha-2 code form.
-     * @param incorporationCountryCode Country code.
-     * @return this.
-     */
-    @NotNull
-    public Company setIncorporationCountryCode(@NotNull final String incorporationCountryCode) {
-        this.incorporationCountryCode = incorporationCountryCode;
-        return this;
-    }
-
-    /**
-     * Sets the incorporation type.
-     * @param incorporationType Corporation type.
-     * @return this.
-     */
-    public Company setIncorporationType(@NotNull final CorporationType incorporationType) {
-        this.incorporationType = incorporationType.toString();
-        return this;
-    }
-
-    /**
-     * Sets the incorporation date.
-     * @param incorporationDate Incorporation date.
-     * @return this.
-     */
-    @NotNull
-    public Company setIncorporationDate(@Nullable final Date incorporationDate) {
-        if (incorporationDate == null) {
-            this.incorporationDay = null;
-            this.incorporationMonth = null;
-            this.incorporationYear = null;
-            return this;
-        }
-
-        this.incorporationDay = incorporationDate.getDay();
-        this.incorporationMonth = incorporationDate.getMonth();
-        this.incorporationYear = incorporationDate.getYear();
-        return this;
-    }
-
-    /**
-     * Sets the "doing business as" names.
-     * @param dbas Doing business as names.
-     * @return this.
-     */
-    public Company setDbas(@Nullable final String dbas) { // TODO: Alter to string array
-        this.dbas = dbas;
-        return this;
-    }
-
-    /**
-     * Sets the registration number for this entity. Should only include the digits of the
-     * registration number with no extraneous characters like dashes.
-     * @param regNumber Registration number.
-     * @return this.
-     */
-    public Company setRegistrationNumber(@Nullable final String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-        return this;
-    }
-
-    /**
-     * Sets the email for this entity. Any form of valid email is accepted.
-     * @param email Email for the entity.
-     * @return this.
-     */
-    public Company setEmail(@Nullable final String email) {
-        this.email = email;
-        return this;
-    }
-    
-    /**
-     * Sets the URL for this business. Can either contain protocol information or not
-     * (ex. www.example.com and http://www.example.com).
-     * @param url URL for the business
-     * @return this.
-     */
-    public Company setURL(@Nullable final String url) {
-        this.url = url;
-        return this;
-    }
-    
-    /**
-     * Sets a company's phone number. Extra characters like parenthesis and dashes are
-     * accepted - can either contain the country code or not.
-     * @param phoneNumber Phone number for this individual.
-     * @return this.
-     */
-    @NotNull
-    public Company setPhoneNumber(@Nullable final String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    /**
-     * Sets a company's IP address. Both IPv4 and IPv6 style IP addresses are acceptable.
-     * @param ipAddress IP address to associate with this individual.
-     * @return this.
-     */
-    @NotNull
-    public Company setIPAddress(@Nullable final String ipAddress) {
-        this.ipAddress = ipAddress;
-        return this;
-    }
-
-    @NotNull
-    public Company setNote(@Nullable final String note) {
-        this.note = note;
-        return this;
-    }
-
-    /**
-     * Sets the comapny's address.
-     * @param address The address.
-     */
-    public Company setAddress(@NotNull final Address address) {
-        this.addressStreet1 = address.getStreet1();
-        this.addressStreet2 = address.getStreet2();
-        this.addressCity = address.getCity();
-        this.addressSubdivision = address.getSubdivision();
-        this.addressPostalCode = address.getPostalCode();
-        this.addressCountryCode = address.getCountryCode();
-        return this;
-    }
 
     /**
      * Gets the name of the entity.
@@ -417,6 +264,10 @@ public class Company extends BasicResponse {
         return ValidityStatus.VALID.isEqualTo(status);
     }
 
+    private void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+        this.restAdapter = restAdapter;
+    }
+
     /**
      * Contains a breakdown of how the status (validity) was determined. It will let you diagnose 
      * problems like address inconsistencies.
@@ -425,5 +276,178 @@ public class Company extends BasicResponse {
     @Nullable
     public Details getDetails() {
         return details;
+    }
+
+    public static class Builder {
+        private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
+        private transient Map<String, String> queryOptions;
+
+        public Builder(BlockscoreApiClient client) { //TODO: privatize constructor & use a Builder
+            this.restAdapter = client.getAdapter();
+            queryOptions = new HashMap<String, String>();
+        }
+
+        /**
+         * Name of entity. This should exclude any legal endings like "Co" or "Inc" for best results.
+         * @param entityName Name
+         * @return this.
+         */
+        @NotNull
+        public Builder setEntityName(@NotNull final String entityName) {
+            queryOptions.put("entity_name", entityName);
+            return this;
+        }
+
+        /**
+         * Sets the Tax ID for this entity. The tax ID should only include the digits of the ID with
+         * no extraneous characters like dashes.
+         * @param taxId Tax ID
+         * @return this.
+         */
+        @NotNull
+        public Builder setTaxId(@NotNull final String taxId) {
+            queryOptions.put("tax_id", taxId);
+            return this;
+        }
+
+        /**
+         * Sets the incorporation state. Can be either of ISO code form or the full length name of the state.
+         * @param incorporationState Incorporation state.
+         * @return this.
+         */
+        @NotNull
+        public Builder setIncorporationState(@Nullable final String incorporationState) {
+            queryOptions.put("incorporation_state", incorporationState);
+            return this;
+        }
+
+        /**
+         * Sets the incorporation country code. Should be of the ISO alpha-2 code form.
+         * @param incorporationCountryCode Country code.
+         * @return this.
+         */
+        @NotNull
+        public Builder setIncorporationCountryCode(@NotNull final String incorporationCountryCode) {
+            queryOptions.put("incorporation_country_code", incorporationCountryCode);
+            return this;
+        }
+
+        /**
+         * Sets the incorporation type.
+         * @param incorporationType Corporation type.
+         * @return this.
+         */
+        public Builder setIncorporationType(@NotNull final CorporationType incorporationType) {
+            queryOptions.put("incorporation_type", String.valueOf(incorporationType));
+            return this;
+        }
+
+        /**
+         * Sets the incorporation date.
+         * @param incorporationDate Incorporation date.
+         * @return this.
+         */
+        @NotNull
+        public Builder setIncorporationDate(@Nullable final Date incorporationDate) {
+            if (incorporationDate == null) {
+                return this;
+            }
+
+            queryOptions.put("birth_day", String.valueOf(incorporationDate.getDay()));
+            queryOptions.put("birth_month", String.valueOf(incorporationDate.getMonth()));
+            queryOptions.put("birth_year", String.valueOf(incorporationDate.getYear()));
+            return this;
+        }
+
+        /**
+         * Sets the "doing business as" names.
+         * @param dbas Doing business as names.
+         * @return this.
+         */
+        public Builder setDbas(@Nullable final String dbas) { // TODO: Alter to string array
+            queryOptions.put("dbas", dbas);
+            return this;
+        }
+
+        /**
+         * Sets the registration number for this entity. Should only include the digits of the
+         * registration number with no extraneous characters like dashes.
+         * @param regNumber Registration number.
+         * @return this.
+         */
+        public Builder setRegistrationNumber(@Nullable final String registrationNumber) {
+            queryOptions.put("registration_number", registrationNumber);
+            return this;
+        }
+
+        /**
+         * Sets the email for this entity. Any form of valid email is accepted.
+         * @param email Email for the entity.
+         * @return this.
+         */
+        public Builder setEmail(@Nullable final String email) {
+            queryOptions.put("email", email);
+            return this;
+        }
+        
+        /**
+         * Sets the URL for this business. Can either contain protocol information or not
+         * (ex. www.example.com and http://www.example.com).
+         * @param url URL for the business
+         * @return this.
+         */
+        public Builder setURL(@Nullable final String url) {
+            queryOptions.put("url", url);
+            return this;
+        }
+        
+        /**
+         * Sets a company's phone number. Extra characters like parenthesis and dashes are
+         * accepted - can either contain the country code or not.
+         * @param phoneNumber Phone number for this individual.
+         * @return this.
+         */
+        @NotNull
+        public Builder setPhoneNumber(@Nullable final String phoneNumber) {
+            queryOptions.put("phone_number", phoneNumber);
+            return this;
+        }
+
+        /**
+         * Sets a company's IP address. Both IPv4 and IPv6 style IP addresses are acceptable.
+         * @param ipAddress IP address to associate with this individual.
+         * @return this.
+         */
+        @NotNull
+        public Builder setIPAddress(@Nullable final String ipAddress) {
+            queryOptions.put("ip_address", ipAddress);
+            return this;
+        }
+
+        @NotNull
+        public Builder setNote(@Nullable final String note) {
+            queryOptions.put("note", note);
+            return this;
+        }
+
+        /**
+         * Sets the comapny's address.
+         * @param address The address.
+         */
+        public Builder setAddress(@NotNull final Address address) {
+            queryOptions.put("address_street1", address.getStreet1());
+            queryOptions.put("address_street2", address.getStreet2());
+            queryOptions.put("address_city", address.getCity());
+            queryOptions.put("address_subdivision", address.getSubdivision());
+            queryOptions.put("address_postal_code", address.getPostalCode());
+            queryOptions.put("address_country_code", address.getCountryCode());
+            return this;
+        }
+
+        public Company create() {
+            Company company = restAdapter.createCompany(queryOptions);
+            company.setAdapter(restAdapter);
+            return company;
+        }
     }
 }
