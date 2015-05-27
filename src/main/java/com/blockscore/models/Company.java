@@ -8,89 +8,105 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
- * Model object for a company
- * Created by Tony Dieppa on 9/30/14.
+ * Company model
  */
 public class Company extends BasicResponse {
-    @Nullable
-    @JsonProperty("status")
-    private String mStatus;
-
+    // Request fields
     @NotNull
     @JsonProperty("entity_name")
-    private String mEntityName;
+    private String entityName;
 
     @NotNull
     @JsonProperty("tax_id")
-    private String mTaxId;
+    private String taxId;
 
     @Nullable
-    @JsonProperty("incorp_date")
-    private Date mIncorpDate;
+    @JsonProperty("incorporation_state")
+    private String incorporationState;
+
+    @NotNull
+    @JsonProperty("incorporation_country_code")
+    private String incorporationCountryCode;
+
+    @NotNull
+    @JsonProperty("incorporation_type")
+    private String incorporationType;
 
     @Nullable
-    @JsonProperty("incorp_state")
-    private String mIncorpState;
+    @JsonProperty("incorporation_day")
+    private Integer incorporationDay;
 
-    @NotNull
-    @JsonProperty("incorp_country_code")
-    private String mIncorpCountryCode;
+    @Nullable
+    @JsonProperty("incorporation_month")
+    private Integer incorporationMonth;
 
-    @NotNull
-    @JsonProperty("incorp_type")
-    private String mIncorpType;
+    @Nullable
+    @JsonProperty("incorporation_year")
+    private Integer incorporationYear;
 
-    @NotNull
+    @Nullable
     @JsonProperty("dbas")
-    private String mDbas;
+    private String dbas;
 
-    @NotNull
+    @Nullable
     @JsonProperty("registration_number")
-    private String mRegNumber;
+    private String registrationNumber;
 
-    @NotNull
+    @Nullable
     @JsonProperty("email")
-    private String mEmail;
+    private String email;
 
-    @NotNull
+    @Nullable
     @JsonProperty("url")
-    private String mURL;
+    private String url;
 
     @Nullable
     @JsonProperty("phone_number")
-    private String mPhoneNumber;
+    private String phoneNumber;
 
     @Nullable
     @JsonProperty("ip_address")
-    private String mIPAddress;
+    private String ipAddress;
+
+    @Nullable
+    @JsonProperty("note")
+    private String note;
 
     @NotNull
-    @JsonProperty("address")
-    private Address mAddress;
+    @JsonProperty("address_street1")
+    private String addressStreet1;
+    
+    @Nullable
+    @JsonProperty("address_street2")
+    private String addressStreet2;
+    
+    @NotNull
+    @JsonProperty("address_city")
+    private String addressCity;
 
+    @NotNull
+    @JsonProperty("address_subdivision")
+    private String addressSubdivision;
+
+    @NotNull
+    @JsonProperty("address_postal_code")
+    private String addressPostalCode;
+    
+    @NotNull
+    @JsonProperty("address_country_code")
+    private String addressCountryCode;
+
+    // Response fields
     @NotNull
     @JsonProperty("details")
-    private Details mDetails;
+    private Details details;
 
-    /**
-     * Returns either valid or invalid and is the culmination of whether or not the passed
-     * in information is valid against various databases and signals.
-     * @return True if valid.
-     */
-    public boolean isValid() {
-        return ValidityStatus.VALID.isEqualTo(mStatus);
-    }
-
-    /**
-     * Returns the name of the entity.
-     * @return Name of the entity.
-     */
-    @NotNull
-    public String getEntityName() {
-        return mEntityName;
-    }
+    @Nullable
+    @JsonProperty("status")
+    private String status;
 
     /**
      * Name of entity. This should exclude any legal endings like "Co" or "Inc" for best results.
@@ -99,17 +115,8 @@ public class Company extends BasicResponse {
      */
     @NotNull
     public Company setEntityName(@NotNull final String entityName) {
-        mEntityName = entityName;
+        this.entityName = entityName;
         return this;
-    }
-
-    /**
-     * Tax ID associated with this entity.
-     * @return Tax ID
-     */
-    @NotNull
-    public String getTaxId() {
-        return mTaxId;
     }
 
     /**
@@ -120,103 +127,60 @@ public class Company extends BasicResponse {
      */
     @NotNull
     public Company setTaxId(@NotNull final String taxId) {
-        mTaxId = taxId;
+        this.taxId = taxId;
         return this;
-    }
-
-    /**
-     * Returns the date of incorporation.
-     * @return Incorporation date.
-     */
-    @Nullable
-    public Date getIncorpDate() {
-        if (mIncorpDate == null) {
-            return null;
-        }
-        return new Date(mIncorpDate.getTime());
-    }
-
-    /**
-     * Sets the incorporation date. Should be of the ISO date form (YYYY-MM-DD)
-     * @param incorpDate Incorporation date.
-     * @return this.
-     */
-    @NotNull
-    public Company setIncorpDate(@NotNull final Date incorpDate) {
-        if (mIncorpDate == null) {
-            return this;
-        }
-        mIncorpDate = new Date(incorpDate.getTime());
-        return this;
-    }
-
-    /**
-     * Gets the incorporation state. Can be either of ISO code form or the full length name of the state.
-     * @return Incorporation state.
-     */
-    @Nullable
-    public String getIncorpState() {
-        return mIncorpState;
     }
 
     /**
      * Sets the incorporation state. Can be either of ISO code form or the full length name of the state.
-     * @param incorpState Incorporation state.
+     * @param incorporationState Incorporation state.
      * @return this.
      */
     @NotNull
-    public Company setIncorpState(@NotNull final String incorpState) {
-        mIncorpState = incorpState;
+    public Company setIncorporationState(@Nullable final String incorporationState) {
+        this.incorporationState = incorporationState;
         return this;
-    }
-
-    /**
-     * Gets the incorporation country code. Should be of the ISO alpha-2 code form.
-     * @return Incorporation country code.
-     */
-    @NotNull
-    public String getIncorpCountryCode() {
-        return mIncorpCountryCode;
     }
 
     /**
      * Sets the incorporation country code. Should be of the ISO alpha-2 code form.
-     * @param incorpCountryCode Country code.
+     * @param incorporationCountryCode Country code.
      * @return this.
      */
     @NotNull
-    public Company setIncorpCountryCode(@NotNull final String incorpCountryCode) {
-        mIncorpCountryCode = incorpCountryCode;
+    public Company setIncorporationCountryCode(@NotNull final String incorporationCountryCode) {
+        this.incorporationCountryCode = incorporationCountryCode;
         return this;
     }
 
     /**
-     * Gets the corporation type. The type of legal business entity that this company
-     * is such as a Limited Liability Company.
-     * @return Corporation type.
-     */
-    @NotNull
-    public CorporationType getIncorpType() {
-        return CorporationType.toEnum(mIncorpType);
-    }
-
-    /**
-     * Sets the corporation type.
-     * @param incorpType Corporation type.
+     * Sets the incorporation type.
+     * @param incorporationType Corporation type.
      * @return this.
      */
-    public Company setIncorpType(@NotNull final CorporationType incorpType) {
-        mIncorpType = incorpType.toString();
+    public Company setIncorporationType(@NotNull final CorporationType incorporationType) {
+        this.incorporationType = incorporationType.toString();
         return this;
     }
 
     /**
-     * A list of "doing business as" names, which are other names this business may be known by.
-     * @return List of DBA names.
+     * Sets the incorporation date.
+     * @param incorporationDate Incorporation date.
+     * @return this.
      */
     @NotNull
-    public String[] getDbas() {
-        return mDbas.split(",");
+    public Company setIncorporationDate(@Nullable final Date incorporationDate) {
+        if (incorporationDate == null) {
+            this.incorporationDay = null;
+            this.incorporationMonth = null;
+            this.incorporationYear = null;
+            return this;
+        }
+
+        this.incorporationDay = incorporationDate.getDay();
+        this.incorporationMonth = incorporationDate.getMonth();
+        this.incorporationYear = incorporationDate.getYear();
+        return this;
     }
 
     /**
@@ -224,134 +188,242 @@ public class Company extends BasicResponse {
      * @param dbas Doing business as names.
      * @return this.
      */
-    public Company setDbas(@NotNull final String dbas) {
-        mDbas = dbas;
+    public Company setDbas(@Nullable final String dbas) { // TODO: Alter to string array
+        this.dbas = dbas;
         return this;
     }
 
     /**
-     * Gets the registration number. This is the number typically provided by the state of
-     * incorporation which is assigned to a business.
-     * @return Registration number.
-     */
-    @NotNull
-    public String getRegNumber() {
-        return mRegNumber;
-    }
-
-    /**
-     * Sets the registration number for this entity.
+     * Sets the registration number for this entity. Should only include the digits of the
+     * registration number with no extraneous characters like dashes.
      * @param regNumber Registration number.
      * @return this.
      */
-    public Company setRegNumber(@NotNull final String regNumber) {
-        mRegNumber = regNumber;
+    public Company setRegistrationNumber(@Nullable final String registrationNumber) {
+        this.registrationNumber = registrationNumber;
         return this;
     }
 
     /**
-     * Gets the email for this entity.
-     * @return Email.
-     */
-    @NotNull
-    public String getEmail() {
-        return mEmail;
-    }
-
-    /**
-     * Sets the email for this entity.
+     * Sets the email for this entity. Any form of valid email is accepted.
      * @param email Email for the entity.
      * @return this.
      */
-    public Company setEmail(@NotNull final String email) {
-        mEmail = email;
+    public Company setEmail(@Nullable final String email) {
+        this.email = email;
         return this;
     }
-
+    
     /**
-     * Gets the URL for the entity.
-     * @return URL.
-     */
-    @NotNull
-    public String getURL() {
-        return mURL;
-    }
-
-    /**
-     * Sets the URL for this business.
+     * Sets the URL for this business. Can either contain protocol information or not
+     * (ex. www.example.com and http://www.example.com).
      * @param url URL for the business
      * @return this.
      */
-    public Company setURL(@NotNull final String url) {
-        mURL = url;
+    public Company setURL(@Nullable final String url) {
+        this.url = url;
         return this;
     }
-
+    
     /**
-     * Gets a company's phone number.
-     * @return Phone number.
-     */
-    @Nullable
-    public String getPhoneNumber() {
-        return mPhoneNumber;
-    }
-
-    /**
-     * Sets a person's phone number.
+     * Sets a company's phone number. Extra characters like parenthesis and dashes are
+     * accepted - can either contain the country code or not.
      * @param phoneNumber Phone number for this individual.
      * @return this.
      */
     @NotNull
     public Company setPhoneNumber(@Nullable final String phoneNumber) {
-        mPhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
         return this;
     }
 
     /**
-     * Gets a company's IP address.
-     * @return IP address.
-     */
-    @Nullable
-    public String getIPAddress() {
-        return mIPAddress;
-    }
-
-    /**
-     * Sets a person's IP address.
+     * Sets a company's IP address. Both IPv4 and IPv6 style IP addresses are acceptable.
      * @param ipAddress IP address to associate with this individual.
      * @return this.
      */
     @NotNull
     public Company setIPAddress(@Nullable final String ipAddress) {
-        mIPAddress = ipAddress;
+        this.ipAddress = ipAddress;
+        return this;
+    }
+
+    @NotNull
+    public Company setNote(@Nullable final String note) {
+        this.note = note;
         return this;
     }
 
     /**
-     * Gets the address of the entity.
+     * Sets the comapny's address.
+     * @param address The address.
+     */
+    public Company setAddress(@NotNull final Address address) {
+        this.addressStreet1 = address.getStreet1();
+        this.addressStreet2 = address.getStreet2();
+        this.addressCity = address.getCity();
+        this.addressSubdivision = address.getSubdivision();
+        this.addressPostalCode = address.getPostalCode();
+        this.addressCountryCode = address.getCountryCode();
+        return this;
+    }
+
+    /**
+     * Returns the name of the entity.
+     * @return Name of the entity.
+     */
+    @NotNull
+    public String getEntityName() {
+        return entityName;
+    }
+
+    /**
+     * Returns the Tax ID associated with this entity. 
+     * @return Tax ID
+     */
+    @NotNull
+    public String getTaxId() {
+        return taxId;
+    }
+
+    /**
+     * Returns the incorporation state. Can be either of ISO code form or the full length name of the state.
+     * @return Incorporation state.
+     */
+    @Nullable
+    public String getIncorporationState() {
+        return incorporationState;
+    }
+    
+    /**
+     * Returns the incorporation country code. Should be of the ISO alpha-2 code form.
+     * @return Incorporation country code.
+     */
+    @NotNull
+    public String getIncorporationCountryCode() {
+        return incorporationCountryCode;
+    }
+
+    /**
+     * Returns the corporation type. The type of legal business entity that this company
+     * is such as a Limited Liability Company.
+     * @return Corporation type.
+     */
+    @NotNull
+    public CorporationType getIncorporationType() {
+        return CorporationType.toEnum(incorporationType);
+    }
+
+    /**
+     * Returns the date of incorporation.
+     * @return Incorporation date.
+     */
+    @Nullable
+    public Date getIncorporationDate() {
+        if (incorporationDay == null || incorporationMonth == null || incorporationYear == null) {
+            return null;
+        }
+
+        GregorianCalendar calendarDay = new GregorianCalendar(incorporationYear, incorporationMonth, incorporationDay);
+        return calendarDay.getTime();
+    }
+
+    /**
+     * Returns a list of "doing business as" names, which are other names this business may be known by.
+     * @return List of DBA names.
+     */
+    @Nullable
+    public String[] getDbas() {
+        return dbas.split(","); //TODO: Handle ensure dbas is , delimited
+    }
+
+    /**
+     * Returns the registration number. This is the number typically provided by the state of
+     * incorporation which is assigned to a business. Should only include the digits of the
+     * registration number with no extraneous characters like dashes.
+     * @return Registration number.
+     */
+    @Nullable
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    /**
+     * Returns the email for this entity.
+     * @return Email.
+     */
+    @Nullable
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Returns the URL for the entity.
+     * @return URL.
+     */
+    @Nullable
+    public String getURL() {
+        return url;
+    }
+
+    /**
+     * Returns the company's phone number.
+     * @return Phone number.
+     */
+    @Nullable
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    /**
+     * Returns a company's IP address.
+     * @return IP address.
+     */
+    @Nullable
+    public String getIPAddress() {
+        return ipAddress;
+    }
+
+    /**
+     * Returns any additional information you have stored in the comapany's note.
+     * @return IP address.
+     */
+    @Nullable
+    public String getNote() {
+        return note;
+    }
+
+    /**
+     * Returns the address for this company.
      * @return Address.
      */
     @NotNull
     public Address getAddress() {
-        return mAddress;
+        Address addressObject = new Address(addressStreet1,
+                                            addressStreet2,
+                                            addressCity, 
+                                            addressSubdivision,
+                                            addressPostalCode,
+                                            addressCountryCode);
+        return addressObject;
     }
 
     /**
-     * Sets the address of the entity.
-     * @param address Address to use.
-     * @return this.
+     * Returns either valid or invalid and is the culmination of whether or not the passed
+     * in information is valid against various databases and signals.
+     * @return True if valid.
      */
-    public Company setAddress(@NotNull Address address) {
-        mAddress = address;
-        return this;
+    public boolean isValid() {
+        return ValidityStatus.VALID.isEqualTo(status);
     }
 
     /**
-     * A breakdown of some of the information that determines the status element.
+     * Contains a breakdown of how the status (validity) was determined. It will let you diagnose 
+     * problems like address inconsistencies.
      * @return Details breakdown.
      */
     @Nullable
     public Details getDetails() {
-        return mDetails;
+        return details;
     }
 }
