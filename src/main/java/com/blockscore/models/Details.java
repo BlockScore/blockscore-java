@@ -4,18 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+// TODO: Break this into Company and Person details... or /something/ 
+
 /**
- * Details breakdown model (Used in verification)
+ * Details breakdown model (Used in Person)
  * Created by Tony Dieppa on 9/29/14.
  */
 public class Details {
     @Nullable
     @JsonProperty("address")
-    private String mAddressMatch;
+    private String addressMatch;
 
     @Nullable
     @JsonProperty("address_risk")
-    private String mAddressRisk;
+    private String addressRisk;
 
     @Nullable
     @JsonProperty("identification")
@@ -23,7 +25,7 @@ public class Details {
 
     @Nullable
     @JsonProperty("date_of_birth")
-    private String mDateOfBirthMatch;
+    private String dateOfBirthMatch;
 
     @NotNull
     @JsonProperty("ofac")
@@ -43,7 +45,7 @@ public class Details {
      */
     @Nullable
     public MatchRank getAddressMatchDetails() {
-        return getMatchRank(mAddressMatch);
+        return getMatchRank(addressMatch);
     }
 
     /**
@@ -70,10 +72,10 @@ public class Details {
      */
     @Nullable
     public AddressRisk getAddressRisk() {
-        if (mAddressRisk == null) {
+        if (addressRisk == null) {
             return null;
         }
-        return AddressRisk.toEnum(mAddressRisk.toLowerCase());
+        return AddressRisk.toEnum(addressRisk.toLowerCase());
     }
 
     /**
@@ -91,7 +93,7 @@ public class Details {
      */
     @Nullable
     public MatchRank getDateOfBirth() {
-        return getMatchRank(mDateOfBirthMatch);
+        return getMatchRank(dateOfBirthMatch);
     }
 
     /**
