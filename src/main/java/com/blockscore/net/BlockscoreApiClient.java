@@ -108,8 +108,12 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public PaginatedResult<Person> listPeople() {
-        return restAdapter.listPeople();
-        //TODO: BUGFIX restadapter that QuestionSet holds
+        PaginatedResult<Person> result = restAdapter.listPeople();
+
+        for(Person person : result.getData()) //TODO: FIX COPY METHOD. See listCandidates()
+            person.setAdapter(restAdapter);
+        
+        return result;
     }
 
     /**
@@ -130,8 +134,12 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public PaginatedResult<Company> listCompanies() {
-        return restAdapter.listCompanies();
-        //TODO: BUGFIX restadapter that QuestionSet holds
+        PaginatedResult<Company> result = restAdapter.listCompanies();
+
+        for(Company company : result.getData()) //TODO: FIX COPY METHOD. See listCandidates()
+            company.setAdapter(restAdapter);
+        
+        return result;
     }
 
     /**
@@ -152,17 +160,13 @@ public class BlockscoreApiClient {
      */
     @NotNull
     public PaginatedResult<Candidate> listCandidates() {
-        return restAdapter.listCandidates();
-        //TODO: BUGFIX restadapter that QuestionSet holds
-    }
+        PaginatedResult<Candidate> result = restAdapter.listCandidates();
 
-    /**
-     * Gets the candidate's history.
-     * @param id ID for the candidate.
-     */
-    @NotNull
-    public List<Candidate> getCandidateHistory(@NotNull final String id) {
-        return restAdapter.getCandidateHistory(id);
+        for(Candidate candidate : result.getData()) //TODO: FIX COPY METHOD. Clearly a deep copy is not being returned since this
+                                                    //      correctly updates internal restAdapters (evidenced by passing tests)
+            candidate.setAdapter(restAdapter);
+        
+        return result;
     }
 
     /**
@@ -196,8 +200,6 @@ public class BlockscoreApiClient {
             return null;
         }
     }
-
-
 
     public BlockscoreRetrofitAPI getAdapter() {
         return restAdapter;

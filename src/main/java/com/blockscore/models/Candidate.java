@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.GregorianCalendar;
@@ -91,6 +92,16 @@ public class Candidate extends BasicResponse {
         System.out.println("ID: " + getId());
         System.out.println("RA: " + restAdapter);
         restAdapter.deleteCandidate(getId());
+    }
+
+    /**
+     * Returns a complete revision history of a candidate's edits. This allows you to maintain a full
+     * audit trail of when and how you update a client's profile over time. The latest revision is 
+     * presented at the top of the list, and the original is at the end of the list.
+     */
+    public List<Candidate> getRevisionHistory() {
+        return restAdapter.getCandidateHistory(getId());
+        //TODO: restAdapter bugfix
     }
 
     /**
@@ -275,6 +286,7 @@ public class Candidate extends BasicResponse {
         this.restAdapter = restAdapter;
     }
 
+    //TODO: Consider delegating the setters' implementation to the Candidate's setters & send the whole Candidate object
     public static class Builder {
         private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
         private transient Map<String, String> queryOptions;

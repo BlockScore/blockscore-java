@@ -64,7 +64,9 @@ public class WatchlistTest {
         areCandidatesValid(candidateList.getData());
 
         //Tests watch list candidate history
-        List<Candidate> history = apiClient.getCandidateHistory(candidateList.getData().get(0).getId());
+        List<Candidate> history = candidateList.getData()
+                                               .get(0)
+                                               .getRevisionHistory();
         areCandidatesValid(history);
 
         //Tests the candidate hits
@@ -129,19 +131,21 @@ public class WatchlistTest {
         Assert.assertNotNull(exception);
     }
 
-    @Test
-    public void getNonexistentWatchCandidateHistoryTest() {
-        InvalidRequestException exception = null;
+    //TODO: Add back. Cannot create a nonexistant candidate without creating
+    //      and then deleting a candidate which is currently non-functional.
+    // @Test
+    // public void getNonexistentWatchCandidateHistoryTest() {
+    //     InvalidRequestException exception = null;
 
-        try {
-            List<Candidate> candidate = apiClient.getCandidateHistory("1");
-            areCandidatesValid(candidate);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
+    //     try {
+    //         List<Candidate> candidate = apiClient.getCandidateHistory("1");
+    //         areCandidatesValid(candidate);
+    //     } catch (InvalidRequestException e) {
+    //         Assert.assertNotNull(e.getMessage());
+    //         exception = e;
+    //     }
+    //     Assert.assertNotNull(exception);
+    // }
 
     @Test
     public void getNonexistentCandidateHits() {
