@@ -70,7 +70,7 @@ public class WatchlistTest {
         areCandidatesValid(history);
 
         //Tests the candidate hits
-        PaginatedResult<WatchlistHit> hits = apiClient.getCandidateHits(candidate.getId());
+        PaginatedResult<WatchlistHit> hits = candidate.getPastHits();
         areHitsValid(hits.getData());
 
         //Tests deletion of a candidate
@@ -147,19 +147,21 @@ public class WatchlistTest {
     //     Assert.assertNotNull(exception);
     // }
 
-    @Test
-    public void getNonexistentCandidateHits() {
-        InvalidRequestException exception = null;
+    //TODO: Add back. Cannot create a nonexistant candidate without creating
+    //      and then deleting a candidate which is currently non-functional.
+    // @Test
+    // public void getNonexistentCandidateHits() {
+    //     InvalidRequestException exception = null;
 
-        try {
-            PaginatedResult<WatchlistHit> candidate = apiClient.getCandidateHits("1");
-            areHitsValid(candidate.getData());
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
+    //     try {
+    //         PaginatedResult<WatchlistHit> hits = //nonexistantcandidate.getPastHits();
+    //         areHitsValid(candidate.getData());
+    //     } catch (InvalidRequestException e) {
+    //         Assert.assertNotNull(e.getMessage());
+    //         exception = e;
+    //     }
+    //     Assert.assertNotNull(exception);
+    // }
 
     // TODO: Add back later. DELETE may not be functional server-side.
     //       Currently deleting a candidate shows "deleted":true in the

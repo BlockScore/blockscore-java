@@ -1,6 +1,8 @@
 package com.blockscore.models;
 
 import com.blockscore.models.base.BasicResponse;
+import com.blockscore.models.results.PaginatedResult;
+import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.net.BlockscoreApiClient;
 import com.blockscore.net.BlockscoreRetrofitAPI;
 
@@ -102,6 +104,13 @@ public class Candidate extends BasicResponse {
     public List<Candidate> getRevisionHistory() {
         return restAdapter.getCandidateHistory(getId());
         //TODO: restAdapter bugfix
+    }
+
+    /**
+     * Retrieve all historical watchlist hits for this candidate.
+     */
+    public PaginatedResult<WatchlistHit> getPastHits() {
+        return restAdapter.getCandidateHits(getId());
     }
 
     /**

@@ -170,15 +170,6 @@ public class BlockscoreApiClient {
     }
 
     /**
-     * Gets the watchlist hits for a candidate.
-     * @param id ID for the candidate.
-     */
-    @NotNull
-    public PaginatedResult<WatchlistHit> getCandidateHits(@NotNull final String id) {
-        return restAdapter.getCandidateHits(id);
-    }
-
-    /**
      * Searches watchlists for a given candidate.
      * @param searchRequest Search request to complete
      */
