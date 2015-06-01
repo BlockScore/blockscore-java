@@ -1,25 +1,20 @@
 package com.blockscore.models.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Basic parameters common to models
- * Created by Tony Dieppa on 9/30/14.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public abstract class BasicResponse {
     @Nullable
     @JsonProperty("id")
     private String mId;
 
-    @JsonProperty("created_at")
+    @JsonProperty("created_at") // TODO: Parse as Date way
     private long mCreatedAtDate;
 
-    @JsonProperty("updated_at")
+    @JsonProperty("updated_at") // TODO: ""
     private long mUpdatedAtDate;
 
     @JsonProperty("livemode")
@@ -27,7 +22,7 @@ public abstract class BasicResponse {
 
     /**
      * Gets the ID for this record.
-     * @return ID
+     * @return the ID associated with this record
      */
     @Nullable
     public String getId() {
@@ -36,7 +31,7 @@ public abstract class BasicResponse {
 
     /**
      * Gets the creation date. (ms)
-     * @return Creation date.
+     * @return the record's creation date.
      */
     public long getCreatedAtDate() {
         return mCreatedAtDate;
@@ -44,7 +39,7 @@ public abstract class BasicResponse {
 
     /**
      * Gets the updated date. (ms)
-     * @return Updated date.
+     * @return the last updated date
      */
     public long getUpdatedAtDate() {
         return mUpdatedAtDate;
@@ -52,7 +47,7 @@ public abstract class BasicResponse {
 
     /**
      * Indicates whether the company was created using a live or test API key.
-     * @return True if live.
+     * @return whether or not the company was created with a live or test API key
      */
     public boolean isLiveMode() {
         return mLiveMode;
