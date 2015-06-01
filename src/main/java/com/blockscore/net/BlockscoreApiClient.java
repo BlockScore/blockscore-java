@@ -4,15 +4,12 @@ import com.blockscore.common.BlockscoreErrorType;
 import com.blockscore.common.Constants;
 import com.blockscore.exceptions.APIException;
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.Company;
-import com.blockscore.models.Person;
 import com.blockscore.models.Candidate;
+import com.blockscore.models.Company;
 import com.blockscore.models.error.BlockscoreError;
 import com.blockscore.models.error.RequestError;
-import com.blockscore.models.request.SearchRequest;
-import com.blockscore.models.results.WatchlistHit;
+import com.blockscore.models.Person;
 import com.blockscore.models.results.PaginatedResult;
-import com.blockscore.models.results.WatchlistSearchResults;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,11 +18,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
 import org.jetbrains.annotations.NotNull;
-import retrofit.*;
 import retrofit.client.Request;
 import retrofit.client.UrlConnectionClient;
 import retrofit.converter.JacksonConverter;
-import rx.Observable;
+import retrofit.ErrorHandler;
+import retrofit.RequestInterceptor;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -33,8 +32,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 /**
  * The Blockscore Java API client.
@@ -167,15 +166,6 @@ public class BlockscoreApiClient {
             candidate.setAdapter(restAdapter);
         
         return result;
-    }
-
-    /**
-     * Searches watchlists for a given candidate.
-     * @param searchRequest Search request to complete
-     */
-    @NotNull
-    public WatchlistSearchResults searchWatchlists(@NotNull final SearchRequest searchRequest) {
-        return restAdapter.searchWatchlists(searchRequest);
     }
 
     /**

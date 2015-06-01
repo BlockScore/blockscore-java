@@ -34,13 +34,12 @@ public class QuestionSet extends BasicResponse {
 
     /**
      * Scores a question set.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#scoreQuestionSet(String, com.blockscore.models.request.AnswerRequest)
      * @param questionSetId Question set ID
      * @param answers Answers to questions
      */
     @NotNull
     public QuestionSet score(@NotNull final AnswerRequest answers) {
-        return restAdapter.scoreQuestionSet(getId(), answers);
+        return restAdapter.scoreQuestionSet(getId(), answers); //TODO: update instead of return?
     }
 
     public void setAdapter(BlockscoreRetrofitAPI restAdapter) {

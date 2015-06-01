@@ -8,43 +8,32 @@ import java.util.List;
 
 /**
  * Watchlist search results.
- * Created by Tony Dieppa on 9/30/14.
  */
+//TODO: Consider adding livemode
 public class WatchlistSearchResults {
-    @JsonProperty("search_time")
-    private double mSearchTime;
-
     @NotNull
     @JsonProperty("searched_lists")
-    private String[] mSearchedLists;
+    private String[] searchedLists;
+
+    @NotNull
+    @JsonProperty("count")
+    private int count;
 
     @NotNull
     @JsonProperty("matches")
-    private List<WatchlistMatch> mMatches;
+    private List<WatchlistHit> matches;
 
-    /**
-     * Gets the time for the search.
-     * @return Search time.
-     */
-    public double getSearchTime() {
-        return mSearchTime;
+    public int getCount() {
+        return count;
     }
 
-    /**
-     * Gets a list of the watch lists examined.
-     * @return Watchlists examined.
-     */
     @NotNull
     public String[] getSearchedLists() {
-        return Arrays.copyOf(mSearchedLists, mSearchedLists.length);
+        return Arrays.copyOf(searchedLists, searchedLists.length);
     }
 
-    /**
-     * Gets a list of all matching entries.
-     * @return Matching entries.
-     */
     @NotNull
-    public List<WatchlistMatch> getMatches() {
-        return mMatches;
+    public List<WatchlistHit> getMatches() {
+        return matches;
     }
 }

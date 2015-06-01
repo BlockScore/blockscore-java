@@ -1,10 +1,11 @@
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Candidate;
 import com.blockscore.models.Address;
-import com.blockscore.models.request.SearchRequest;
-import com.blockscore.models.results.WatchlistMatch;
+import com.blockscore.models.results.PaginatedResult;
+import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.WatchlistSearchResults;
 import com.blockscore.net.BlockscoreApiClient;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
@@ -22,31 +23,32 @@ public class SearchTest {
     @Test
     public void searchTest() {
         Candidate candidate = createTestCandidate();
-        isCandidateValid(candidate);
 
-        SearchRequest request = new SearchRequest(candidate.getId());
-        request.setMatchType(SearchRequest.MatchType.PERSON);
-        WatchlistSearchResults results = apiClient.searchWatchlists(request);
-        areSearchResultsValid(results);
+        PaginatedResult<WatchlistHit> results = candidate.searchWatchlists();
+        areMatchesValid(results.getData());
+
+        //TODO: Add in tests for match_type & similarity_threshold requests (!)
     }
 
-    @Test
-    public void noCandidateFoundTest() {
-        InvalidRequestException exception = null;
+    //TODO: Add back. Cannot create a nonexistant candidate without creating
+    //      and then deleting a candidate which is currently non-functional.
+    // @Test
+    // public void noCandidateFoundTest() {
+    //     InvalidRequestException exception = null;
 
-        Candidate candidate = createTestCandidate();
-        isCandidateValid(candidate);
+    //     Candidate candidate = createTestCandidate();
+    //     isCandidateValid(candidate);
 
-        try {
-            SearchRequest request = new SearchRequest("1");
-            WatchlistSearchResults results = apiClient.searchWatchlists(request);
-            areSearchResultsValid(results);
-        } catch (InvalidRequestException e) {
-            Assert.assertNotNull(e.getMessage());
-            exception = e;
-        }
-        Assert.assertNotNull(exception);
-    }
+    //     try {
+    //         SearchRequest request = new SearchRequest("1");
+    //         WatchlistSearchResults results = candidate.searchWatchlists();
+    //         areSearchResultsValid(results);
+    //     } catch (InvalidRequestException e) {
+    //         Assert.assertNotNull(e.getMessage());
+    //         exception = e;
+    //     }
+    //     Assert.assertNotNull(exception);
+    // }
 
     @NotNull
     private Candidate createTestCandidate() {
@@ -64,31 +66,18 @@ public class SearchTest {
         return builder.create();
     }
 
-    private void isCandidateValid(@Nullable final Candidate candidate) {
-        Assert.assertNotNull(candidate);
-        Assert.assertNotNull(candidate.getId());
-    }
-
-    private void areSearchResultsValid(@Nullable final WatchlistSearchResults results) {
-        Assert.assertNotNull(results);
-        Assert.assertNotNull(results.getSearchedLists());
-        Assert.assertNotNull(results.getMatches());
-        areMatchesValid(results.getMatches());
-    }
-
-    private void areMatchesValid(@Nullable final List<WatchlistMatch> matches) {
+    private void areMatchesValid(@Nullable final List<WatchlistHit> matches) {
         Assert.assertNotNull(matches);
-        for (WatchlistMatch match : matches) {
+        for (WatchlistHit match : matches) {
             isMatchValid(match);
         }
     }
 
-    private void isMatchValid(@Nullable final WatchlistMatch match) {
+    private void isMatchValid(@Nullable final WatchlistHit match) {
         Assert.assertNotNull(match);
         Assert.assertNotNull(match.getMatchingInfo());
-        Assert.assertNotNull(match.getWatchList());
-        Assert.assertNotNull(match.getMatchingRecord());
-        Assert.assertNotNull(match.getMatchingRecord().getId());
+        Assert.assertNotNull(match.getWatchlist());
+        Assert.assertNotNull(match.getMatchingInfo());
     }
 
     @NotNull

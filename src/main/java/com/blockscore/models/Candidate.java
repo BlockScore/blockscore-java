@@ -3,6 +3,7 @@ package com.blockscore.models;
 import com.blockscore.models.base.BasicResponse;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.results.WatchlistHit;
+import com.blockscore.models.results.WatchlistSearchResults;
 import com.blockscore.net.BlockscoreApiClient;
 import com.blockscore.net.BlockscoreRetrofitAPI;
 
@@ -90,9 +91,6 @@ public class Candidate extends BasicResponse {
      * Deletes this candidate.
      */
     public void delete() {
-        System.out.println("CANDIDATE: " + this);
-        System.out.println("ID: " + getId());
-        System.out.println("RA: " + restAdapter);
         restAdapter.deleteCandidate(getId());
     }
 
@@ -111,6 +109,30 @@ public class Candidate extends BasicResponse {
      */
     public PaginatedResult<WatchlistHit> getPastHits() {
         return restAdapter.getCandidateHits(getId());
+    }
+
+    public PaginatedResult<WatchlistHit> searchWatchlists() {
+        return searchWatchlists(null, null);
+    }
+
+    public PaginatedResult<WatchlistHit> searchWatchlists(Double similarityThreshold) {
+        return searchWatchlists(null, similarityThreshold);
+    }
+
+    public PaginatedResult<WatchlistHit> searchWatchlists(EntityType entityType) {
+        return searchWatchlists(entityType, null);
+    }
+
+    public PaginatedResult<WatchlistHit> searchWatchlists(EntityType entityType, Double similarityThreshold) {
+        Map<String, String> queryOptions = new HashMap<String, String>();
+        queryOptions.put("candidate_id", getId());
+        queryOptions.put("match_type", String.valueOf(entityType));
+        queryOptions.put("similarity_threshold", String.valueOf(similarityThreshold));
+
+        WatchlistSearchResults results = restAdapter.searchWatchlists(queryOptions);
+
+        //wrap the result's data with PaginatedResult to make v5.0 transition simpler
+        return new PaginatedResult<WatchlistHit>(results.getMatches(), results.getCount(), false);
     }
 
     /**
@@ -373,7 +395,6 @@ public class Candidate extends BasicResponse {
 
         /**
          * Set the date of birth of your candidate.
-         * @param dateOfBirth Date of birth
          * @return this.
          */
         @NotNull
@@ -391,7 +412,7 @@ public class Candidate extends BasicResponse {
 
         /**
          * Sets the primary street address for this person.
-         * @param address Primary street address.
+         * @return this.
          */
         public Builder setAddress(@NotNull final Address address) {
             queryOptions.put("address_street1", address.getStreet1());
@@ -405,6 +426,7 @@ public class Candidate extends BasicResponse {
 
         /**
          * Creates a new Candidate.
+         * @return this.
          */
         public Candidate create() {
             Candidate candidate = restAdapter.createCandidate(queryOptions);

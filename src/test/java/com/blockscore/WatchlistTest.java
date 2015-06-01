@@ -1,6 +1,7 @@
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Candidate;
 import com.blockscore.models.Address;
+import com.blockscore.models.Document;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
@@ -51,31 +52,13 @@ public class WatchlistTest {
 
         didCandidateDataUpdate(candidate);
 
-        candidate.delete();
 
         //Tests getting a candidate
         candidate = apiClient.retrieveCandidate(candidate.getId());
         isCandidateValid(candidate);
 
-        candidate.delete();
-
-        //Tests listing candidates
-        PaginatedResult<Candidate> candidateList = apiClient.listCandidates();
-        areCandidatesValid(candidateList.getData());
-
-        //Tests watch list candidate history
-        List<Candidate> history = candidateList.getData()
-                                               .get(0)
-                                               .getRevisionHistory();
-        areCandidatesValid(history);
-
-        //Tests the candidate hits
-        PaginatedResult<WatchlistHit> hits = candidate.getPastHits();
-        areHitsValid(hits.getData());
-
         //Tests deletion of a candidate
-        InvalidRequestException exception = null;
-
+        //InvalidRequestException exception = null;
         candidate.delete();
         // TODO: Add back later. DELETE may not be functional server-side.
         //       Currently deleting a candidate shows "deleted":true in the
@@ -88,6 +71,29 @@ public class WatchlistTest {
         //     exception = e;
         // }
         // Assert.assertNotNull(exception);
+    }
+
+    @Test
+    public void listCandidatesTest() {
+        Candidate candidate = createTestCandidate();
+
+        PaginatedResult<Candidate> candidateList = apiClient.listCandidates();
+        areCandidatesValid(candidateList.getData());
+
+        List<Candidate> history = candidateList.getData()
+                                               .get(0)
+                                               .getRevisionHistory();
+        areCandidatesValid(history);
+    }
+
+    @Test
+    public void searchWatchlistTest() {
+        Candidate candidate = (new Candidate.Builder(apiClient)).setFirstName("John")
+                                                                .setLastName("BredenKamp")
+                                                                .create();
+
+        PaginatedResult<WatchlistHit> hits = candidate.searchWatchlists();
+        areHitsValid(hits.getData());
     }
 
     // TODO: Add back later. DELETE may not be functional server-side.
@@ -194,8 +200,8 @@ public class WatchlistTest {
     @NotNull
     private Candidate createTestCandidate() {
         Address address = (new Address()).setStreet1("1 Infinite Loop")
-                                 .setCity("Harare")
-                                 .setCountryCode("ZW");
+                                         .setCity("Harare")
+                                         .setCountryCode("ZW");
 
         final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -207,11 +213,11 @@ public class WatchlistTest {
 
         Candidate.Builder builder = new Candidate.Builder(apiClient);
         builder.setNote("12341234")
-                 .setSSN("001")
-                 .setDateOfBirth(date)
-                 .setFirstName("John")
-                 .setLastName("BredenKamp")
-                 .setAddress(address);
+                .setSSN("001")
+                .setDateOfBirth(date)
+                .setFirstName("John")
+                .setLastName("BredenKamp")
+                .setAddress(address);
 
         return builder.create();
     }
@@ -255,9 +261,43 @@ public class WatchlistTest {
 
     private void areHitsValid(@Nullable List<WatchlistHit> hits) {
         Assert.assertNotNull(hits);
+        Assert.assertNotEquals(hits.size(), 0); // TODO: test with real data...
         for (WatchlistHit hit : hits) {
             Assert.assertNotNull(hit.getMatchingInfo());
-            isCandidateValid(hit);
+            Assert.assertNotNull(hit.getWatchlist());
+            Assert.assertNotNull(hit.getEntryType());
+            Assert.assertNotNull(hit.getMatchingInfo());
+            Assert.assertNotNull(hit.getConfidence());
+            Assert.assertNull(hit.getUrl());
+            Assert.assertNull(hit.getNotes());
+            Assert.assertNull(hit.getTitle());
+            Assert.assertNotNull(hit.getName());
+            Assert.assertNotNull(hit.getAlternateNames());
+            Assert.assertNotNull(hit.getDateOfBirth());
+            Assert.assertNull(hit.getSSN());
+            Assert.assertNotNull(hit.getPassports());
+            Address address = hit.getAddress();
+            Assert.assertNotNull(address);
+            Assert.assertNotNull(address.getStreet1());
+            Assert.assertNull(address.getStreet2());
+            Assert.assertNotNull(address.getCity());
+            Assert.assertNull(address.getSubdivision());
+            Assert.assertNull(address.getPostalCode());
+            Assert.assertNotNull(address.getCountryCode());
+            Assert.assertNotNull(hit.getRawAddress());
+            Assert.assertNotNull(hit.getNames());
+            Assert.assertEquals(hit.getNames().size(), 3);
+            Assert.assertNotNull(hit.getBirths());
+            Assert.assertEquals(hit.getBirths().size(), 1);
+            Assert.assertNotNull(hit.getDocuments());
+            for(Document doc : hit.getDocuments()) {
+                Assert.assertNotNull(doc.getDocumentType());
+                Assert.assertNotNull(doc.getValue());
+                Assert.assertNotNull(doc.getCountryCode());
+            }
+            Assert.assertEquals(hit.getDocuments().size(), 4);
+            Assert.assertNotNull(hit.getAlternateNames());
+            Assert.assertNotNull(hit.getAddresses());
         }
     }
 

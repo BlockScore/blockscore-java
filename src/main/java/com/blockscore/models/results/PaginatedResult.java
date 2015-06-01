@@ -7,7 +7,17 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class PaginatedResult<T> {
-	 @JsonProperty("total_count")
+    public PaginatedResult() {
+        // do nothing. No argument constructor is necessary for Retrofit.
+    }
+
+    public PaginatedResult(List<T> data, int totalCount, boolean hasMore) {
+        this.totalCount = totalCount;
+        this.hasMore = hasMore;
+        this.data = data;
+    }
+
+	@JsonProperty("total_count")
     private int totalCount;
 
     @NotNull
@@ -28,7 +38,7 @@ public class PaginatedResult<T> {
 
     @NotNull
     public List<T> getData() {
-    	return new ArrayList<T>(data); //TODO: double check copy method
+    	return new ArrayList<T>(data); //TODO: [-double-check-] FIX copy method
     }
 
 }
