@@ -4,7 +4,7 @@ import com.blockscore.common.CorporationType;
 import com.blockscore.common.ValidityStatus;
 import com.blockscore.models.base.BasicResponse;
 import com.blockscore.net.BlockscoreApiClient;
-import com.blockscore.net.BlockscoreRetrofitAPI;
+import com.blockscore.net.BlockscoreRestAdapter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +19,7 @@ import java.util.GregorianCalendar;
  * Company model
  */
 public class Company extends BasicResponse {
-    private BlockscoreRetrofitAPI restAdapter;
+    private BlockscoreRestAdapter restAdapter;
 
     // Request fields
     @NotNull
@@ -271,7 +271,7 @@ public class Company extends BasicResponse {
     /**
      * Sets the internal REST api adapter.
      */
-    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+    public void setAdapter(BlockscoreRestAdapter restAdapter) {
         this.restAdapter = restAdapter;
     }
 
@@ -286,7 +286,7 @@ public class Company extends BasicResponse {
     }
 
     public static class Builder {
-        private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
+        private transient BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
         private transient Map<String, String> queryOptions;
 
         public Builder(BlockscoreApiClient client) {

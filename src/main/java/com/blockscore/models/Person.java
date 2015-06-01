@@ -4,7 +4,7 @@ import com.blockscore.models.base.BasicResponse;
 import com.blockscore.common.ValidityStatus;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
-import com.blockscore.net.BlockscoreRetrofitAPI;
+import com.blockscore.net.BlockscoreRestAdapter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,7 @@ import java.util.List;
  * Model representing a person's identity.
  */
 public class Person extends BasicResponse {
-    private transient BlockscoreRetrofitAPI restAdapter;
+    private transient BlockscoreRestAdapter restAdapter;
 
     // Request Fields
     @NotNull
@@ -111,13 +111,13 @@ public class Person extends BasicResponse {
     /**
      * Sets the internal REST api adapter.
      */
-    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+    public void setAdapter(BlockscoreRestAdapter restAdapter) {
         this.restAdapter = restAdapter;
     }
 
     /**
      * Creates a question set with no time limit.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
+     * @see com.blockscore.net.BlockscoreRestAdapter#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
      * @param request Question set request.
      */
     @NotNull
@@ -127,7 +127,7 @@ public class Person extends BasicResponse {
 
     /**
      * Creates a question set with a set time limit in seconds.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
+     * @see com.blockscore.net.BlockscoreRestAdapter#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
      * @param request Question set request.
      */
     public QuestionSet createQuestionSet(long timeLimit) {
@@ -142,7 +142,7 @@ public class Person extends BasicResponse {
 
     /**
      * This allows you to retrieve a question set you have created.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveQuestionSet(String)
+     * @see com.blockscore.net.BlockscoreRestAdapter#retrieveQuestionSet(String)
      * @param questionSetId Question set ID
      */
     public QuestionSet retrieveQuestionSet(@NotNull final String questionSetId) {
@@ -152,7 +152,7 @@ public class Person extends BasicResponse {
 
     /**
      * This allows you to retrieve a question set you have created.
-     * @see BlockscoreRetrofitAPI#listQuestionSets()
+     * @see BlockscoreRestAdapter#listQuestionSets()
      */
     @NotNull
     public PaginatedResult<QuestionSet> listQuestionSet() {
@@ -286,7 +286,7 @@ public class Person extends BasicResponse {
     }
 
     public static class Builder {
-        private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
+        private transient BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
         private transient Map<String, String> queryOptions;
 
         public Builder(BlockscoreApiClient client) {

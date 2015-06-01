@@ -1,13 +1,8 @@
 package com.blockscore.net;
 
-import com.blockscore.common.BlockscoreErrorType;
 import com.blockscore.common.Constants;
-import com.blockscore.exceptions.APIException;
-import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Candidate;
 import com.blockscore.models.Company;
-import com.blockscore.models.error.BlockscoreError;
-import com.blockscore.models.error.RequestError;
 import com.blockscore.models.Person;
 import com.blockscore.models.results.PaginatedResult;
 
@@ -15,38 +10,29 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.OkUrlFactory;
 import org.jetbrains.annotations.NotNull;
-import retrofit.client.Request;
-import retrofit.client.UrlConnectionClient;
 import retrofit.converter.JacksonConverter;
-import retrofit.ErrorHandler;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.RetrofitError;
 
-import java.io.IOException;
+
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.concurrent.TimeUnit;
-import java.util.List;
+
 
 /**
  * The Blockscore Java API client.
  */
 public class BlockscoreApiClient {
     private static RestAdapter.LogLevel logLevel = RestAdapter.LogLevel.NONE;
-    private static String apiKey;
+    private String apiKey;
 
-    private final BlockscoreRetrofitAPI restAdapter;
+    private final BlockscoreRestAdapter restAdapter;
 
     /**
-     * Turns on/off logging. Should be done before API client usage. // TODO: investigate making non-static? Also previous ordering of setting up /after/ calling init()
-     * @param useVerboseLogs True to use verbose network logs.
+     * Turns on/off logging. Must be set before creating API client to take effect.
+     * @param useVerboseLogs  whether or not to use verbose network logs.
      */
     public static void useVerboseLogs(final boolean useVerboseLogs) {
         if (useVerboseLogs) {
@@ -59,40 +45,23 @@ public class BlockscoreApiClient {
     public BlockscoreApiClient(@NotNull final String apiKey) {
         this.apiKey = apiKey + ":";
 
-        RestAdapter.Builder restBuilder = new RestAdapter.Builder()
-                .setClient(new BlockscoreClient())
-                .setEndpoint(Constants.getDomain());
-
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
-        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-        JacksonConverter converter = new JacksonConverter(mapper);
-        restBuilder.setConverter(converter);
-
-        //Sets up the authentication headers and accept headers.
-        restBuilder.setRequestInterceptor(new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader(Constants.AUTHORIZATION_HEADER, getEncodedAuthorization());
-                request.addHeader(Constants.ACCEPT_HEADER, Constants.getAcceptHeaders());
-            }
-        });
+        RestAdapter.Builder restBuilder = new RestAdapter.Builder().setClient(new BlockscoreHttpClient())
+                                                                   .setEndpoint(Constants.getDomain());
+        restBuilder.setConverter(getDefaultConverter());
+        restBuilder.setRequestInterceptor(getDefaultRequestInterceptor());
         restBuilder.setErrorHandler(new BlockscoreErrorHandler());
-
         restBuilder.setLogLevel(logLevel);
-        restAdapter = restBuilder.build().create(BlockscoreRetrofitAPI.class);
+
+        restAdapter = restBuilder.build().create(BlockscoreRestAdapter.class);
     }
 
     /**
-     * Gets a single Person.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrievePerson(String)
-     * @param id ID of Person to verify.
+     * Gets a single person exactly as it was when you created it.
+     * <p>
+     * This route is useful for auditing purposes as you can provide proof that a verification took place 
+     * along with all of its associated data.
+     * @param id  ID of Person.
+     * @return the person, not null
      */
     @NotNull
     public Person retrievePerson(@NotNull final String id) {
@@ -102,8 +71,11 @@ public class BlockscoreApiClient {
     }
 
     /**
-     * Gets a list of Persons.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#listPersons()
+     * Lists verified people.
+     * <p>
+     * This allows you to see a historical record of all verifications that you have completed.
+     * The list is displayed in reverse chronological order (newer people appear first).
+     * @return the historical listing of created people, not null
      */
     @NotNull
     public PaginatedResult<Person> listPeople() {
@@ -116,9 +88,12 @@ public class BlockscoreApiClient {
     }
 
     /**
-     * Gets a company.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#createCompany(com.blockscore.models.Company)
-     * @param id Company ID.
+     * Gets a single company exactly as it was when you created it.
+     * <p>
+     * This route is useful for auditing purposes as you can provide proof that a company verification took place
+     * along with all of its associated data.
+     * @param id  ID of the Company.
+     * @return the company, not null
      */
     @NotNull
     public Company retrieveCompany(@NotNull final String id) {
@@ -128,8 +103,11 @@ public class BlockscoreApiClient {
     }
 
     /**
-     * Lists your verified companies.
-     * @see BlockscoreRetrofitAPI#listCompanies()
+     * Lists verified companies.
+     * <p>
+     * This endpoint will allow you to see a historical record of all company verifications that you have completed.
+     * The list is displayed in reverse chronological order (newer company verifications appear first).
+     * @return the historical listing of created companies, not null
      */
     @NotNull
     public PaginatedResult<Company> listCompanies() {
@@ -143,8 +121,8 @@ public class BlockscoreApiClient {
 
     /**
      * Retrieves a candidate.
-     * @see com.blockscore.net.BlockscoreRetrofitAPI#retrieveCandidate(String)
-     * @param id ID for the candidate.
+     * @param id  ID of the candidate.
+     * @return the candidate, not null
      */
     @NotNull
     public Candidate retrieveCandidate(@NotNull final String id) {
@@ -154,8 +132,10 @@ public class BlockscoreApiClient {
     }
 
     /**
-     * Lists the candidates.
-     * @see BlockscoreRetrofitAPI#listCandidate()
+     * Lists a historical record of all candidates you have created.
+     * <p>
+     * The list is displayed in reverse chronological order (newer candidates appear first).
+     * @return the historical listing of created candidates, not null
      */
     @NotNull
     public PaginatedResult<Candidate> listCandidates() {
@@ -170,7 +150,7 @@ public class BlockscoreApiClient {
 
     /**
      * Encodes the API key for Basic authentication.
-     * @return API key encoded with Base 64.
+     * @return the API key with Base 64 encoding
      */
     @NotNull
     private String getEncodedAuthorization() {
@@ -182,59 +162,32 @@ public class BlockscoreApiClient {
         }
     }
 
-    public BlockscoreRetrofitAPI getAdapter() {
-        return restAdapter;
+    private JacksonConverter getDefaultConverter() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibilityChecker(mapper.getSerializationConfig()
+                .getDefaultVisibilityChecker()
+                .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        return new JacksonConverter(mapper);
     }
 
-    /**
-     * Handles the network layer.
-     */
-    private static final class BlockscoreClient extends UrlConnectionClient {
-        private static final int CONNECT_TIMEOUT_MILLIS = 30 * 1000;
-        private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
-
-        private final OkUrlFactory mOkUrlFactory;
-
-        public BlockscoreClient() {
-            mOkUrlFactory = new OkUrlFactory(generateHTTPClient());
-        }
-
-        public BlockscoreClient(OkHttpClient client) {
-            mOkUrlFactory = new OkUrlFactory(client);
-        }
-
-        private OkHttpClient generateHTTPClient() {
-            OkHttpClient client = new OkHttpClient();
-            client.setConnectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-            client.setReadTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-            return client;
-        }
-
-        @Override
-        protected HttpURLConnection openConnection(Request request) throws IOException {
-            return mOkUrlFactory.open(new URL(request.getUrl()));
-        }
-    }
-
-    private static final class BlockscoreErrorHandler implements ErrorHandler {
-        @Override
-        public Throwable handleError(RetrofitError cause) {
-            Object rawError = cause.getBodyAs(BlockscoreError.class);
-            if (rawError instanceof BlockscoreError) {
-                BlockscoreError error = (BlockscoreError) rawError;
-                RequestError requestError = error.getError();
-                if (requestError.getErrorType() == BlockscoreErrorType.INVALID) {
-                    return new InvalidRequestException(error);
-                } else if (requestError.getErrorType() == BlockscoreErrorType.API) {
-                    return new APIException(error);
-                } else {
-                    //Theoretically, this should never happen, unless the API has changed to break something.
-                    String msg = String.format("An unknown error has occurred. Please contact support. Error type: %s"
-                            , requestError.getErrorType().toString());
-                    return new RuntimeException(msg);
-                }
+    private RequestInterceptor getDefaultRequestInterceptor() {
+        return new RequestInterceptor() {
+            @Override
+            public void intercept(RequestFacade request) {
+                request.addHeader(Constants.AUTHORIZATION_HEADER, getEncodedAuthorization());
+                request.addHeader(Constants.ACCEPT_HEADER, Constants.getAcceptHeaders());
             }
-            return cause;
-        }
+        };
+    }
+
+    //TODO: remove method
+    public BlockscoreRestAdapter getAdapter() {
+        return restAdapter;
     }
 }

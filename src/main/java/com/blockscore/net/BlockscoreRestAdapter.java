@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Blockscore API REST adapter; relies on Retrofit.
  */
-public interface BlockscoreRetrofitAPI {
+public interface BlockscoreRestAdapter {
     // Person operations
     @NotNull
     @POST("/people")

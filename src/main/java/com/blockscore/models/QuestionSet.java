@@ -2,7 +2,7 @@ package com.blockscore.models;
 
 import com.blockscore.models.base.BasicResponse;
 import com.blockscore.models.request.AnswerRequest;
-import com.blockscore.net.BlockscoreRetrofitAPI;
+import com.blockscore.net.BlockscoreRestAdapter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public class QuestionSet extends BasicResponse {
     @JsonProperty("questions")
     private List<Question> questionSet;
 
-    private BlockscoreRetrofitAPI restAdapter;
+    private BlockscoreRestAdapter restAdapter;
 
     /**
      * Scores a question set.
@@ -42,7 +42,7 @@ public class QuestionSet extends BasicResponse {
         return restAdapter.scoreQuestionSet(getId(), answers); //TODO: update instead of return?
     }
 
-    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+    public void setAdapter(BlockscoreRestAdapter restAdapter) {
         this.restAdapter = restAdapter;
     }
 

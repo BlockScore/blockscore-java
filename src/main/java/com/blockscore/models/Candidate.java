@@ -5,7 +5,7 @@ import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.WatchlistSearchResults;
 import com.blockscore.net.BlockscoreApiClient;
-import com.blockscore.net.BlockscoreRetrofitAPI;
+import com.blockscore.net.BlockscoreRestAdapter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
  * Candidate model.
  */
 public class Candidate extends BasicResponse {
-    private transient BlockscoreRetrofitAPI restAdapter;
+    private transient BlockscoreRestAdapter restAdapter;
 
     @NotNull
     @JsonProperty("name_first")
@@ -313,13 +313,13 @@ public class Candidate extends BasicResponse {
     /**
      * Sets the internal REST api adapter.
      */
-    public void setAdapter(BlockscoreRetrofitAPI restAdapter) {
+    public void setAdapter(BlockscoreRestAdapter restAdapter) {
         this.restAdapter = restAdapter;
     }
 
     //TODO: Consider delegating the setters' implementation to the Candidate's setters & send the whole Candidate object
     public static class Builder {
-        private transient BlockscoreRetrofitAPI restAdapter; // TODO: Discover if transient is neccesary
+        private transient BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
         private transient Map<String, String> queryOptions;
 
         public Builder(BlockscoreApiClient client) {
