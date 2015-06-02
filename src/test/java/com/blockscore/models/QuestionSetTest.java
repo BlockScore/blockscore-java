@@ -1,7 +1,6 @@
 package com.blockscore.models;
 
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.results.PaginatedResult;
 
 import com.blockscore.net.BlockscoreApiClient;
@@ -13,7 +12,6 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,13 +29,11 @@ public class QuestionSetTest {
         isQuestionSetValid(questionSet);
 
         //Test scoring a question set.
-        ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
+        AnswerSet answers = new AnswerSet();
         for (Question question : questionSet.retrieveQuestionSet()) {
-            AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1);
-            answered.add(answeredQuestion);
+            answers.addAnswer(question.getId(), 1);
         }
-        AnswerRequest request = new AnswerRequest(answered);
-        questionSet = questionSet.score(request);
+        questionSet = questionSet.score(answers);
         isQuestionSetValid(questionSet);
 
         //Test getting a question set.
@@ -59,7 +55,7 @@ public class QuestionSetTest {
         QuestionSet questionSet = person.createQuestionSet(100000);
 
         try {
-            QuestionSet results = questionSet.score(new AnswerRequest());
+            QuestionSet results = questionSet.score(new AnswerSet());
             isQuestionSetValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());
@@ -77,13 +73,7 @@ public class QuestionSetTest {
         QuestionSet questionSet = person.createQuestionSet();
 
         try {
-            ArrayList<AnsweredQuestion> answered = new ArrayList<AnsweredQuestion>();
-            for (Question question : questionSet.retrieveQuestionSet()) {
-                AnsweredQuestion answeredQuestion = new AnsweredQuestion(question.getId(), 1000000);
-                answered.add(answeredQuestion);
-            }
-            AnswerRequest request = new AnswerRequest(answered);
-            QuestionSet results = questionSet.score(new AnswerRequest());
+            QuestionSet results = questionSet.score(new AnswerSet());
             isQuestionSetValid(results);
         } catch (InvalidRequestException e) {
             Assert.assertNotNull(e.getMessage());

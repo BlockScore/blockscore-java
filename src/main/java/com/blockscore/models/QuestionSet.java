@@ -1,7 +1,6 @@
 package com.blockscore.models;
 
 import com.blockscore.models.base.BasicResponse;
-import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.net.BlockscoreRestAdapter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,7 +36,7 @@ public class QuestionSet extends BasicResponse {
      * @param answers  the answers to the QuestionSet
      */
     @NotNull
-    public QuestionSet score(@NotNull final AnswerRequest answers) {
+    public QuestionSet score(@NotNull final AnswerSet answers) {
         return restAdapter.scoreQuestionSet(getId(), answers); //TODO: update instead of return?
     }
 

@@ -4,7 +4,7 @@ import com.blockscore.models.Candidate;
 import com.blockscore.models.Company;
 import com.blockscore.models.Person;
 import com.blockscore.models.QuestionSet;
-import com.blockscore.models.request.AnswerRequest;
+import com.blockscore.models.AnswerSet;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.models.results.WatchlistSearchResults;
@@ -45,7 +45,7 @@ public interface BlockscoreRestAdapter {
     @NotNull
     @POST("/question_sets/{id}/score")
     QuestionSet scoreQuestionSet(@Path("id") @NotNull final String questionSetId
-            , @NotNull @Body final AnswerRequest answers);
+            , @NotNull @Body final AnswerSet answers);
 
     @NotNull
     @GET("/question_sets/{id}")
