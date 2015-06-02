@@ -48,6 +48,7 @@ test {
     testLogging {
         // Show that tests are run in the command-line output
         events 'started', 'passed'
+        showStandardStreams true
     }
 }
 
@@ -56,6 +57,10 @@ tasks.withType(FindBugs) {
         xml.enabled = false;
         html.enabled = true;
     }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint"
 }
 
 checkstyleTest.exclude '**/src/test/**'
