@@ -3,8 +3,7 @@ package com.blockscore.models.results;
 import com.blockscore.models.Address;
 import com.blockscore.models.BirthRange;
 import com.blockscore.models.Document;
-import com.blockscore.models.EntityType;
-import com.blockscore.models.results.NameResult;
+import com.blockscore.common.EntityType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 /**

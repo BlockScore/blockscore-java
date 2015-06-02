@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Answered question model.
- * Created by Tony Dieppa on 9/30/14.
+ * TODO: investigate merging with Answer or differentiating the names
  */
 public class AnsweredQuestion {
     @JsonProperty("question_id")
@@ -13,8 +13,8 @@ public class AnsweredQuestion {
     @JsonProperty("answer_id")
     private int mAnswerId;
 
-    public AnsweredQuestion() {
-        //Nothing is initialized.
+    private AnsweredQuestion() {
+        // Do nothing. Necessary for Retrofit to be able to populate an AnsweredQuestion.
     }
 
     public AnsweredQuestion(int questionId, int answerId) {
@@ -23,28 +23,9 @@ public class AnsweredQuestion {
     }
 
     /**
-     * Sets the question ID.
-     * @param questionId Question ID
-     * @return this
-     */
-    public AnsweredQuestion setQuestionId(final int questionId) {
-        mQuestionId = questionId;
-        return this;
-    }
-
-    /**
-     * Sets the answer ID.
-     * @param answerId ID associated with answer.
-     * @return this
-     */
-    public AnsweredQuestion setAnswerId(final int answerId) {
-        mAnswerId = answerId;
-        return this;
-    }
-
-    /**
      * Gets the question ID.
-     * @return Question ID
+     *
+     * @return the question ID
      */
     public int getQuestionId() {
         return mQuestionId;
@@ -52,7 +33,8 @@ public class AnsweredQuestion {
 
     /**
      * Gets the selected answer.
-     * @return Answer selected.
+     *
+     * @return the answer selected
      */
     public int getAnswerId() {
         return mAnswerId;

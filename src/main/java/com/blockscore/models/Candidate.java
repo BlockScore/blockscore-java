@@ -1,5 +1,6 @@
 package com.blockscore.models;
 
+import com.blockscore.common.EntityType;
 import com.blockscore.models.base.BasicResponse;
 import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.models.results.WatchlistHit;
@@ -15,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.GregorianCalendar;
 
 /**
  * Candidate model.
@@ -98,6 +98,7 @@ public class Candidate extends BasicResponse {
      * Returns a complete revision history of a candidate's edits. This allows you to maintain a full
      * audit trail of when and how you update a client's profile over time. The latest revision is 
      * presented at the top of the list, and the original is at the end of the list.
+     * @return the list of candidates
      */
     public List<Candidate> getRevisionHistory() {
         return restAdapter.getCandidateHistory(getId());
@@ -137,8 +138,8 @@ public class Candidate extends BasicResponse {
 
     /**
      * Sets the legal first name of the customer.
-     * @param firstName First name.
-     * @return this.
+     * @param firstName the first name
+     * @return this
      */
     @NotNull
     public Candidate setFirstName(@NotNull final String firstName) {
@@ -148,8 +149,8 @@ public class Candidate extends BasicResponse {
 
    /**
      * Sets the legal middle name of the customer.
-     * @param middleName Middle name.
-     * @return this.
+     * @param middleName the middle name
+     * @return this
      */
     @NotNull
     public Candidate setMiddleName(@NotNull final String middleName) {
@@ -159,8 +160,8 @@ public class Candidate extends BasicResponse {
 
     /**
      * Sets the legal last name.
-     * @param lastName Last name.
-     * @return this.
+     * @param lastName the last name
+     * @return this
      */
     @NotNull
     public Candidate setLastName(@NotNull final String lastName) {
@@ -170,8 +171,8 @@ public class Candidate extends BasicResponse {
     /**
      * You can store additional information about the candidate here such as your internal system's
      * identifier for this individual. This will allow you to keep track of them.
-     * @param note Note to store.
-     * @return this.
+     * @param note the additional information to store.]
+     * @return this
      */
     @NotNull
     public Candidate setNote(@Nullable final String note) {
@@ -181,8 +182,8 @@ public class Candidate extends BasicResponse {
     
     /**
      * Can be either the last 4 digits of the US Social Security Number or the whole SSN.
-     * @param ssn SSN to use.
-     * @return this.
+     * @param ssn  the SSN to use
+     * @return this
      */
     @NotNull
     public Candidate setSSN(@Nullable final String ssn) {
@@ -192,8 +193,8 @@ public class Candidate extends BasicResponse {
 
     /**
      * Sets the passport number of the individual being verified. is only used for verifying non-US customers.
-     * @param passport Passport data.
-     * @return this.
+     * @param passport  the passport number
+     * @return this
      */
     @NotNull
     public Candidate setPassport(@Nullable final String passport) {
@@ -203,8 +204,8 @@ public class Candidate extends BasicResponse {
 
     /**
      * Set the date of birth of your candidate.
-     * @param dateOfBirth Date of birth
-     * @return this.
+     * @param dateOfBirth  the date of birth
+     * @return this
      */
     @NotNull
     public Candidate setDateOfBirth(@Nullable final Date dateOfBirth) {
@@ -217,7 +218,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * Sets the primary street address for this person.
-     * @param address Primary street address.
+     * @param address  the primary street address
      */
     public Candidate setAddress(@NotNull final Address address) {
         this.addressStreet1 = address.getStreet1();
@@ -231,7 +232,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * The legal first name of the customer.
-     * @return First name.
+     * @return the first name
      */
     @Nullable
     public String getFirstName() {
@@ -240,7 +241,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * The legal middle name of the customer.
-     * @return Middle name.
+     * @return the middle name
      */
     @Nullable
     public String getMiddleName() {
@@ -249,7 +250,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * Gets the legal last name of the customer.
-     * @return Last name.
+     * @return the last name
      */
     @Nullable
     public String getLastName() {
@@ -258,7 +259,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * Gets any note data you have associated with the Candidate.
-     * @return Note stored.
+     * @return the stored note
      */
     @Nullable
     public String getNote() {
@@ -267,7 +268,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * Gets either the 4 digits of the US Social Security Number or the whole SSN.
-     * @return SSN
+     * @return the SSN
      */
     @Nullable
     public String getSSN() {
@@ -276,7 +277,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * The passport number of the individual being verified. is only used for verifying non-US customers.
-     * @return Passport number.
+     * @return the passport number
      */
     @Nullable
     public String getPassport() {
@@ -285,7 +286,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * The date of birth of your candidate.
-     * @return Date of birth.
+     * @return the date of birth
      */
     @Nullable
     public Date getDateOfBirth() {
@@ -297,7 +298,7 @@ public class Candidate extends BasicResponse {
 
     /**
      * Gets the primary street address for this person.
-     * @return Address.
+     * @return the address
      */
     @Nullable
     public Address getAddress() {
@@ -310,7 +311,7 @@ public class Candidate extends BasicResponse {
         return addressObject;
     }
 
-    /**
+    /** TODO: remove
      * Sets the internal REST api adapter.
      */
     public void setAdapter(BlockscoreRestAdapter restAdapter) {
@@ -328,20 +329,22 @@ public class Candidate extends BasicResponse {
         }
 
          /**
-         * Sets the legal first name of the customer.
-         * @param firstName First name.
-         * @return this.
-         */
+          * Sets the legal first name of the customer.
+          *
+          * @param firstName the first name
+          * @return this
+          */
         @NotNull
         public Builder setFirstName(@NotNull final String firstName) {
             queryOptions.put("name_first", firstName);
             return this;
         }
 
-       /**
-         * Sets the legal middle name of the customer.
-         * @param middleName Middle name.
-         * @return this.
+        /**
+         * Sets the legal middle name of the candidate.
+         *
+         * @param middleName the middle name
+         * @return this
          */
         @NotNull
         public Builder setMiddleName(@NotNull final String middleName) {
@@ -350,20 +353,23 @@ public class Candidate extends BasicResponse {
         }
 
         /**
-         * Sets the legal last name.
-         * @param lastName Last name.
-         * @return this.
+         * Sets the legal last name of the candidate.
+         *
+         * @param lastName the last name
+         * @return this
          */
         @NotNull
         public Builder setLastName(@NotNull final String lastName) {
             queryOptions.put("name_last", lastName);
             return this;
         }
+
         /**
          * You can store additional information about the candidate here such as your internal system's
          * identifier for this individual. This will allow you to keep track of them.
-         * @param note Note to store.
-         * @return this.
+         *
+         * @param note the additional information to store
+         * @return this
          */
         @NotNull
         public Builder setNote(@Nullable final String note) {
@@ -373,8 +379,9 @@ public class Candidate extends BasicResponse {
         
         /**
          * Can be either the last 4 digits of the US Social Security Number or the whole SSN.
-         * @param ssn SSN to use.
-         * @return this.
+         *
+         * @param ssn the SSN to use
+         * @return this
          */
         @NotNull
         public Builder setSSN(@Nullable final String ssn) {
@@ -384,8 +391,9 @@ public class Candidate extends BasicResponse {
 
         /**
          * Sets the passport number of the individual being verified. is only used for verifying non-US customers.
-         * @param passport Passport data.
-         * @return this.
+         *
+         * @param passport the passport data
+         * @return this
          */
         @NotNull
         public Builder setPassport(@Nullable final String passport) {
@@ -395,7 +403,9 @@ public class Candidate extends BasicResponse {
 
         /**
          * Set the date of birth of your candidate.
-         * @return this.
+         *
+         * @param dateOfBirth  the date of birth
+         * @return this
          */
         @NotNull
         public Builder setDateOfBirth(@Nullable final Date dateOfBirth) {
@@ -412,7 +422,9 @@ public class Candidate extends BasicResponse {
 
         /**
          * Sets the primary street address for this person.
-         * @return this.
+         *
+         * @param address the address
+         * @return this
          */
         public Builder setAddress(@NotNull final Address address) {
             queryOptions.put("address_street1", address.getStreet1());
@@ -425,8 +437,9 @@ public class Candidate extends BasicResponse {
         }
 
         /**
-         * Creates a new Candidate.
-         * @return this.
+         * Creates a new {@code Candidate}.
+         *
+         * @return this
          */
         public Candidate create() {
             Candidate candidate = restAdapter.createCandidate(queryOptions);

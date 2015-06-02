@@ -1,11 +1,10 @@
 package com.blockscore.models;
 
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.request.AnswerRequest;
 import com.blockscore.models.results.PaginatedResult;
 
 import com.blockscore.net.BlockscoreApiClient;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.junit.Assert;
@@ -13,7 +12,6 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -122,8 +120,8 @@ public class PersonTest {
         Assert.assertNotNull(details);
         Assert.assertNotNull(details.getAddressRisk());
         Assert.assertNotNull(details.getAddressMatchDetails());
-        Assert.assertNotNull(details.getIdentfication());
-        Assert.assertNotNull(details.getDateOfBirth());
+        Assert.assertNotNull(details.getIdentificationMatch());
+        Assert.assertNotNull(details.getDateOfBirthMatch());
         Assert.assertNotNull(details.getOFAC());
     }
 

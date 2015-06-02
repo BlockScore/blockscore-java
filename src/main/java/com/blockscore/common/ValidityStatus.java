@@ -4,31 +4,27 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Validity Status
- * Created by Tony Dieppa on 9/30/14.
  */
 public enum ValidityStatus {
-    VALID("valid"), INVALID("invalid");
-
-    private final String mValue;
-
-    private ValidityStatus(@NotNull final String value) {
-        mValue = value;
-    }
+    VALID,
+    INVALID;
 
     /**
      * Returns if this matches.
-     * @param value Value to test.
-     * @return True or false.
+     *
+     * @param value  the value to test
+     * @return whether the value is equivalent
      */
     public boolean isEqualTo(final String value) {
-        return mValue.equalsIgnoreCase(value);
+        return name().equalsIgnoreCase(value);
     }
 
     /**
      * Converts a string to an enum.
-     * @param value Value to convert.
-     * @return Validity status type.
-     */
+     *
+     * @param value the value to convert
+     * @return the validity status type
+    */
     @NotNull
     public static ValidityStatus toEnum(@NotNull final String value) {
         if (value.equalsIgnoreCase(VALID.toString())) {
@@ -36,14 +32,5 @@ public enum ValidityStatus {
         } else {
             return INVALID;
         }
-    }
-
-    /**
-     * Converts an enum to the string value.
-     * @return String value for enum.
-     */
-    @Override
-    public String toString() {
-        return mValue;
     }
 }

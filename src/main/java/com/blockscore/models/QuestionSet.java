@@ -34,8 +34,7 @@ public class QuestionSet extends BasicResponse {
 
     /**
      * Scores a question set.
-     * @param questionSetId Question set ID
-     * @param answers Answers to questions
+     * @param answers  the answers to the QuestionSet
      */
     @NotNull
     public QuestionSet score(@NotNull final AnswerRequest answers) {
@@ -48,7 +47,8 @@ public class QuestionSet extends BasicResponse {
 
     /**
      * The associated person's ID.
-     * @return Person ID for this question set.
+     *
+     * @return the person ID
      */
     @NotNull
     public String getPersonId() {
@@ -57,7 +57,8 @@ public class QuestionSet extends BasicResponse {
 
     /**
      * The percentage (from 0.0 - 100.0) result of scoring the question set's answers.
-     * @return Score
+     *
+     * @return the score
      */
     public int getScore() {
         return score;
@@ -65,15 +66,18 @@ public class QuestionSet extends BasicResponse {
 
     /**
      * Indicates whether the `time_limit` has been passed since the creation of the question set.
-     * @return True if expired.
+     *
+     * @return true if expired
      */
     public boolean isExpired() {
         return expired;
     }
 
     /**
-     * Gets the number of seconds after the creation of the question set before the `expired` boolean will switch to `true`.
-     * @return Time limit.
+     * Gets the number of seconds after the creation of the question set before the `expired` boolean
+     * will switch to `true`.
+     *
+     * @return the time limit
      */
     public long getTimeLimit() {
         return timeLimit;
@@ -81,7 +85,8 @@ public class QuestionSet extends BasicResponse {
 
     /**
      * Returns the list of questions to use.
-     * @return Questions available.
+     *
+     * @return the questions available
      */
     @NotNull
     public List<Question> retrieveQuestionSet() {

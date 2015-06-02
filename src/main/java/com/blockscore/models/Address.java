@@ -1,6 +1,5 @@
 package com.blockscore.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,11 +24,11 @@ public class Address {
 
 
     public Address() {
-        // do nothing
+        // Do nothing.
     }
 
-    public Address(@NotNull final String street1, @Nullable final String street2, @NotNull final String city
-            , @NotNull final String subdivision, @NotNull final String postalCode, @NotNull final String countryCode) {
+    public Address(@NotNull final String street1, @Nullable final String street2, @NotNull final String city,
+                   @NotNull final String subdivision, @NotNull final String postalCode, @NotNull final String countryCode) {
         this.street1 = street1;
         this.street2 = street2;
         this.city = city;
@@ -40,7 +39,8 @@ public class Address {
 
     /**
      * The primary street address of the customer. This is automatically normalized.
-     * @param street1 Street (Line 1)
+     *
+     * @param street1  Street (Line 1)
      * @return this
      */
     @NotNull
@@ -51,7 +51,8 @@ public class Address {
 
     /**
      * The second address line typically used for apartment or suite numbers. This is automatically normalized.
-     * @param street2 Street (Line 2)
+     *
+     * @param street2  Street (Line 2)
      * @return this
      */
     @Nullable
@@ -62,7 +63,8 @@ public class Address {
 
     /**
      * The city name of the customer. This is automatically normalized.
-     * @param city City
+     *
+     * @param city  City
      * @return this
      */
     @NotNull
@@ -74,7 +76,8 @@ public class Address {
     /**
      * The subdivision of the entered country. For instance in the United States, this would be a 'state'.
      * Ex: The subdivision for California would be CA.
-     * @param subdivision Subdivision (FIPS code format)
+     *
+     * @param subdivision  Subdivision (FIPS code format)
      * @return this
      */
     @NotNull
@@ -85,7 +88,8 @@ public class Address {
 
     /**
      * The postal code, also known as the ZIP code of the address.
-     * @param postalCode ZIP code
+     *
+     * @param postalCode  Postal (ZIP) code
      * @return this
      */
     @NotNull
@@ -96,7 +100,8 @@ public class Address {
 
     /**
      * The country of the customer. Should be of the ISO code form.
-     * @param countryCode Country code of the individual.
+     *
+     * @param countryCode  Country code of the individual
      * @return this
      */
     @NotNull
@@ -107,7 +112,8 @@ public class Address {
 
     /**
      * Gets the primary street address of the customer. This is automatically normalized.
-     * @return Line 1 of the address.
+     *
+     * @return Line 1 of the address
      */
     @NotNull
     public String getStreet1() {
@@ -116,7 +122,8 @@ public class Address {
 
     /**
      * The second address line typically used for apartment or suite numbers. This is automatically normalized.
-     * @return Line 2 of the address.
+     *
+     * @return Line 2 of the address
      */
     @Nullable
     public String getStreet2() {
@@ -125,7 +132,8 @@ public class Address {
 
     /**
      * The city name of the customer. This is automatically normalized.
-     * @return City of the address.
+     *
+     * @return the address city
      */
     @NotNull
     public String getCity() {
@@ -134,7 +142,8 @@ public class Address {
 
     /**
      * The subdivision of the entered country. For instance in the United States, this would be a 'state'.
-     * @return The state of the customer.
+     *
+     * @return the address subdivision
      */
     @NotNull
     public String getSubdivision() {
@@ -143,7 +152,8 @@ public class Address {
 
     /**
      * The postal code, also known as the ZIP code of the address.
-     * @return Postal code for the customer.
+     *
+     * @return the postal code
      */
     @NotNull
     public String getPostalCode() {
@@ -152,7 +162,8 @@ public class Address {
 
     /**
      * The country of the customer. Should be of the ISO code form.
-     * @return Country code of the customer
+     *
+     * @return the country code
      */
     @NotNull
     public String getCountryCode() {

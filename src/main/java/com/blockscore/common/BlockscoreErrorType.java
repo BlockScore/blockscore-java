@@ -4,7 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Error Types enum
- * Created by Tony Dieppa on 10/1/14.
  */
 public enum BlockscoreErrorType {
     INVALID("invalid_request_error"), API("api_error"), UNKNOWN("unknown");

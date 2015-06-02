@@ -2,7 +2,6 @@ package com.blockscore.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class Document {
 	@NotNull

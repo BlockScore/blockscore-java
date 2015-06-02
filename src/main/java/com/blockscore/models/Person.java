@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Model representing a person's identity.
+ * Model representing a person.
  */
 public class Person extends BasicResponse {
     private transient BlockscoreRestAdapter restAdapter;
@@ -117,8 +117,6 @@ public class Person extends BasicResponse {
 
     /**
      * Creates a question set with no time limit.
-     * @see com.blockscore.net.BlockscoreRestAdapter#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
-     * @param request Question set request.
      */
     @NotNull
     public QuestionSet createQuestionSet() {
@@ -127,8 +125,8 @@ public class Person extends BasicResponse {
 
     /**
      * Creates a question set with a set time limit in seconds.
-     * @see com.blockscore.net.BlockscoreRestAdapter#createQuestionSet(com.blockscore.models.request.QuestionSetRequest)
-     * @param request Question set request.
+     *
+     * @param timeLimit  the time limit
      */
     public QuestionSet createQuestionSet(long timeLimit) {
         Map<String, String> queryOptions = new HashMap<String,String>();
@@ -142,8 +140,8 @@ public class Person extends BasicResponse {
 
     /**
      * This allows you to retrieve a question set you have created.
-     * @see com.blockscore.net.BlockscoreRestAdapter#retrieveQuestionSet(String)
-     * @param questionSetId Question set ID
+     *
+     * @param questionSetId  Question set ID
      */
     public QuestionSet retrieveQuestionSet(@NotNull final String questionSetId) {
         return restAdapter.retrieveQuestionSet(questionSetId);
@@ -152,6 +150,14 @@ public class Person extends BasicResponse {
 
     /**
      * This allows you to retrieve a question set you have created.
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      * @see BlockscoreRestAdapter#listQuestionSets()
      */
     @NotNull
@@ -162,7 +168,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the first name.
-     * @return First name.
+     *
+     * @return the first name
      */
     @NotNull
     public String getFirstName() {
@@ -171,7 +178,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the middle name. (Optional)
-     * @return Middle name.
+     *
+     * @return the middle name
      */
     @Nullable
     public String getMiddleName() {
@@ -180,7 +188,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the last name.
-     * @return Last name.
+     *
+     * @return the last name
      */
     @NotNull
     public String getLastName() {
@@ -189,7 +198,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the identifying document type.
-     * @param documentType The Document type.
+     *
+     * @return the document type
      */
     @NotNull
     public String getDocumentType() {
@@ -198,7 +208,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the identifying document value.
-     * @param documentValue The Document value.
+     *
+     * @return the document value
      */
     @NotNull
     public String getDocumentValue() {
@@ -207,7 +218,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the date of birth for this individual.
-     * @return Date of birth.
+     *
+     * @return the date of birth
      */
     @NotNull
     public Date getDateOfBirth() {
@@ -217,7 +229,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the address for this individual.
-     * @return Address.
+     *
+     * @return the address
      */
     @NotNull
     public Address getAddress() {
@@ -232,7 +245,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets phone number of the individual (if available).
-     * @return Phone number
+     *
+     * @return the phone number
      */
     @Nullable
     public String getPhoneNumber() {
@@ -241,7 +255,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the IP address for this person. (if available)
-     * @return IP address.
+     *
+     * @return the IP address
      */
     @Nullable
     public String getIPAddress() {
@@ -250,7 +265,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets any note data you have associated with the Person.
-     * @return Note stored.
+     *
+     * @return the stored note data
      */
     @Nullable
     public String getNote() {
@@ -260,7 +276,8 @@ public class Person extends BasicResponse {
     /**
      * Returns either valid or invalid and is the culmination of whether or not the passed
      * in information is valid against various databases and signals.
-     * @return True if valid.
+     *
+     * @return true if valid
      */
     public boolean isValid() {
         return ValidityStatus.VALID.isEqualTo(status);
@@ -269,7 +286,8 @@ public class Person extends BasicResponse {
     /**
      * Contains a breakdown of how the status (validity) was determined. It will let you diagnose 
      * problems like address inconsistencies.
-     * @return Details breakdown.
+     *
+     * @return the details breakdown
      */
     @NotNull
     public Details getDetails() {
@@ -278,7 +296,8 @@ public class Person extends BasicResponse {
 
     /**
      * Gets the question set ids associated with this Person record.
-     * @return Question sets.
+     *
+     * @return the question sets
      */
     @NotNull
     public List<String> getQuestionSets() {
@@ -296,7 +315,9 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the legal first name of the customer.
-         * @param firstName First name.
+         *
+         * @param firstName  the legal first name
+         * @return this
          */
         @NotNull
         public Builder setFirstName(@NotNull final String firstName) {
@@ -306,7 +327,9 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the  legal middle name of the customer (optional).
-         * @param middle Middle name.
+         *
+         * @param middleName  the legal middle name
+         * @return this
          */
         @NotNull
         public Builder setMiddleName(@Nullable final String middleName) {
@@ -316,7 +339,9 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the legal last name of the customer.
-         * @param last Last name.
+         *
+         * @param lastName  the legal last name
+         * @return this
          */
         @NotNull
         public Builder setLastName(@NotNull final String lastName) {
@@ -326,7 +351,9 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the identifying document type.
-         * @param documentType The Document type.
+         *
+         * @param documentType  the document type
+         * @return this
          */
         @NotNull
         public Builder setDocumentType(@NotNull final String documentType) {
@@ -336,7 +363,8 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the identifying document value.
-         * @param documentValue The Document value.
+         * @param documentValue  the document value
+         * @return this
          */
         @NotNull
         public Builder setDocumentValue(@NotNull final String documentValue) {
@@ -346,7 +374,8 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the date of birth
-         * @param dateOfBirth The date of birth.
+         * @param dateOfBirth  the date of birth
+         * @return this
          */
         @NotNull
         public Builder setDateOfBirth(@NotNull final Date dateOfBirth) {
@@ -358,7 +387,9 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the person's address.
-         * @param address The address.
+         *
+         * @param address  the address
+         * @return this
          */
         @NotNull
         public Builder setAddress(@NotNull final Address address) {
@@ -372,11 +403,14 @@ public class Person extends BasicResponse {
         }
 
         /**
-         * Sets a person's phone number. If you set the phone number, we will use it as an additional
+         * Sets a person's phone number.
+         * <p>
+         * If you set the phone number, we will use it as an additional
          * 'positive' data point for the consumer. That is, if it is provided, it will help us identify 
          * them, but if we cannot, they will not be penalized.
-         * @param phoneNumber Phone number for this individual.
-         * @return this.
+         *
+         * @param phoneNumber  the phone number for this individual.
+         * @return this
          */
         @NotNull
         public Builder setPhoneNumber(@Nullable final String phoneNumber) {
@@ -385,12 +419,15 @@ public class Person extends BasicResponse {
         }
 
         /**
-         * Sets a person's IP address. Your customers' IP address can be passed to us for storage
+         * Sets a person's IP address.
+         * <p>
+         * Your customers' IP address can be passed to us for storage
          * purposes. Soon we will be using this information for anti-fraud and verification purposes.
          * With this information we will be able to back-test your verifications when this feature is 
          * released.
-         * @param ipAddress IP address to associate with this individual.
-         * @return this.
+         *
+         * @param ipAddress  the IP address
+         * @return this
          */
         @NotNull
         public Builder setIPAddress(@Nullable final String ipAddress) {
@@ -401,8 +438,9 @@ public class Person extends BasicResponse {
         /**
          * You can store additional information about the person here such as your internal system's
          * identifier for this individual. This will allow you to keep track of them.
+         *
          * @param note Note to store.
-         * @return this.
+         * @return this
          */
         @NotNull
         public Builder setNote(@Nullable final String note) {
@@ -412,7 +450,8 @@ public class Person extends BasicResponse {
 
 
         /**
-         * Creates a new Person.
+         * Creates a new {@code Person}.
+         * @return the new person
          */
         public Person create() {
             Person person = restAdapter.createPerson(queryOptions);

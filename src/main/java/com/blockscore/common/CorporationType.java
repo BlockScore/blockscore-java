@@ -4,39 +4,44 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Corporation type.
- * Created by Tony Dieppa on 9/30/14.
  */
 public enum CorporationType {
-    CORP("corporation"), LLC("llc"), PARTNERSHIP("partnership"), SOLEPROPRIETORSHIP("sp"), OTHER("other");
+    CORP("corporation"),
+    LLC("llc"),
+    PARTNERSHIP("partnership"),
+    SOLE_PROPRIETORSHIP("sp"),
+    OTHER("other");
 
-    private final String mValue;
+    private final String value;
 
-    private CorporationType(@NotNull final String value) {
-        mValue = value;
+    CorporationType(@NotNull final String value) {
+        this.value = value;
     }
 
     /**
      * Returns if this matches.
-     * @param value Value to test
-     * @return True or false.
+     *
+     * @param value  the value to test
+     * @return whether the value is equivalent to the enum
      */
     public boolean isEqualTo(final String value) {
-        return mValue.equalsIgnoreCase(value);
+        return this.value.equalsIgnoreCase(value);
     }
 
     /**
      * Converts an enum to the string value.
-     * @return String value for enum.
+     *
+     * @return String value for enum
      */
     @Override
     public String toString() {
-        return mValue;
+        return value;
     }
 
     /**
      * Converts a string to a corporation type enum.
-     * @param value Value to convert.
-     * @return Corporation type.
+     * @param value  the value to convert
+     * @return the CorporationType enum value
      */
     public static CorporationType toEnum(@NotNull final String value) {
         if (value.equalsIgnoreCase(CORP.toString())) {
@@ -45,8 +50,8 @@ public enum CorporationType {
             return LLC;
         } else if (value.equalsIgnoreCase(PARTNERSHIP.toString())) {
             return PARTNERSHIP;
-        } else if (value.equalsIgnoreCase(SOLEPROPRIETORSHIP.toString())) {
-            return SOLEPROPRIETORSHIP;
+        } else if (value.equalsIgnoreCase(SOLE_PROPRIETORSHIP.toString())) {
+            return SOLE_PROPRIETORSHIP;
         } else {
             return OTHER;
         }

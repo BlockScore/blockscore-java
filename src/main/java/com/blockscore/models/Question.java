@@ -7,15 +7,14 @@ import java.util.List;
 
 /**
  * Question model.
- * Created by Tony Dieppa on 9/30/14.
  */
 public class Question {
     @JsonProperty("id")
-    private int mId;
+    private int id;
 
     @NotNull
     @JsonProperty("question")
-    private String mQuestion;
+    private String question;
 
     @NotNull
     @JsonProperty("answers")
@@ -23,24 +22,27 @@ public class Question {
 
     /**
      * Gets the unique ID for this question.
-     * @return ID.
+     *
+     * @return the ID
      */
     public int getId() {
-        return mId;
+        return id;
     }
 
     /**
-     * Gets the question to be asked.
-     * @return Question
+     * Gets the question text to be asked.
+     *
+     * @return the question
      */
     @NotNull
     public String getQuestion() {
-        return mQuestion;
+        return question;
     }
 
     /**
      * Gets all possible answers to show to the user.
-     * @return Answers.
+     *
+     * @return the possible answers
      */
     @NotNull
     public List<Answer> getAnswers() {

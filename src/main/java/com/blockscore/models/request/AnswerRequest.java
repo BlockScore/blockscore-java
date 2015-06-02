@@ -1,14 +1,14 @@
 package com.blockscore.models.request;
 
 import com.blockscore.models.AnsweredQuestion;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 /**
- * Request object to hold answers. Used when scoring answers.
- * Created by Tony Dieppa on 9/30/14.
+ * Request object to hold answers. Used when scoring answers. TODO: remove this class
  */
 public class AnswerRequest {
     @NotNull

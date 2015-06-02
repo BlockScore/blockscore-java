@@ -121,6 +121,7 @@ public class Company extends BasicResponse {
 
     /**
      * Gets the name of the entity.
+     *
      * @return Name of the entity.
      */
     @NotNull
@@ -129,7 +130,8 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Gets the Tax ID associated with this entity. 
+     * Gets the Tax ID associated with this entity.
+     *
      * @return Tax ID
      */
     @NotNull
@@ -139,7 +141,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets the incorporation state. Can be either of ISO code form or the full length name of the state.
-     * @return Incorporation state.
+     *
+     * @return the incorporation state
      */
     @Nullable
     public String getIncorporationState() {
@@ -148,7 +151,8 @@ public class Company extends BasicResponse {
     
     /**
      * Gets the incorporation country code. Should be of the ISO alpha-2 code form.
-     * @return Incorporation country code.
+     *
+     * @return the incorporation country code
      */
     @NotNull
     public String getIncorporationCountryCode() {
@@ -158,7 +162,8 @@ public class Company extends BasicResponse {
     /**
      * Gets the corporation type. The type of legal business entity that this company
      * is such as a Limited Liability Company.
-     * @return Corporation type.
+     *
+     * @return the corporation type
      */
     @NotNull
     public CorporationType getIncorporationType() {
@@ -167,7 +172,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets the date of incorporation.
-     * @return Incorporation date.
+     *
+     * @return the incorporation date
      */
     @Nullable
     public Date getIncorporationDate() {
@@ -181,7 +187,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets a list of "doing business as" names, which are other names this business may be known by.
-     * @return List of DBA names.
+     *
+     * @return the list of DBA names
      */
     @Nullable
     public String[] getDbas() {
@@ -192,7 +199,8 @@ public class Company extends BasicResponse {
      * Gets the registration number. This is the number typically provided by the state of
      * incorporation which is assigned to a business. Should only include the digits of the
      * registration number with no extraneous characters like dashes.
-     * @return Registration number.
+     *
+     * @return the registration number
      */
     @Nullable
     public String getRegistrationNumber() {
@@ -201,7 +209,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets the email for this entity.
-     * @return Email.
+     *
+     * @return the email address
      */
     @Nullable
     public String getEmail() {
@@ -210,7 +219,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets the URL for the entity.
-     * @return URL.
+     *
+     * @return the URL
      */
     @Nullable
     public String getURL() {
@@ -219,7 +229,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets the company's phone number.
-     * @return Phone number.
+     *
+     * @return the phone number
      */
     @Nullable
     public String getPhoneNumber() {
@@ -228,7 +239,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets a company's IP address.
-     * @return IP address.
+     *
+     * @return the IP address
      */
     @Nullable
     public String getIPAddress() {
@@ -237,7 +249,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets any note data you have associated with the Company.
-     * @return IP address.
+     *
+     * @return the note data
      */
     @Nullable
     public String getNote() {
@@ -246,7 +259,8 @@ public class Company extends BasicResponse {
 
     /**
      * Gets the address for this company.
-     * @return Address.
+     *
+     * @return Address
      */
     @NotNull
     public Address getAddress() {
@@ -262,7 +276,8 @@ public class Company extends BasicResponse {
     /**
      * Gets either valid or invalid and is the culmination of whether or not the passed
      * in information is valid against various databases and signals.
-     * @return True if valid.
+     *
+     * @return true if valid.
      */
     public boolean isValid() {
         return ValidityStatus.VALID.isEqualTo(status);
@@ -278,7 +293,8 @@ public class Company extends BasicResponse {
     /**
      * Contains a breakdown of how the status (validity) was determined. It will let you diagnose 
      * problems like address inconsistencies.
-     * @return Details breakdown.
+     *
+     * @return the details
      */
     @Nullable
     public Details getDetails() {
@@ -296,8 +312,9 @@ public class Company extends BasicResponse {
 
         /**
          * Name of entity. This should exclude any legal endings like "Co" or "Inc" for best results.
-         * @param entityName Name
-         * @return this.
+         *
+         * @param entityName  Name
+         * @return this
          */
         @NotNull
         public Builder setEntityName(@NotNull final String entityName) {
@@ -308,8 +325,9 @@ public class Company extends BasicResponse {
         /**
          * Sets the Tax ID for this entity. The tax ID should only include the digits of the ID with
          * no extraneous characters like dashes.
-         * @param taxId Tax ID
-         * @return this.
+         *
+         * @param taxId  the tax ID for the company
+         * @return this
          */
         @NotNull
         public Builder setTaxId(@NotNull final String taxId) {
@@ -319,8 +337,9 @@ public class Company extends BasicResponse {
 
         /**
          * Sets the incorporation state. Can be either of ISO code form or the full length name of the state.
-         * @param incorporationState Incorporation state.
-         * @return this.
+         *
+         * @param incorporationState  the incorporation state
+         * @return this
          */
         @NotNull
         public Builder setIncorporationState(@Nullable final String incorporationState) {
@@ -330,8 +349,9 @@ public class Company extends BasicResponse {
 
         /**
          * Sets the incorporation country code. Should be of the ISO alpha-2 code form.
-         * @param incorporationCountryCode Country code.
-         * @return this.
+         *
+         * @param incorporationCountryCode  the country code
+         * @return this
          */
         @NotNull
         public Builder setIncorporationCountryCode(@NotNull final String incorporationCountryCode) {
@@ -341,8 +361,9 @@ public class Company extends BasicResponse {
 
         /**
          * Sets the incorporation type.
-         * @param incorporationType Corporation type.
-         * @return this.
+         *
+         * @param incorporationType  the corporation type
+         * @return this
          */
         public Builder setIncorporationType(@NotNull final CorporationType incorporationType) {
             queryOptions.put("incorporation_type", String.valueOf(incorporationType));
@@ -351,8 +372,9 @@ public class Company extends BasicResponse {
 
         /**
          * Sets the incorporation date.
-         * @param incorporationDate Incorporation date.
-         * @return this.
+         *
+         * @param incorporationDate  the incorporation date
+         * @return this
          */
         @NotNull
         public Builder setIncorporationDate(@Nullable final Date incorporationDate) {
@@ -367,8 +389,8 @@ public class Company extends BasicResponse {
         }
 
         /**
-         * Sets the "doing business as" names.
-         * @param dbas Doing business as names.
+         * Sets the "doing business as" names for the company.
+         * @param dbas  the doing business as names
          * @return this.
          */
         public Builder setDbas(@Nullable final String dbas) { // TODO: Alter to string array
@@ -379,8 +401,9 @@ public class Company extends BasicResponse {
         /**
          * Sets the registration number for this entity. Should only include the digits of the
          * registration number with no extraneous characters like dashes.
-         * @param regNumber Registration number.
-         * @return this.
+         *
+         * @param registrationNumber  the registration number
+         * @return this
          */
         public Builder setRegistrationNumber(@Nullable final String registrationNumber) {
             queryOptions.put("registration_number", registrationNumber);
@@ -389,8 +412,9 @@ public class Company extends BasicResponse {
 
         /**
          * Sets the email for this entity. Any form of valid email is accepted.
-         * @param email Email for the entity.
-         * @return this.
+         *
+         * @param email  the email address
+         * @return this
          */
         public Builder setEmail(@Nullable final String email) {
             queryOptions.put("email", email);
@@ -400,8 +424,9 @@ public class Company extends BasicResponse {
         /**
          * Sets the URL for this business. Can either contain protocol information or not
          * (ex. www.example.com and http://www.example.com).
-         * @param url URL for the business
-         * @return this.
+         *
+         * @param url  the URL
+         * @return this
          */
         public Builder setURL(@Nullable final String url) {
             queryOptions.put("url", url);
@@ -411,8 +436,9 @@ public class Company extends BasicResponse {
         /**
          * Sets a company's phone number. Extra characters like parenthesis and dashes are
          * accepted - can either contain the country code or not.
-         * @param phoneNumber Phone number for this individual.
-         * @return this.
+         *
+         * @param phoneNumber  the phone number
+         * @return this
          */
         @NotNull
         public Builder setPhoneNumber(@Nullable final String phoneNumber) {
@@ -422,8 +448,8 @@ public class Company extends BasicResponse {
 
         /**
          * Sets a company's IP address. Both IPv4 and IPv6 style IP addresses are acceptable.
-         * @param ipAddress IP address to associate with this individual.
-         * @return this.
+         *
+         * @param ipAddress  the IP address
          */
         @NotNull
         public Builder setIPAddress(@Nullable final String ipAddress) {
@@ -431,6 +457,13 @@ public class Company extends BasicResponse {
             return this;
         }
 
+        /**
+         * Store additional information about the candidate here such as your internal system's identifier
+         * for this individual. This will allow you to keep track of them.
+         *
+         * @param note  the additional information
+         * @return this
+         */
         @NotNull
         public Builder setNote(@Nullable final String note) {
             queryOptions.put("note", note);
@@ -438,8 +471,10 @@ public class Company extends BasicResponse {
         }
 
         /**
-         * Sets the comapny's address.
-         * @param address The address.
+         * Sets the company's address.
+         *
+         * @param address  the address
+         * @return this
          */
         public Builder setAddress(@NotNull final Address address) {
             queryOptions.put("address_street1", address.getStreet1());
@@ -453,7 +488,9 @@ public class Company extends BasicResponse {
 
 
         /**
-         * Creates a new Company.
+         * Creates a new {@code Company}.
+         *
+         * @return the new company
          */
         public Company create() {
             Company company = restAdapter.createCompany(queryOptions);

@@ -2,12 +2,12 @@ package com.blockscore.exceptions;
 
 import com.blockscore.common.ValidationErrorType;
 import com.blockscore.models.error.BlockscoreError;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Exception thrown when an invalid request is returned from the server.
- * Created by Tony Dieppa on 9/29/14.
  */
 public class InvalidRequestException extends RuntimeException {
     private final BlockscoreError mError;
@@ -19,7 +19,8 @@ public class InvalidRequestException extends RuntimeException {
 
     /**
      * Gets the invalid parameters.
-     * @return Invalid parameter.
+     *
+     * @return the invalid parameter
      */
     @Nullable
     public String getInvalidParam() {
@@ -28,7 +29,7 @@ public class InvalidRequestException extends RuntimeException {
 
     /**
      * Gets the validation error type. (If any)
-     * @return Validation error type.
+     * @return the validation error type
      */
     @Nullable
     public ValidationErrorType getValidationErrorCode() {

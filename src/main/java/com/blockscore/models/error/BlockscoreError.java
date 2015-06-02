@@ -7,17 +7,17 @@ import retrofit.RetrofitError;
 
 /**
  * Blockscore Error model.
- * Created by Tony Dieppa on 10/1/14.
  */
 public class BlockscoreError {
     @NotNull
     @JsonProperty("error")
-    private RequestError mRequestError;
+    private RequestError requestError;
 
     /**
      * Converts a Retrofit Error into a Blockscore Error.
-     * @param cause Retrofit error to convert.
-     * @return Blockscore Error
+     *
+     * @param cause  the Retrofit error to convert
+     * @return the Blockscore Error
      */
     @Nullable
     public static BlockscoreError getBlockscoreError(@NotNull final RetrofitError cause) {
@@ -31,10 +31,11 @@ public class BlockscoreError {
 
     /**
      * Returns the error details.
-     * @return Error details.
+     *
+     * @return the error details
      */
     @NotNull
     public RequestError getError() {
-        return mRequestError;
+        return requestError;
     }
 }
