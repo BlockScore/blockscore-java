@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
@@ -382,9 +383,13 @@ public class Company extends BasicResponse {
                 return this;
             }
 
-            queryOptions.put("birth_day", String.valueOf(incorporationDate.getDay()));
-            queryOptions.put("birth_month", String.valueOf(incorporationDate.getMonth()));
-            queryOptions.put("birth_year", String.valueOf(incorporationDate.getYear()));
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(incorporationDate);
+
+            queryOptions.put("birth_day", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+            queryOptions.put("birth_month", String.valueOf(calendar.get(Calendar.MONTH) + 1)); // Months begin at 0
+            queryOptions.put("birth_year", String.valueOf(calendar.get(Calendar.YEAR)));
+
             return this;
         }
 

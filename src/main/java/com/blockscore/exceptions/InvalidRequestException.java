@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class InvalidRequestException extends RuntimeException {
     private final BlockscoreError mError;
+    private static final long serialVersionUID = 0L;
 
     public InvalidRequestException(@NotNull final BlockscoreError error) {
         super(error.getError().getMessage());

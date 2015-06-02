@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Map;
@@ -139,7 +140,7 @@ public class Person extends BasicResponse {
     }
 
     /**
-     * This allows you to retrieve a question set you have created.
+     * Retrieve a question set you have created.
      *
      * @param questionSetId  Question set ID
      */
@@ -149,16 +150,10 @@ public class Person extends BasicResponse {
     }
 
     /**
-     * This allows you to retrieve a question set you have created.
+     * Lists a historical record of all question sets that you have created.
+     * The list is displayed in reverse chronological order (newer question sets appear first).
      *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * @see BlockscoreRestAdapter#listQuestionSets()
+     * @return paginated results of created question sets
      */
     @NotNull
     public PaginatedResult<QuestionSet> listQuestionSet() {
@@ -363,6 +358,7 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the identifying document value.
+         *
          * @param documentValue  the document value
          * @return this
          */
@@ -374,14 +370,19 @@ public class Person extends BasicResponse {
 
         /**
          * Sets the date of birth
+         *
          * @param dateOfBirth  the date of birth
          * @return this
          */
         @NotNull
         public Builder setDateOfBirth(@NotNull final Date dateOfBirth) {
-            queryOptions.put("birth_day", String.valueOf(dateOfBirth.getDay()));
-            queryOptions.put("birth_month", String.valueOf(dateOfBirth.getMonth()));
-            queryOptions.put("birth_year", String.valueOf(dateOfBirth.getYear()));
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(dateOfBirth);
+
+            queryOptions.put("birth_day", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+            queryOptions.put("birth_month", String.valueOf(calendar.get(Calendar.MONTH) + 1)); // Months begin at 0
+            queryOptions.put("birth_year", String.valueOf(calendar.get(Calendar.YEAR)));
+
             return this;
         }
 
@@ -448,9 +449,9 @@ public class Person extends BasicResponse {
             return this;
         }
 
-
         /**
          * Creates a new {@code Person}.
+         *
          * @return the new person
          */
         public Person create() {

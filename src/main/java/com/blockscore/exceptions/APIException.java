@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class APIException extends RuntimeException {
     private final BlockscoreError error;
+    private static final long serialVersionUID = 0L;
 
     public APIException(@NotNull final BlockscoreError error) {
         super(error.getError().getMessage());

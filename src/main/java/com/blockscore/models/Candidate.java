@@ -12,7 +12,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -413,9 +415,12 @@ public class Candidate extends BasicResponse {
                 return this;
             }
 
-            String dateString = String.format("%d-%d-%d", dateOfBirth.getYear(),
-                                                          dateOfBirth.getMonth(),
-                                                          dateOfBirth.getDay());
+            Calendar calendar = new GregorianCalendar();
+            calendar.setTime(dateOfBirth);
+            String dateString = String.format("%d-%d-%d", calendar.get(Calendar.YEAR),
+                                                          calendar.get(Calendar.MONTH) + 1,
+                                                          calendar.get(Calendar.DAY_OF_MONTH));
+
             queryOptions.put("date_of_birth", dateString);
             return this;
         }
