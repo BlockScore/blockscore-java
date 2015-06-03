@@ -107,9 +107,6 @@ public class PersonTest {
   }
 
   private void isPersonValid(@NotNull final Person person) {
-    System.out.println(person.getCreatedAtDate());
-    System.out.println(person.getUpdatedAtDate());
-
     Assert.assertNotNull(person);
     Assert.assertNotNull(person.getId());
     Assert.assertNotNull(person.getQuestionSets());

@@ -49,7 +49,7 @@ public class BlockscoreApiClient {
     this.apiKey = apiKey + ":";
 
     RestAdapter.Builder restBuilder = new RestAdapter.Builder().setClient(new BlockscoreHttpClient())
-        .setEndpoint(Constants.getDomain());
+                                                               .setEndpoint(Constants.getDomain());
     restBuilder.setConverter(getDefaultConverter());
     restBuilder.setRequestInterceptor(getDefaultRequestInterceptor());
     restBuilder.setErrorHandler(new BlockscoreErrorHandler());
@@ -162,11 +162,11 @@ public class BlockscoreApiClient {
   private JacksonConverter getDefaultConverter() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setVisibilityChecker(mapper.getSerializationConfig()
-        .getDefaultVisibilityChecker()
-        .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-        .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-        .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-        .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+                                      .getDefaultVisibilityChecker()
+                                      .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                                      .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                                      .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                                      .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
     //mapper.getDeserializationConfig().setDateFormat(new SimpleDateFormat("ssssssssss"));

@@ -370,7 +370,7 @@ public class Candidate extends BasicResponse {
 
   //TODO: Consider delegating the setters' implementation to the Candidate's setters & send the whole Candidate object
   public static class Builder {
-    private transient BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
+    private BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
     private transient Map<String, String> queryOptions;
 
     public Builder(BlockscoreApiClient client) {

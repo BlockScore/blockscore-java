@@ -74,17 +74,17 @@ public class CompanyTest {
 
     Company.Builder builder = new Company.Builder(apiClient);
     builder.setEntityName("BlockScore")
-         .setTaxId("123410000")
-         .setIncorporationDate(date)
-         .setIncorporationState("DE")
-         .setIncorporationCountryCode("US")
-         .setIncorporationType(CorporationType.CORP)
-         .setDbas("BitRemit")
-         .setRegistrationNumber("123123123")
-         .setEmail("test@example.com")
-         .setUrl("https://blockscore.com")
-         .setPhoneNumber("6505555555")
-         .setAddress(address);
+           .setTaxId("123410000")
+           .setIncorporationDate(date)
+           .setIncorporationState("DE")
+           .setIncorporationCountryCode("US")
+           .setIncorporationType(CorporationType.CORP)
+           .setDbas("BitRemit")
+           .setRegistrationNumber("123123123")
+           .setEmail("test@example.com")
+           .setUrl("https://blockscore.com")
+           .setPhoneNumber("6505555555")
+           .setAddress(address);
 
     return builder.create();
   }

@@ -1,7 +1,9 @@
 package com.blockscore.models.base;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.blockscore.common.SecondsFormattedDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
@@ -14,12 +16,12 @@ public abstract class BasicResponse {
   @JsonProperty("id")
   private String id;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ssssssssss", timezone = "UTC")
-  @JsonProperty("created_at") // TODO: Parse as Date way
+  @JsonDeserialize(using = SecondsFormattedDateDeserializer.class)
+  @JsonProperty("created_at")
   private Date createAtDate;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "ssssssssss", timezone = "UTC")
-  @JsonProperty("updated_at") // TODO: ""
+  @JsonDeserialize(using = SecondsFormattedDateDeserializer.class)
+  @JsonProperty("updated_at")
   private Date updatedAtDate;
 
   @JsonProperty("livemode")

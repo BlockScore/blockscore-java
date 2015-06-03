@@ -30,8 +30,8 @@ public class WatchlistTest {
     isCandidateValid(candidate);
 
     Address address = (new Address()).setStreet1("1 Infinite Sea")
-                     .setCity("Atlantis")
-                     .setCountryCode("US");
+        				                     .setCity("Atlantis")
+        				                     .setCountryCode("US");
 
     //Tests updating a candidate.
     Date date = null;
@@ -42,12 +42,12 @@ public class WatchlistTest {
     }
 
     candidate.setNote("1234123")
-         .setSsn("002")
-         .setDateOfBirth(date)
-         .setFirstName("Jack")
-         .setLastName("Sparrow")
-         .setAddress(address)
-         .save();
+  	         .setSsn("002")
+  	         .setDateOfBirth(date)
+  	         .setFirstName("Jack")
+  	         .setLastName("Sparrow")
+  	         .setAddress(address)
+  	         .save();
 
     didCandidateDataUpdate(candidate);
 
@@ -199,8 +199,8 @@ public class WatchlistTest {
   @NotNull
   private Candidate createTestCandidate() {
     Address address = (new Address()).setStreet1("1 Infinite Loop")
-                     .setCity("Harare")
-                     .setCountryCode("ZW");
+                                     .setCity("Harare")
+                                     .setCountryCode("ZW");
 
     final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date date = null;
@@ -212,11 +212,11 @@ public class WatchlistTest {
 
     Candidate.Builder builder = new Candidate.Builder(apiClient);
     builder.setNote("12341234")
-        .setSsn("001")
-        .setDateOfBirth(date)
-        .setFirstName("John")
-        .setLastName("BredenKamp")
-        .setAddress(address);
+  	       .setSsn("001")
+  	       .setDateOfBirth(date)
+  	       .setFirstName("John")
+  	       .setLastName("BredenKamp")
+  	       .setAddress(address);
 
     return builder.create();
   }
@@ -245,7 +245,6 @@ public class WatchlistTest {
     final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     try {
       Assert.assertEquals(candidate.getDateOfBirth(), formatter.parse("1986-08-23"));
-      System.out.println(candidate.getDateOfBirth());
     } catch(ParseException e) {
       e.printStackTrace();
     }

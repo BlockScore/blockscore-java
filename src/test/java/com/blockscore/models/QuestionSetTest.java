@@ -110,12 +110,12 @@ public class QuestionSetTest {
     }
 
     builder.setFirstName("John")
-         .setMiddleName("Pearce")
-         .setLastName("Doe")
-         .setDocumentType("ssn")
-         .setDocumentValue("0000")
-         .setAddress(address)
-         .setDateOfBirth(dateOfBirth);
+           .setMiddleName("Pearce")
+           .setLastName("Doe")
+           .setDocumentType("ssn")
+           .setDocumentValue("0000")
+           .setAddress(address)
+           .setDateOfBirth(dateOfBirth);
     return builder.create();
   }
 
