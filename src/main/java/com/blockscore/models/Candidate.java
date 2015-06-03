@@ -368,9 +368,8 @@ public class Candidate extends BasicResponse {
     return addressObject;
   }
 
-  /** TODO: remove
-   * Sets the internal REST api adapter.
-   *
+  /**
+   * Sets the internal REST api adapter needed to complete Blockscore API requests.
    */
   public void setAdapter(BlockscoreRestAdapter restAdapter) {
     this.restAdapter = restAdapter;

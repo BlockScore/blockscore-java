@@ -28,7 +28,7 @@ public class QuestionSet extends BasicResponse {
 
   @NotNull
   @JsonProperty("questions")
-  private List<Question> questionSet;
+  private List<Question> questions;
 
   private BlockscoreRestAdapter restAdapter;
 
@@ -36,7 +36,6 @@ public class QuestionSet extends BasicResponse {
    * Scores a question set.
    *
    * @param answers  the answers to the QuestionSet
-   * @return the scored question set
    */
   @NotNull
   public void score(@NotNull final AnswerSet answers) {
@@ -94,6 +93,6 @@ public class QuestionSet extends BasicResponse {
    */
   @NotNull
   public List<Question> retrieveQuestions() {
-    return Collections.unmodifiableList(questionSet);
+    return Collections.unmodifiableList(questions);
   }
 }

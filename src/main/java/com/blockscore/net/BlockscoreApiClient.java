@@ -181,7 +181,11 @@ public class BlockscoreApiClient {
     };
   }
 
-  //TODO: remove method
+  /**
+   * Gets the internal REST api adapter needed to complete Blockscore API requests.
+   *
+   * @return the REST adapter
+   */
   public BlockscoreRestAdapter getAdapter() {
     return restAdapter;
   }

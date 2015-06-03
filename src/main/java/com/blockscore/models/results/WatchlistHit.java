@@ -93,19 +93,19 @@ public class WatchlistHit {
   @JsonProperty("address_raw")
   private String rawAddress;
 
-  @Nullable
+  @NotNull
   @JsonProperty("names")
   private List<NameResult> names;
 
-  @Nullable
+  @NotNull
   @JsonProperty("births")
   private List<BirthRange> births;
 
-  @Nullable
+  @NotNull
   @JsonProperty("documents")
   private List<Document> documents;
 
-  //?
+  @NotNull
   @JsonProperty("addresses")
   private List<Address> addresses;
 
@@ -266,7 +266,7 @@ public class WatchlistHit {
    *
    * @return the list of names
    */
-  @Nullable
+  @NotNull
   public List<NameResult> getNames() {
     return Collections.unmodifiableList(names);
   }
@@ -276,7 +276,7 @@ public class WatchlistHit {
    *
    * @return the list of birth ranges
    */
-  @Nullable
+  @NotNull
   public List<BirthRange> getBirths() {
     return Collections.unmodifiableList(births);
   }
@@ -286,7 +286,7 @@ public class WatchlistHit {
    *
    * @return the list of documents
    */
-  @Nullable
+  @NotNull
   public List<Document> getDocuments() {
     return Collections.unmodifiableList(documents);
   }
@@ -296,7 +296,7 @@ public class WatchlistHit {
    *
    * @return the list of addresses
    */
-  @Nullable
+  @NotNull
   public List<Address> getAddresses() {
     return Collections.unmodifiableList(addresses);
   }

@@ -106,14 +106,14 @@ public class Person extends BasicResponse {
 
   @NotNull
   @JsonProperty("question_sets")
-  private List<String> questionSets;
+  private List<String> questionSetIds;
 
   private Person() {
     // Restricts access to end user so they must use a Person.Builder to create a Person
   }
 
   /**
-   * Sets the internal REST api adapter. //TODO: remove
+   * Sets the internal REST api adapter needed to complete Blockscore API requests.
    */
   public void setAdapter(BlockscoreRestAdapter restAdapter) {
     this.restAdapter = restAdapter;
@@ -309,7 +309,7 @@ public class Person extends BasicResponse {
    */
   @NotNull
   public List<String> getQuestionSetIds() {
-    return Collections.unmodifiableList(questionSets);
+    return Collections.unmodifiableList(questionSetIds);
   }
 
   public static class Builder {

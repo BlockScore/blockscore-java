@@ -1,7 +1,7 @@
 package com.blockscore.models;
 
-import com.blockscore.common.ResultStrength;
 import com.blockscore.common.MatchRating;
+import com.blockscore.common.ResultStrength;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
