@@ -7,8 +7,8 @@ import com.blockscore.net.BlockscoreApiClient;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.junit.Assert;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,24 +16,29 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Simple test for the company endpoints.
+ * Candidate unit tests.
  */
 public class CompanyTest {
-  BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+  BlockscoreApiClient client = setupBlockscoreApiClient();
 
   @Test
-  public void companyTest() throws ParseException {
-    //Tests creation.
+  public void testCreatingAndRetrievingCompany() throws ParseException {
+    // Tests creation.
     Company company = createTestCompany();
     isCompanyValid(company);
 
-    //Tests getting the company.
-    company = apiClient.retrieveCompany(company.getId());
-    isCompanyValid(company);
+    // Tests retrieval.
+    Company retrievedCompany = client.retrieveCompany(company.getId());
+    isCompanyValid(retrievedCompany);
 
-    //Tests listing the companies
-    PaginatedResult<Company> companies = apiClient.listCompanies();
-    isListOfCompaniesValid(companies.getData());
+    // Test that we got back the same company information we entered.
+    areCompaniesEquivalent(company, retrievedCompany);
+  }
+
+  @Test
+  public void testListingCompanies() {
+    PaginatedResult<Company> companies = client.listCompanies();
+    areCompaniesValid(companies.getData());
   }
 
   @Test
@@ -44,11 +49,12 @@ public class CompanyTest {
       Company company = createBadTestCompany();
       isCompanyValid(company);
     } catch (InvalidRequestException e) {
-      Assert.assertNotNull(e.getMessage());
-      Assert.assertNotNull(e.getInvalidParam());
+      assertNotNull(e.getMessage());
+      assertNotNull(e.getInvalidParam());
       exception = e;
     }
-    Assert.assertNotNull(exception);
+
+    assertNotNull(exception);
   }
 
   @Test
@@ -56,13 +62,14 @@ public class CompanyTest {
     InvalidRequestException exception = null;
 
     try {
-      Company company = apiClient.retrieveCompany("781237129");
+      Company company = client.retrieveCompany("781237129");
       isCompanyValid(company);
     } catch (InvalidRequestException e) {
-      Assert.assertNotNull(e.getMessage());
+      assertNotNull(e.getMessage());
       exception = e;
     }
-    Assert.assertNotNull(exception);
+    
+    assertNotNull(exception);
   }
 
   @NotNull
@@ -72,7 +79,7 @@ public class CompanyTest {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date date = formatter.parse("1980-08-23");
 
-    Company.Builder builder = new Company.Builder(apiClient);
+    Company.Builder builder = new Company.Builder(client);
     builder.setEntityName("BlockScore")
            .setTaxId("123410000")
            .setIncorporationDate(date)
@@ -83,39 +90,100 @@ public class CompanyTest {
            .setRegistrationNumber("123123123")
            .setEmail("test@example.com")
            .setUrl("https://blockscore.com")
+           .setIpAddress("127.0.0.1")
+           .setNote("note: this is a note")
            .setPhoneNumber("6505555555")
            .setAddress(address);
 
-    return builder.create();
+    Company company = builder.create();
+    // ensure all fields were set
+    isCompanyDataComplete(company);
+
+    return company;
   }
 
   @NotNull
   private Company createBadTestCompany() throws ParseException {
-    Company.Builder builder = new Company.Builder(apiClient);
+    Company.Builder builder = new Company.Builder(client);
     return builder.create();
   }
 
+  private void areCompaniesEquivalent(Company expected, Company actual) {
+    assertEquals(expected.getId(), actual.getId());
+    assertEquals(expected.getEntityName(), actual.getEntityName());
+    assertEquals(expected.getTaxId(), actual.getTaxId());
+    assertEquals(expected.getIncorporationState(), actual.getIncorporationState());
+    assertEquals(expected.getIncorporationCountryCode(), actual.getIncorporationCountryCode());
+    assertEquals(expected.getIncorporationType(), actual.getIncorporationType());
+    assertEquals(expected.getIncorporationDate(), actual.getIncorporationDate());
+    assertEquals(expected.getDbas(), actual.getDbas());
+    assertEquals(expected.getRegistrationNumber(), actual.getRegistrationNumber());
+    assertEquals(expected.getEmail(), actual.getEmail());
+    assertEquals(expected.getUrl(), actual.getUrl());
+    assertEquals(expected.getPhoneNumber(), actual.getPhoneNumber());
+    assertEquals(expected.getIpAddress(), actual.getIpAddress());
+    assertEquals(expected.getNote(), actual.getNote());
+    assertEquals(expected.isValid(), actual.isValid());
+    areAddressesEquivalent(expected.getAddress(), actual.getAddress());
+  }
+
+  private void areAddressesEquivalent(Address expected, Address actual) {
+    assertEquals(expected.getCity(), actual.getCity());
+    assertEquals(expected.getCountryCode(), actual.getCountryCode());
+    assertEquals(expected.getPostalCode(), actual.getPostalCode());
+    assertEquals(expected.getStreet1(), actual.getStreet1());
+    assertEquals(expected.getStreet2(), actual.getStreet2());
+    assertEquals(expected.getSubdivision(), actual.getSubdivision());
+  }
+
+  private void isCompanyDataComplete(@Nullable final Company company) {
+    isCompanyValid(company);
+    assertNotNull(company.getIncorporationState());
+    assertNotNull(company.getIncorporationDate());
+    assertNotNull(company.getDbas());
+    assertNotNull(company.getRegistrationNumber());
+    assertNotNull(company.getEmail());
+    assertNotNull(company.getUrl());
+    assertNotNull(company.getPhoneNumber());
+    assertNotNull(company.getIpAddress());
+    assertNotNull(company.getNote());
+  }
+
   private void isCompanyValid(@Nullable final Company company) {
-    Assert.assertNotNull(company);
-    Assert.assertNotNull(company.getId());
-    Assert.assertNotNull(company.getEntityName());
-    Assert.assertNotNull(company.getTaxId());
-    Assert.assertNotNull(company.getIncorporationCountryCode());
-    Assert.assertNotNull(company.getIncorporationType());
+    assertNotNull(company);
+    assertNotNull(company.getId());
+    assertNotNull(company.getEntityName());
+    assertNotNull(company.getTaxId());
+    assertNotNull(company.getIncorporationCountryCode());
+    assertNotNull(company.getIncorporationType());
+    assertTrue(company.isValid());
+    areDetailsValid(company.getDetails());
     isAddressValid(company.getAddress());
   }
 
-  private void isAddressValid(@Nullable final Address address) {
-    Assert.assertNotNull(address);
-    Assert.assertNotNull(address.getStreet1());
-    Assert.assertNotNull(address.getSubdivision());
-    Assert.assertNotNull(address.getPostalCode());
-    Assert.assertNotNull(address.getCountryCode());
-    Assert.assertNotNull(address.getCity());
+  private void areDetailsValid(@Nullable final CompanyDetails details) {
+    assertNotNull(details);
+    assertNotNull(details.getAddressMatch());
+    assertNotNull(details.getCountryCodeMatch());
+    assertNotNull(details.getEntityMatch());
+    assertNotNull(details.getIncorporationDateMatch());
+    assertNotNull(details.getOfacMatch());
+    assertNotNull(details.getStateMatch());
+    assertNotNull(details.getTaxIdMatch());
   }
 
-  private void isListOfCompaniesValid(@Nullable final List<Company> companies) {
-    Assert.assertNotNull(companies);
+  private void isAddressValid(@Nullable final Address address) {
+    assertNotNull(address);
+    assertNotNull(address.getStreet1());
+    assertNotNull(address.getSubdivision());
+    assertNotNull(address.getPostalCode());
+    assertNotNull(address.getCountryCode());
+    assertNotNull(address.getCity());
+  }
+
+  private void areCompaniesValid(@Nullable final List<Company> companies) {
+    assertNotNull(companies);
+
     for (Company company : companies) {
       isCompanyValid(company);
     }

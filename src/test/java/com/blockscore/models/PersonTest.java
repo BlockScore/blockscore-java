@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Simple test for the person process.
+ * Person unit tests.
  */
 public class PersonTest {
   BlockscoreApiClient apiClient = setupBlockscoreApiClient();

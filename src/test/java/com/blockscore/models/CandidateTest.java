@@ -1,3 +1,5 @@
+package com.blockscore.models;
+
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.Candidate;
 import com.blockscore.models.Address;
@@ -16,9 +18,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Simple test for the company endpoints.
+ * Company unit tests.
  */
-public class WatchlistTest {
+public class CandidateTest {
   BlockscoreApiClient apiClient = setupBlockscoreApiClient();
 
   @Test
@@ -30,8 +32,8 @@ public class WatchlistTest {
     isCandidateValid(candidate);
 
     Address address = (new Address()).setStreet1("1 Infinite Sea")
-        				                     .setCity("Atlantis")
-        				                     .setCountryCode("US");
+                                     .setCity("Atlantis")
+                                     .setCountryCode("US");
 
     //Tests updating a candidate.
     Date date = null;
@@ -42,15 +44,14 @@ public class WatchlistTest {
     }
 
     candidate.setNote("1234123")
-  	         .setSsn("002")
-  	         .setDateOfBirth(date)
-  	         .setFirstName("Jack")
-  	         .setLastName("Sparrow")
-  	         .setAddress(address)
-  	         .save();
+             .setSsn("002")
+             .setDateOfBirth(date)
+             .setFirstName("Jack")
+             .setLastName("Sparrow")
+             .setAddress(address)
+             .save();
 
     didCandidateDataUpdate(candidate);
-
 
     //Tests getting a candidate
     candidate = apiClient.retrieveCandidate(candidate.getId());
@@ -64,13 +65,44 @@ public class WatchlistTest {
     //       server response but you can still successfully retrieve/update/delete
     //       the deleted candidate which should not happen.
     // try {
-    //     apiClient.retrieveCandidate(candidate.getId());
+    //     client.retrieveCandidate(candidate.getId());
     // } catch (InvalidRequestException e) {
     //     Assert.assertNotNull(e.getMessage());
     //     exception = e;
     // }
     // Assert.assertNotNull(exception);
   }
+
+  @Test
+  public void searchTest() {
+    Candidate candidate = createTestCandidate();
+
+    PaginatedResult<WatchlistHit> results = candidate.searchWatchlists();
+    areMatchesValid(results.getData());
+
+    //TODO: Add in tests for match_type & similarity_threshold requests (!)
+  }
+
+
+  //TODO: Add back. Cannot create a nonexistant candidate without creating
+  //      and then deleting a candidate which is currently non-functional.
+  // @Test
+  // public void noCandidateFoundTest() {
+  //     InvalidRequestException exception = null;
+
+  //     Candidate candidate = createTestCandidate();
+  //     isCandidateValid(candidate);
+
+  //     try {
+  //         SearchRequest request = new SearchRequest("1");
+  //         WatchlistSearchResults results = candidate.searchWatchlists();
+  //         areSearchResultsValid(results);
+  //     } catch (InvalidRequestException e) {
+  //         Assert.assertNotNull(e.getMessage());
+  //         exception = e;
+  //     }
+  //     Assert.assertNotNull(exception);
+  // }
 
   @Test
   public void listCandidatesTest() {
@@ -143,7 +175,7 @@ public class WatchlistTest {
   //     InvalidRequestException exception = null;
 
   //     try {
-  //         List<Candidate> candidate = apiClient.getCandidateHistory("1");
+  //         List<Candidate> candidate = client.getCandidateHistory("1");
   //         areCandidatesValid(candidate);
   //     } catch (InvalidRequestException e) {
   //         Assert.assertNotNull(e.getMessage());
@@ -212,11 +244,11 @@ public class WatchlistTest {
 
     Candidate.Builder builder = new Candidate.Builder(apiClient);
     builder.setNote("12341234")
-  	       .setSsn("001")
-  	       .setDateOfBirth(date)
-  	       .setFirstName("John")
-  	       .setLastName("BredenKamp")
-  	       .setAddress(address);
+           .setSsn("001")
+           .setDateOfBirth(date)
+           .setFirstName("John")
+           .setLastName("BredenKamp")
+           .setAddress(address);
 
     return builder.create();
   }
@@ -305,4 +337,19 @@ public class WatchlistTest {
     BlockscoreApiClient.useVerboseLogs(false);
     return new BlockscoreApiClient("sk_test_a1ed66cc16a7cbc9f262f51869da31b3");
   }
+
+  private void areMatchesValid(@Nullable final List<WatchlistHit> matches) {
+    Assert.assertNotNull(matches);
+    for (WatchlistHit match : matches) {
+      isMatchValid(match);
+    }
+  }
+
+  private void isMatchValid(@Nullable final WatchlistHit match) {
+    Assert.assertNotNull(match);
+    Assert.assertNotNull(match.getMatchingInfo());
+    Assert.assertNotNull(match.getWatchlist());
+    Assert.assertNotNull(match.getMatchingInfo());
+  }
+
 }
