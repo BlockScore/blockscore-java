@@ -376,9 +376,9 @@ public class Company extends BasicResponse {
       Calendar calendar = new GregorianCalendar();
       calendar.setTime(incorporationDate);
 
-      queryOptions.put("birth_day", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
-      queryOptions.put("birth_month", String.valueOf(calendar.get(Calendar.MONTH) + 1)); // Months begin at 0
-      queryOptions.put("birth_year", String.valueOf(calendar.get(Calendar.YEAR)));
+      queryOptions.put("incorporation_day", String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+      queryOptions.put("incorporation_month", String.valueOf(calendar.get(Calendar.MONTH) + 1)); // Months begin at 0
+      queryOptions.put("incorporation_year", String.valueOf(calendar.get(Calendar.YEAR)));
 
       return this;
     }
