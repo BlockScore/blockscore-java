@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PaginatedResult<T> {
@@ -60,7 +61,7 @@ public class PaginatedResult<T> {
    */
   @NotNull
   public List<T> getData() {
-    return new ArrayList<T>(data); //TODO: [-double-check-] FIX copy method
+    return Collections.unmodifiableList(data);
   }
 
 }

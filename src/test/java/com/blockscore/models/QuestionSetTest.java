@@ -29,10 +29,10 @@ public class QuestionSetTest {
 
     //Test scoring a question set.
     AnswerSet answers = new AnswerSet();
-    for (Question question : questionSet.retrieveQuestionSet()) {
+    for (Question question : questionSet.retrieveQuestions()) {
       answers.addAnswer(question.getId(), 1);
     }
-    questionSet = questionSet.score(answers);
+    questionSet.score(answers);
     isQuestionSetValid(questionSet);
 
     //Test getting a question set.
@@ -45,17 +45,27 @@ public class QuestionSetTest {
   }
 
   @Test
+  public void getQuestionSetsTest() {
+    Person person = createTestPerson();
+
+    List<String> questionSetIds = person.getQuestionSetIds();
+
+    for (String questionSetId : questionSetIds) {
+      isQuestionSetValid(person.retrieveQuestionSet(questionSetId));
+    }
+  }
+
+  @Test
   public void scoreQuestionSetWithNoAnswers() {
     InvalidRequestException exception = null;
 
-    //Test creation of person
     Person person = createTestPerson();
 
     QuestionSet questionSet = person.createQuestionSet(100000);
 
     try {
-      QuestionSet results = questionSet.score(new AnswerSet());
-      isQuestionSetValid(results);
+      questionSet.score(new AnswerSet());
+      isQuestionSetValid(questionSet);
     } catch (InvalidRequestException e) {
       Assert.assertNotNull(e.getMessage());
       exception = e;
@@ -63,7 +73,7 @@ public class QuestionSetTest {
     Assert.assertNotNull(exception);
   }
 
-  @Test
+  @Test //TODO: unduplicate this
   public void scoreQuestionSetWithBadAnswers() {
     InvalidRequestException exception = null;
 
@@ -71,8 +81,8 @@ public class QuestionSetTest {
     QuestionSet questionSet = person.createQuestionSet();
 
     try {
-      QuestionSet results = questionSet.score(new AnswerSet());
-      isQuestionSetValid(results);
+      questionSet.score(new AnswerSet());
+      isQuestionSetValid(questionSet);
     } catch (InvalidRequestException e) {
       Assert.assertNotNull(e.getMessage());
       exception = e;
@@ -129,7 +139,7 @@ public class QuestionSetTest {
   private void isQuestionSetValid(@Nullable final QuestionSet questionSet) {
     Assert.assertNotNull(questionSet);
     Assert.assertNotNull(questionSet.getPersonId());
-    areQuestionsValid(questionSet.retrieveQuestionSet());
+    areQuestionsValid(questionSet.retrieveQuestions());
   }
 
   private void areQuestionsValid(@Nullable final List<Question> questionSet) {
@@ -145,7 +155,7 @@ public class QuestionSetTest {
     Assert.assertNotNull(answers);
     for (Answer answer : answers) {
       Assert.assertNotNull(answer.getId());
-      Assert.assertNotNull(answer.getAnswer());
+      Assert.assertNotNull(answer.getAnswerText());
     }
   }
 

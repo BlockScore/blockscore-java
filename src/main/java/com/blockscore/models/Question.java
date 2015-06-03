@@ -3,6 +3,7 @@ package com.blockscore.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,6 +47,6 @@ public class Question {
    */
   @NotNull
   public List<Answer> getAnswers() {
-    return answers;
+    return Collections.unmodifiableList(answers);
   }
 }

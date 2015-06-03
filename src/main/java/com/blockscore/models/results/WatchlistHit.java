@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class WatchlistHit {
   @JsonProperty("entry_type")
   private String entryType;
 
-  @Nullable//?
+  @Nullable
   @JsonProperty("matching_info")
   private String[] matchingInfo;
 
@@ -131,7 +132,7 @@ public class WatchlistHit {
   /**
    * Gets a list of elements in your request that match this watchlist hit.
    *
-   * @return an array of strings containing the matching info // TODO: make this better
+   * @return an array of strings containing the matching info
    */
   @NotNull
   public String[] getMatchingInfo() {
@@ -197,15 +198,8 @@ public class WatchlistHit {
    * @return the array of alternate names, not null
    */
   @NotNull
-  public String[] getAlternateNames() {
-    if (alternateNames == null) {
-      return new String[0];
-    } else if (!alternateNames.contains(";")) {
-      return new String[]{alternateNames};
-    }
-
-    String[] namesArray = alternateNames.split(";");
-    return trimArray(namesArray);
+  public String getAlternateNames() {
+    return alternateNames;
   }
 
   /**
@@ -238,15 +232,8 @@ public class WatchlistHit {
    * @return the array of passport numbers
    */
   @Nullable
-  public String[] getPassports() {
-    if (passportNumbers == null) {
-      return null;
-    } else if (!passportNumbers.contains(";")) {
-      return new String[]{passportNumbers};
-    }
-
-    String[] passportArray = passportNumbers.split(";");
-    return trimArray(passportArray);
+  public String getPassports() {
+    return passportNumbers;
   }
 
   /**
@@ -281,7 +268,7 @@ public class WatchlistHit {
    */
   @Nullable
   public List<NameResult> getNames() {
-    return names;
+    return Collections.unmodifiableList(names);
   }
 
   /**
@@ -291,7 +278,7 @@ public class WatchlistHit {
    */
   @Nullable
   public List<BirthRange> getBirths() {
-    return births;
+    return Collections.unmodifiableList(births);
   }
 
   /**
@@ -301,7 +288,7 @@ public class WatchlistHit {
    */
   @Nullable
   public List<Document> getDocuments() {
-    return documents;
+    return Collections.unmodifiableList(documents);
   }
 
   /**
@@ -311,14 +298,6 @@ public class WatchlistHit {
    */
   @Nullable
   public List<Address> getAddresses() {
-    return addresses;
-  }
-
-  private String[] trimArray(String[] arr) {
-    for (int i = 0; i < arr.length; ++i) {
-      arr[i] = arr[i].trim();
-    }
-
-    return arr;
+    return Collections.unmodifiableList(addresses);
   }
 }

@@ -6,6 +6,7 @@ import com.blockscore.net.BlockscoreRestAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -38,12 +39,13 @@ public class QuestionSet extends BasicResponse {
    * @return the scored question set
    */
   @NotNull
-  public QuestionSet score(@NotNull final AnswerSet answers) {
-    return restAdapter.scoreQuestionSet(getId(), answers); //TODO: update instead of return?
+  public void score(@NotNull final AnswerSet answers) {
+    QuestionSet scoredSet = restAdapter.scoreQuestionSet(getId(), answers);
+    expired = scoredSet.isExpired();
+    score = scoredSet.getScore();
   }
 
-  // TODO: remove
-  public void setAdapter(BlockscoreRestAdapter restAdapter) {
+  void setAdapter(BlockscoreRestAdapter restAdapter) {
     this.restAdapter = restAdapter;
   }
 
@@ -91,7 +93,7 @@ public class QuestionSet extends BasicResponse {
    * @return the questions available
    */
   @NotNull
-  public List<Question> retrieveQuestionSet() {
-    return questionSet;
+  public List<Question> retrieveQuestions() {
+    return Collections.unmodifiableList(questionSet);
   }
 }

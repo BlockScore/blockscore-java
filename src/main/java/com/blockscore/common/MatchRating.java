@@ -3,7 +3,7 @@ package com.blockscore.common;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public enum MatchRank {
+public enum MatchRating {
   MATCH("match"),
   NO_MATCH("no_match"),
   PARTIAL_MATCH("partial_match"),
@@ -12,7 +12,7 @@ public enum MatchRank {
 
   private final String value;
 
-  MatchRank(@NotNull final String value) {
+  MatchRating(@NotNull final String value) {
     this.value = value;
   }
 
@@ -27,7 +27,7 @@ public enum MatchRank {
    * @param value the value to convert.
    * @return the matched enum value
    */
-  public static MatchRank toEnum(@Nullable final String value) {
+  public static MatchRating toEnum(@Nullable final String value) {
     if (MATCH.toString().equalsIgnoreCase(value)) {
       return MATCH;
     } else if (PARTIAL_MATCH.toString().equalsIgnoreCase(value)) {

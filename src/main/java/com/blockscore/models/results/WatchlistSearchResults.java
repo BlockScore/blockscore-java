@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Watchlist search results.
  */
-//TODO: Consider adding livemode
 public class WatchlistSearchResults {
   @NotNull
   @JsonProperty("searched_lists")

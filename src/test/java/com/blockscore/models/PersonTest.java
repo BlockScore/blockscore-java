@@ -84,12 +84,12 @@ public class PersonTest {
 
     Person.Builder builder = new Person.Builder(apiClient);
     builder.setFirstName("John")
-         .setMiddleName("Pearce")
-         .setLastName("Doe")
-         .setDocumentType("ssn")
-         .setDocumentValue("0000")
-         .setAddress(address)
-         .setDateOfBirth(dateOfBirth);
+          .setMiddleName("Pearce")
+          .setLastName("Doe")
+          .setDocumentType("ssn")
+          .setDocumentValue("0000")
+          .setAddress(address)
+          .setDateOfBirth(dateOfBirth);
     return builder.create();
   }
 
@@ -109,20 +109,21 @@ public class PersonTest {
   private void isPersonValid(@NotNull final Person person) {
     Assert.assertNotNull(person);
     Assert.assertNotNull(person.getId());
-    Assert.assertNotNull(person.getQuestionSets());
+    Assert.assertNotNull(person.getQuestionSetIds());
 
     areDetailsValid(person.getDetails());
     isNameValid(person);
     isAddressValid(person.getAddress());
   }
 
-  private void areDetailsValid(@NotNull final Details details) {
-    Assert.assertNotNull(details);
-    Assert.assertNotNull(details.getAddressRisk());
-    Assert.assertNotNull(details.getAddressMatchDetails());
-    Assert.assertNotNull(details.getIdentificationMatch());
-    Assert.assertNotNull(details.getDateOfBirthMatch());
-    Assert.assertNotNull(details.getOfac());
+  private void areDetailsValid(@NotNull final PersonDetails personDetails) {
+    Assert.assertNotNull(personDetails);
+    Assert.assertNotNull(personDetails.getAddressRisk());
+    Assert.assertNotNull(personDetails.getAddressMatchDetails());
+    Assert.assertNotNull(personDetails.getIdentificationMatch());
+    Assert.assertNotNull(personDetails.getDateOfBirthMatch());
+    Assert.assertNotNull(personDetails.getOfac());
+    Assert.assertNotNull(personDetails.getPep());
   }
 
   private void isAddressValid(@Nullable final Address address) {

@@ -8,13 +8,13 @@ import com.blockscore.models.results.WatchlistSearchResults;
 import com.blockscore.net.BlockscoreApiClient;
 import com.blockscore.net.BlockscoreRestAdapter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,8 @@ import java.util.Map;
  * Candidate model.
  */
 public class Candidate extends BasicResponse {
-  private transient BlockscoreRestAdapter restAdapter;
+  @JsonIgnore
+  private BlockscoreRestAdapter restAdapter;
 
   @NotNull
   @JsonProperty("name_first")
@@ -50,7 +51,7 @@ public class Candidate extends BasicResponse {
   private String passport;
 
   @Nullable
-  @JsonProperty("date_of_birth") //TODO: fix formatter
+  @JsonProperty("date_of_birth")
   private Date dateOfBirth;
 
   @NotNull
@@ -105,8 +106,13 @@ public class Candidate extends BasicResponse {
    * @return the list of candidates
    */
   public List<Candidate> getRevisionHistory() {
-    return restAdapter.getCandidateHistory(getId());
-    //TODO: restAdapter bugfix
+    List<Candidate> candidates = restAdapter.getCandidateHistory(getId());
+
+    for (Candidate candidate : candidates) {
+      candidate.setAdapter(restAdapter);
+    }
+
+    return Collections.unmodifiableList(candidates);
   }
 
   /**
@@ -249,8 +255,10 @@ public class Candidate extends BasicResponse {
   @NotNull
   public Candidate setDateOfBirth(@Nullable final Date dateOfBirth) {
     if (dateOfBirth == null) {
+      this.dateOfBirth = null;
       return this;
     }
+
     this.dateOfBirth = new Date(dateOfBirth.getTime());
     return this;
   }
@@ -368,14 +376,13 @@ public class Candidate extends BasicResponse {
     this.restAdapter = restAdapter;
   }
 
-  //TODO: Consider delegating the setters' implementation to the Candidate's setters & send the whole Candidate object
   public static class Builder {
-    private BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
-    private transient Map<String, String> queryOptions;
+    private BlockscoreRestAdapter restAdapter;
+    private Candidate candidate;
 
     public Builder(BlockscoreApiClient client) {
       this.restAdapter = client.getAdapter();
-      queryOptions = new HashMap<String, String>();
+      candidate = new Candidate();
     }
 
      /**
@@ -386,7 +393,7 @@ public class Candidate extends BasicResponse {
       */
     @NotNull
     public Builder setFirstName(@NotNull final String firstName) {
-      queryOptions.put("name_first", firstName);
+      candidate.setFirstName(firstName);
       return this;
     }
 
@@ -398,7 +405,7 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Builder setMiddleName(@NotNull final String middleName) {
-      queryOptions.put("name_middle", middleName);
+      candidate.setMiddleName(middleName);
       return this;
     }
 
@@ -410,7 +417,7 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Builder setLastName(@NotNull final String lastName) {
-      queryOptions.put("name_last", lastName);
+      candidate.setLastName(lastName);
       return this;
     }
 
@@ -423,7 +430,7 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Builder setNote(@Nullable final String note) {
-      queryOptions.put("note", note);
+      candidate.setNote(note);
       return this;
     }
     
@@ -435,7 +442,7 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Builder setSsn(@Nullable final String ssn) {
-      queryOptions.put("ssn", ssn);
+      candidate.setSsn(ssn);
       return this;
     }
 
@@ -447,7 +454,7 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Builder setPassport(@Nullable final String passport) {
-      queryOptions.put("passport", passport);
+      candidate.setPassport(passport);
       return this;
     }
 
@@ -459,17 +466,7 @@ public class Candidate extends BasicResponse {
      */
     @NotNull
     public Builder setDateOfBirth(@Nullable final Date dateOfBirth) {
-      if (dateOfBirth == null) {
-        return this;
-      }
-
-      Calendar calendar = new GregorianCalendar();
-      calendar.setTime(dateOfBirth);
-      String dateString = String.format("%d-%d-%d", calendar.get(Calendar.YEAR),
-                              calendar.get(Calendar.MONTH) + 1,
-                              calendar.get(Calendar.DAY_OF_MONTH));
-
-      queryOptions.put("date_of_birth", dateString);
+      candidate.setDateOfBirth(dateOfBirth);
       return this;
     }
 
@@ -480,12 +477,7 @@ public class Candidate extends BasicResponse {
      * @return this
      */
     public Builder setAddress(@NotNull final Address address) {
-      queryOptions.put("address_street1", address.getStreet1());
-      queryOptions.put("address_street2", address.getStreet2());
-      queryOptions.put("address_city", address.getCity());
-      queryOptions.put("address_subdivision", address.getSubdivision());
-      queryOptions.put("address_postal_code", address.getPostalCode());
-      queryOptions.put("address_country_code", address.getCountryCode());
+      candidate.setAddress(address);
       return this;
     }
 
@@ -495,7 +487,7 @@ public class Candidate extends BasicResponse {
      * @return this
      */
     public Candidate create() {
-      Candidate candidate = restAdapter.createCandidate(queryOptions);
+      candidate = restAdapter.createCandidate(candidate);
       candidate.setAdapter(restAdapter);
       return candidate;
     }

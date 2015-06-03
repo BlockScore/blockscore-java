@@ -1,5 +1,6 @@
 package com.blockscore.models.results;
 
+import com.blockscore.common.ResultStrength;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,9 +38,9 @@ public class NameResult {
   /**
    * Returns the name strength.
    *
-   * @return the name strength // TODO: convert to enum
+   * @return the name strength
    */
-  public String getNameStrength() {
-    return nameStrength;
+  public ResultStrength getNameStrength() {
+    return ResultStrength.toEnum(nameStrength);
   }
 }

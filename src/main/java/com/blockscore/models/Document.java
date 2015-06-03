@@ -1,5 +1,6 @@
 package com.blockscore.models;
 
+import com.blockscore.common.DocumentType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,10 +20,10 @@ public class Document {
   /**
    * Returns the type of this document.
    *
-   * @return the type of document // TODO: convert to an enum
+   * @return the type of document
    */
-  public String getDocumentType() {
-    return documentType;
+  public DocumentType getDocumentType() {
+    return DocumentType.toEnum(documentType);
   }
 
   /**

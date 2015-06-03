@@ -83,7 +83,7 @@ public class BlockscoreApiClient {
   public PaginatedResult<Person> listPeople() {
     PaginatedResult<Person> result = restAdapter.listPeople();
 
-    for (Person person : result.getData()) { //TODO: FIX COPY METHOD. See listCandidates()
+    for (Person person : result.getData()) {
       person.setAdapter(restAdapter);
     }
 
@@ -137,8 +137,8 @@ public class BlockscoreApiClient {
   public PaginatedResult<Candidate> listCandidates() {
     PaginatedResult<Candidate> result = restAdapter.listCandidates();
 
-    for (Candidate candidate : result.getData()) { // TODO: FIX COPY METHOD. Clearly a deep copy is not being
-      candidate.setAdapter(restAdapter);         // returned since this correctly updates internal restAdapters
+    for (Candidate candidate : result.getData()) {
+      candidate.setAdapter(restAdapter);
     }
 
     return result;
@@ -154,22 +154,20 @@ public class BlockscoreApiClient {
     try {
       return "Basic " + Base64.getEncoder().encodeToString(apiKey.getBytes("utf-8"));
     } catch (UnsupportedEncodingException e) {
-      //TODO: change to an appropriate response
-      return null;
+      throw new RuntimeException(e);
     }
   }
 
   private JacksonConverter getDefaultConverter() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setVisibilityChecker(mapper.getSerializationConfig()
-                                      .getDefaultVisibilityChecker()
-                                      .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-                                      .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                                      .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                                      .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+                                        .getDefaultVisibilityChecker()
+                                        .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                                        .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                                        .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                                        .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     mapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
-    //mapper.getDeserializationConfig().setDateFormat(new SimpleDateFormat("ssssssssss"));
     return new JacksonConverter(mapper);
   }
 

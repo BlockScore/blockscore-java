@@ -6,11 +6,13 @@ import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
 import com.blockscore.net.BlockscoreRestAdapter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -21,7 +23,8 @@ import java.util.Map;
  * Model representing a person.
  */
 public class Person extends BasicResponse {
-  private transient BlockscoreRestAdapter restAdapter;
+  @JsonIgnore
+  private BlockscoreRestAdapter restAdapter;
 
   // Request Fields
   @NotNull
@@ -99,7 +102,7 @@ public class Person extends BasicResponse {
 
   @NotNull
   @JsonProperty("details")
-  private Details details;
+  private PersonDetails details;
 
   @NotNull
   @JsonProperty("question_sets")
@@ -149,8 +152,9 @@ public class Person extends BasicResponse {
    * @return the retrieved question set
    */
   public QuestionSet retrieveQuestionSet(@NotNull final String questionSetId) {
-    return restAdapter.retrieveQuestionSet(questionSetId);
-    //TODO: BUGFIX restadapter that QuestionSet holds
+    QuestionSet questionSet = restAdapter.retrieveQuestionSet(questionSetId);
+    questionSet.setAdapter(restAdapter);
+    return questionSet;
   }
 
   /**
@@ -161,8 +165,13 @@ public class Person extends BasicResponse {
    */
   @NotNull
   public PaginatedResult<QuestionSet> listQuestionSet() {
-    return restAdapter.listQuestionSets();
-    //TODO: BUGFIX restadapter that QuestionSet holds
+    PaginatedResult<QuestionSet> result = restAdapter.listQuestionSets();
+
+    for (QuestionSet questionSet : result.getData()) {
+      questionSet.setAdapter(restAdapter);
+    }
+
+    return result;
   }
 
   /**
@@ -289,7 +298,7 @@ public class Person extends BasicResponse {
    * @return the details breakdown
    */
   @NotNull
-  public Details getDetails() {
+  public PersonDetails getDetails() {
     return details;
   }
 
@@ -299,13 +308,13 @@ public class Person extends BasicResponse {
    * @return the question sets
    */
   @NotNull
-  public List<String> getQuestionSets() {
-    return questionSets;
+  public List<String> getQuestionSetIds() {
+    return Collections.unmodifiableList(questionSets);
   }
 
   public static class Builder {
-    private transient BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
-    private transient Map<String, String> queryOptions;
+    private BlockscoreRestAdapter restAdapter;
+    private Map<String, String> queryOptions;
 
     public Builder(BlockscoreApiClient client) {
       this.restAdapter = client.getAdapter();

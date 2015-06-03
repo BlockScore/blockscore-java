@@ -29,7 +29,7 @@ public class Answer {
    * @return the possible answer
    */
   @NotNull
-  public String getAnswer() {
+  public String getAnswerText() {
     return answer;
   }
 }

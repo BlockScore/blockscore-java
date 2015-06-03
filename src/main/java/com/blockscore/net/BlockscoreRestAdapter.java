@@ -72,7 +72,7 @@ public interface BlockscoreRestAdapter {
   // Candidate operations
   @NotNull
   @POST("/candidates")
-  Candidate createCandidate(@NotNull @QueryMap final Map<String, String> options);
+  Candidate createCandidate(@NotNull @Body final Candidate candidate);
 
   @NotNull
   @GET("/candidates/{id}")

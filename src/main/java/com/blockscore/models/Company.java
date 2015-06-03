@@ -108,7 +108,7 @@ public class Company extends BasicResponse {
   // Response fields
   @NotNull
   @JsonProperty("details")
-  private Details details;
+  private CompanyDetails details;
 
   @Nullable
   @JsonProperty("status")
@@ -187,17 +187,11 @@ public class Company extends BasicResponse {
   /**
    * Gets a list of "doing business as" names, which are other names this business may be known by.
    *
-   * @return the list of DBA names
+   * @return the "doing business as" names
    */
   @Nullable
-  public String[] getDbas() {
-    if (dbas == null) {
-      return null;
-    } else if (!dbas.contains(",")) {
-      return new String[]{dbas};
-    }
-
-    return dbas.split(","); //TODO: Handle ensure dbas is , delimited
+  public String getDbas() {
+    return dbas;
   }
 
   /**
@@ -294,13 +288,13 @@ public class Company extends BasicResponse {
    * @return the details
    */
   @Nullable
-  public Details getDetails() {
+  public CompanyDetails getDetails() {
     return details;
   }
 
   public static class Builder {
-    private transient BlockscoreRestAdapter restAdapter; // TODO: Discover if transient is neccesary
-    private transient Map<String, String> queryOptions;
+    private BlockscoreRestAdapter restAdapter;
+    private Map<String, String> queryOptions;
 
     public Builder(BlockscoreApiClient client) {
       this.restAdapter = client.getAdapter();
@@ -394,7 +388,7 @@ public class Company extends BasicResponse {
      * @param dbas  the doing business as names
      * @return this.
      */
-    public Builder setDbas(@Nullable final String dbas) { // TODO: Alter to string array
+    public Builder setDbas(@Nullable final String dbas) {
       queryOptions.put("dbas", dbas);
       return this;
     }
@@ -487,7 +481,6 @@ public class Company extends BasicResponse {
       queryOptions.put("address_country_code", address.getCountryCode());
       return this;
     }
-
 
     /**
      * Creates a new {@code Company}.

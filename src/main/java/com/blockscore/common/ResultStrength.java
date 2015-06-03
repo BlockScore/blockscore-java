@@ -2,7 +2,7 @@ package com.blockscore.common;
 
 import org.jetbrains.annotations.NotNull;
 
-public enum AddressRisk {
+public enum ResultStrength {
   HIGH("high"),
   LOW("low"),
   NO_MATCH("no_match"),
@@ -10,7 +10,7 @@ public enum AddressRisk {
 
   private final String value;
 
-  AddressRisk(@NotNull final String value) {
+  ResultStrength(@NotNull final String value) {
     this.value = value;
   }
 
@@ -23,9 +23,9 @@ public enum AddressRisk {
    * Converts a string to a enum.
    *
    * @param value  the value to convert
-   * @return the matching AddressRisk enum value
+   * @return the matching MatchStrenght enum value
    */
-  public static AddressRisk toEnum(@NotNull final String value) {
+  public static ResultStrength toEnum(@NotNull final String value) {
     if (value.equalsIgnoreCase(HIGH.toString())) {
       return HIGH;
     } else if (value.equalsIgnoreCase(LOW.toString())) {
