@@ -1,6 +1,7 @@
 package com.blockscore.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,11 @@ public class AnswerSet {
   }
 
   private static class QuestionAnswerPair {
+    @SuppressFBWarnings("URF_UNREAD_FIELD")
     @JsonProperty("question_id")
     private int questionId;
 
+    @SuppressFBWarnings("URF_UNREAD_FIELD")
     @JsonProperty("answer_id")
     private int answerId;
 
