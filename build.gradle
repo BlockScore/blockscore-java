@@ -15,22 +15,25 @@ apply plugin: 'checkstyle'
 apply plugin: 'eu.appsatori.fatjar'
 
 sourceCompatibility = 1.7
-version = '3.0.2'
+targetCompatibility = 1.7
+version = '4.0.0'
 
 repositories {
     mavenCentral()
 }
 
+checkstyle {
+    toolVersion = "6.7"
+}
+
 dependencies {
     compile 'com.squareup.retrofit:retrofit:+'
     compile 'com.squareup.retrofit:converter-jackson:+'
-    compile 'io.reactivex:rxjava:+'
     compile 'com.squareup.okhttp:okhttp:+'
     compile 'com.squareup.okhttp:okhttp-urlconnection:+'
 
     //Used for static analysis
     compile 'com.intellij:annotations:+'
-    compile 'com.google.code.findbugs:annotations:+'
 
     //Used for testing only.
     testCompile 'junit:junit:+'
@@ -38,9 +41,9 @@ dependencies {
 
 jar {
     manifest {
-        attributes("Implementation-Title": "Blockscore Java API"
-                , "Implementation-Version": version
-                , "Implementation-Vendor": "Blockscore Inc.")
+        attributes("Implementation-Title": "Blockscore Java API",
+                   "Implementation-Version": version,
+                   "Implementation-Vendor": "Blockscore Inc.")
     }
 }
 
@@ -59,6 +62,7 @@ tasks.withType(FindBugs) {
     }
 }
 
+// Use java's linting facilities
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint"
 }

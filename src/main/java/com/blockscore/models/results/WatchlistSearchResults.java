@@ -11,29 +11,29 @@ import java.util.List;
  */
 //TODO: Consider adding livemode
 public class WatchlistSearchResults {
-    @NotNull
-    @JsonProperty("searched_lists")
-    private String[] searchedLists;
+  @NotNull
+  @JsonProperty("searched_lists")
+  private String[] searchedLists;
 
-    @NotNull
-    @JsonProperty("count")
-    private int count;
+  @NotNull
+  @JsonProperty("count")
+  private int count;
 
-    @NotNull
-    @JsonProperty("matches")
-    private List<WatchlistHit> matches;
+  @NotNull
+  @JsonProperty("matches")
+  private List<WatchlistHit> matches;
 
-    public int getCount() {
-        return count;
-    }
+  public int getCount() {
+    return count;
+  }
 
-    @NotNull
-    public String[] getSearchedLists() {
-        return Arrays.copyOf(searchedLists, searchedLists.length);
-    }
+  @NotNull
+  public String[] getSearchedLists() {
+    return Arrays.copyOf(searchedLists, searchedLists.length);
+  }
 
-    @NotNull
-    public List<WatchlistHit> getMatches() {
-        return matches;
-    }
+  @NotNull
+  public List<WatchlistHit> getMatches() {
+    return matches;
+  }
 }

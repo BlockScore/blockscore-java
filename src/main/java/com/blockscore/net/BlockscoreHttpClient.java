@@ -11,28 +11,28 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 class BlockscoreHttpClient extends UrlConnectionClient {
-    private static final int CONNECT_TIMEOUT_MILLIS = 30 * 1000;
-    private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
+  private static final int CONNECT_TIMEOUT_MILLIS = 30 * 1000;
+  private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
 
-    private final OkUrlFactory mOkUrlFactory;
+  private final OkUrlFactory okUrlFactory;
 
-    public BlockscoreHttpClient() {
-        mOkUrlFactory = new OkUrlFactory(generateDefaultHTTPClient());
-    }
+  public BlockscoreHttpClient() {
+    okUrlFactory = new OkUrlFactory(generateDefaultHttpClient());
+  }
 
-    public BlockscoreHttpClient(OkHttpClient client) {
-        mOkUrlFactory = new OkUrlFactory(client);
-    }
+  public BlockscoreHttpClient(OkHttpClient client) {
+    okUrlFactory = new OkUrlFactory(client);
+  }
 
-    private OkHttpClient generateDefaultHTTPClient() {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-        client.setReadTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-        return client;
-    }
+  private OkHttpClient generateDefaultHttpClient() {
+    OkHttpClient client = new OkHttpClient();
+    client.setConnectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+    client.setReadTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+    return client;
+  }
 
-    @Override
-    protected HttpURLConnection openConnection(Request request) throws IOException {
-        return mOkUrlFactory.open(new URL(request.getUrl()));
-    }
+  @Override
+  protected HttpURLConnection openConnection(Request request) throws IOException {
+    return okUrlFactory.open(new URL(request.getUrl()));
+  }
 }

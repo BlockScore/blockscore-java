@@ -9,43 +9,43 @@ import java.util.List;
  * Question model.
  */
 public class Question {
-    @JsonProperty("id")
-    private int id;
+  @JsonProperty("id")
+  private int id;
 
-    @NotNull
-    @JsonProperty("question")
-    private String question;
+  @NotNull
+  @JsonProperty("question")
+  private String question;
 
-    @NotNull
-    @JsonProperty("answers")
-    private List<Answer> mAnswers;
+  @NotNull
+  @JsonProperty("answers")
+  private List<Answer> answers;
 
-    /**
-     * Gets the unique ID for this question.
-     *
-     * @return the ID
-     */
-    public int getId() {
-        return id;
-    }
+  /**
+   * Gets the unique ID for this question.
+   *
+   * @return the ID
+   */
+  public int getId() {
+    return id;
+  }
 
-    /**
-     * Gets the question text to be asked.
-     *
-     * @return the question
-     */
-    @NotNull
-    public String getQuestion() {
-        return question;
-    }
+  /**
+   * Gets the question text to be asked.
+   *
+   * @return the question
+   */
+  @NotNull
+  public String getQuestion() {
+    return question;
+  }
 
-    /**
-     * Gets all possible answers to show to the user.
-     *
-     * @return the possible answers
-     */
-    @NotNull
-    public List<Answer> getAnswers() {
-        return mAnswers;
-    }
+  /**
+   * Gets all possible answers to show to the user.
+   *
+   * @return the possible answers
+   */
+  @NotNull
+  public List<Answer> getAnswers() {
+    return answers;
+  }
 }

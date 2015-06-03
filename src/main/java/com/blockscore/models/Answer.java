@@ -7,29 +7,29 @@ import org.jetbrains.annotations.NotNull;
  * Answer model.
  */
 public class Answer {
-    @JsonProperty("id")
-    private int id;
+  @JsonProperty("id")
+  private int id;
 
-    @NotNull
-    @JsonProperty("answer")
-    private String answer;
+  @NotNull
+  @JsonProperty("answer")
+  private String answer;
 
-    /**
-     * Gets the ID for this answer.
-     *
-     * @return the answer's ID
-     */
-    public int getId() {
-        return id;
-    }
+  /**
+   * Gets the ID for this answer.
+   *
+   * @return the answer's ID
+   */
+  public int getId() {
+    return id;
+  }
 
-    /**
-     * Gets the answer text to display to the user.
-     *
-     * @return the possible answer
-     */
-    @NotNull
-    public String getAnswer() {
-        return answer;
-    }
+  /**
+   * Gets the answer text to display to the user.
+   *
+   * @return the possible answer
+   */
+  @NotNull
+  public String getAnswer() {
+    return answer;
+  }
 }
