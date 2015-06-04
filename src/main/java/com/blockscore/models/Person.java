@@ -1,6 +1,5 @@
 package com.blockscore.models;
 
-import com.blockscore.common.ValidityStatus;
 import com.blockscore.models.base.BasicResponse;
 import com.blockscore.net.BlockscoreApiClient;
 import com.blockscore.net.BlockscoreRestAdapter;
@@ -270,7 +269,7 @@ public class Person extends BasicResponse {
    * @return true if valid
    */
   public boolean isValid() {
-    return ValidityStatus.VALID.isEqualTo(status);
+    return status.equalsIgnoreCase("valid");
   }
 
   /**

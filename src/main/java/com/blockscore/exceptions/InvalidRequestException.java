@@ -1,6 +1,6 @@
 package com.blockscore.exceptions;
 
-import com.blockscore.common.ValidationErrorType;
+import com.blockscore.models.error.ValidationErrorType;
 import com.blockscore.models.error.BlockscoreError;
 
 import org.jetbrains.annotations.NotNull;

@@ -1,8 +1,4 @@
-package com.blockscore.models.results;
-
-import com.blockscore.common.EntityType;
-import com.blockscore.models.Address;
-import com.blockscore.models.Document;
+package com.blockscore.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;

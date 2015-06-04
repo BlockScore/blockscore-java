@@ -1,4 +1,4 @@
-package com.blockscore.common;
+package com.blockscore.net;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class SecondsFormattedDateDeserializer extends JsonDeserializer<Date> {
+public class SecondsDateDeserializer extends JsonDeserializer<Date> {
     @Override
     public Date deserialize(JsonParser jsonParser, DeserializationContext deserializationcontext) throws IOException {
 

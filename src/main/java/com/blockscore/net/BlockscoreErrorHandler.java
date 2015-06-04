@@ -1,6 +1,6 @@
 package com.blockscore.net;
 
-import com.blockscore.common.BlockscoreErrorType;
+import com.blockscore.models.error.BlockscoreErrorType;
 import com.blockscore.exceptions.ApiException;
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.error.BlockscoreError;

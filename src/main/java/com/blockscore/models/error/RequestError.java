@@ -1,8 +1,5 @@
 package com.blockscore.models.error;
 
-import com.blockscore.common.BlockscoreErrorType;
-import com.blockscore.common.ValidationErrorType;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,10 +1,6 @@
 package com.blockscore.models;
 
-import com.blockscore.common.EntityType;
 import com.blockscore.models.base.BasicResponse;
-import com.blockscore.models.results.PaginatedResult;
-import com.blockscore.models.results.WatchlistHit;
-import com.blockscore.models.results.WatchlistSearchResults;
 import com.blockscore.net.BlockscoreApiClient;
 import com.blockscore.net.BlockscoreRestAdapter;
 

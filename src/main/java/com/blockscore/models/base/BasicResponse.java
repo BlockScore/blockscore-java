@@ -1,6 +1,6 @@
 package com.blockscore.models.base;
 
-import com.blockscore.common.SecondsFormattedDateDeserializer;
+import com.blockscore.net.SecondsDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -16,11 +16,11 @@ public abstract class BasicResponse {
   @JsonProperty("id")
   private String id;
 
-  @JsonDeserialize(using = SecondsFormattedDateDeserializer.class)
+  @JsonDeserialize(using = SecondsDateDeserializer.class)
   @JsonProperty("created_at")
   private Date createAtDate;
 
-  @JsonDeserialize(using = SecondsFormattedDateDeserializer.class)
+  @JsonDeserialize(using = SecondsDateDeserializer.class)
   @JsonProperty("updated_at")
   private Date updatedAtDate;
 

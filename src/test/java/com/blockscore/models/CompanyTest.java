@@ -9,9 +9,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import com.blockscore.common.CorporationType;
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
 
 import org.junit.Test;
@@ -102,7 +100,7 @@ public class CompanyTest {
            .setIncorporationDate(incorporationDate)
            .setIncorporationState("DE")
            .setIncorporationCountryCode("US")
-           .setIncorporationType(CorporationType.CORP)
+           .setIncorporationType(CorporationType.CORPORATION)
            .setDbas("BitRemit")
            .setRegistrationNumber("123123123")
            .setEmail("test@example.com")

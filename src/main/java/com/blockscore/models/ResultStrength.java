@@ -1,4 +1,4 @@
-package com.blockscore.common;
+package com.blockscore.models;
 
 import org.jetbrains.annotations.NotNull;
 

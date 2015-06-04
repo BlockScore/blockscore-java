@@ -10,8 +10,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.results.PaginatedResult;
-import com.blockscore.models.results.WatchlistHit;
 import com.blockscore.net.BlockscoreApiClient;
 
 import org.junit.Test;

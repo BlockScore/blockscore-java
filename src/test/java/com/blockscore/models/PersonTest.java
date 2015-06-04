@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
 
 import org.junit.Test;

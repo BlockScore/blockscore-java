@@ -1,6 +1,5 @@
 package com.blockscore.models;
 
-import com.blockscore.common.DocumentType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
