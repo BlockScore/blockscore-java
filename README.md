@@ -23,20 +23,27 @@ You can download our JAR files from here: https://github.com/BlockScore/blocksco
 ## Usage
 
 ```java
-BlockscoreApiClient client = new BlockscoreApiClient("[your api key here]");
+BlockscoreApiClient client = new BlockscoreApiClient("your api key here");
 
-Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
+Address address = new Address();
+address.setStreet1("1 Infinite Loop")
+       .setStreet2("Apt 6")
+       .setCity("Cupertino")
+       .setSubdivision("CA")
+       .setPostalCode("95014")
+       .setCountryCode("US");
+
 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 Date dateOfBirth = dateOfBirth = formatter.parse("1980-08-23");
 
 Person.Builder builder = new Person.Builder(client);
 builder.setFirstName("John")
-      .setMiddleName("Pearce")
-      .setLastName("Doe")
-      .setDocumentType("ssn")
-      .setDocumentValue("0000")
-      .setAddress(address)
-      .setDateOfBirth(dateOfBirth);
+       .setMiddleName("Pearce")
+       .setLastName("Doe")
+       .setDocumentType("ssn")
+       .setDocumentValue("0000")
+       .setAddress(address)
+       .setDateOfBirth(dateOfBirth);
 
 builder.create();
 ```
