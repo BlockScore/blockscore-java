@@ -3,9 +3,9 @@ package com.blockscore.net;
 import com.blockscore.models.AnswerSet;
 import com.blockscore.models.Candidate;
 import com.blockscore.models.Company;
+import com.blockscore.models.PaginatedResult;
 import com.blockscore.models.Person;
 import com.blockscore.models.QuestionSet;
-import com.blockscore.models.PaginatedResult;
 import com.blockscore.models.WatchlistHit;
 import com.blockscore.models.WatchlistSearchResults;
 

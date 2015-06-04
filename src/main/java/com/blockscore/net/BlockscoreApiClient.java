@@ -3,8 +3,8 @@ package com.blockscore.net;
 import com.blockscore.common.Constants;
 import com.blockscore.models.Candidate;
 import com.blockscore.models.Company;
-import com.blockscore.models.Person;
 import com.blockscore.models.PaginatedResult;
+import com.blockscore.models.Person;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
