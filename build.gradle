@@ -1,11 +1,11 @@
 buildscript {
-    repositories {
-        jcenter()
-    }
+  repositories {
+    jcenter()
+  }
 
-    dependencies {
-        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
-    }
+  dependencies {
+    classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+  }
 }
 
 apply plugin: 'java'
@@ -19,53 +19,65 @@ targetCompatibility = 1.7
 version = '4.0.0'
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 checkstyle {
-    toolVersion = "6.7"
+  toolVersion = "6.7"
 }
 
 dependencies {
-    compile 'com.squareup.retrofit:retrofit:+'
-    compile 'com.squareup.retrofit:converter-jackson:+'
-    compile 'com.squareup.okhttp:okhttp:+'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:+'
+  compile 'com.squareup.retrofit:retrofit:+'
+  compile 'com.squareup.retrofit:converter-jackson:+'
+  compile 'com.squareup.okhttp:okhttp:+'
+  compile 'com.squareup.okhttp:okhttp-urlconnection:+'
 
-    //Used for static analysis
-    compile 'com.intellij:annotations:+'
-    compile 'com.google.code.findbugs:annotations:+'
+  //Used for static analysis
+  compile 'com.intellij:annotations:+'
+  compile 'com.google.code.findbugs:annotations:+'
 
-    //Used for testing only.
-    testCompile 'junit:junit:+'
+  //Used for testing only.
+  testCompile 'junit:junit:+'
+}
+
+task docs(type: Javadoc) {
+  source = sourceSets.main.allJava
+  options {
+    links("http://docs.oracle.com/javase/7/docs/api/");
+  }
 }
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Blockscore Java API",
-                   "Implementation-Version": version,
-                   "Implementation-Vendor": "Blockscore Inc.")
-    }
+  manifest {
+    attributes("Implementation-Title": "Blockscore Java API",
+                "Implementation-Version": version,
+                "Implementation-Vendor": "Blockscore Inc.")
+  }
 }
 
 test {
-    testLogging {
-        // Show that tests are run in the command-line output
-        events 'started', 'passed'
-        showStandardStreams true
-    }
+  testLogging {
+    // Show that tests are run in the command-line output
+    events 'started', 'passed'
+    showStandardStreams true
+  }
 }
 
 tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false;
-        html.enabled = true;
-    }
+  reports {
+    xml.enabled = false;
+    html.enabled = true;
+  }
 }
 
-// Use java's linting facilities
-tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint"
+pmd {
+  sourceSets = [sourceSets.main]
 }
 
 checkstyleTest.exclude '**/src/test/**'
+
+
+// Use java's linting facilities
+tasks.withType(JavaCompile) {
+  options.compilerArgs << "-Xlint"
+}
