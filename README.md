@@ -23,7 +23,7 @@ You can download our JAR files from here: https://github.com/BlockScore/blocksco
 ## Usage
 
 ```java
-private static BlockscoreApiClient client = setupBlockscoreApiClient();
+BlockscoreApiClient client = new BlockscoreApiClient("[your api key here]");
 
 Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
