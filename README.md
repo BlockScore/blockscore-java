@@ -1,34 +1,21 @@
-blockscore-java
-===============
+## blockscore-java [![Circle CI](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0.svg?style=shield)](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0)
 
 An API wrapper for the BlockScore API using Java.
 
-Latest Revision: <b>4.0.0</b> <br />
-API Compatibility: <b>4.0</b>
-
-##Release Notes
-Version: 4.0.0
-
-1. API Version 4.0 now supported.
-
-##System Requirements (For building and usage)
+### System Requirements
 1. Java 1.7+
 
-##How to build
+## How to build
 1. Clone this repository
 2. `./gradlew build`
 3. `./gradlew jar` (Builds the standard JAR) or `./gradlew fatJar` (Builds the plug and play jar)
 
-##How to run code quality tools
-1. Checkstyle (Ensures code style) `./gradlew checkstyleMain`
-2. PMD (Checks for bugs) `./gradlew pmdMain`
-3. Findbugs (Checks for bugs) `./gradlew findbugsMain`
-4. JUnit (Tests) `./gradlew build`
+## Usage
 
-##How to generate javadocs
+## Generating javadocs
 1. `./gradlew docs`
 
-##Dependencies Required (If using standard JAR)
+## Dependencies
 1. Retrofit 1.6.1+
 2. Retrofit Converter-Jackson 1.6.1+
 3. OkHTTP 2.0+
