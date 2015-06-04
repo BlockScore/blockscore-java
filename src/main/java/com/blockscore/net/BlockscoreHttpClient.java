@@ -1,5 +1,8 @@
 package com.blockscore.net;
 
+import com.blockscore.common.Constants;
+import com.blockscore.net.UserAgentInterceptor;
+
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
 import retrofit.client.Request;
@@ -28,6 +31,7 @@ class BlockscoreHttpClient extends UrlConnectionClient {
     OkHttpClient client = new OkHttpClient();
     client.setConnectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
     client.setReadTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+    client.networkInterceptors().add(new UserAgentInterceptor(Constants.USER_AGENT));
     return client;
   }
 

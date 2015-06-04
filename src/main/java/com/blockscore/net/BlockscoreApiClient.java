@@ -16,7 +16,8 @@ import retrofit.RestAdapter;
 import retrofit.converter.JacksonConverter;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
+
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * The Blockscore Java API client.
@@ -152,7 +153,7 @@ public class BlockscoreApiClient {
   @NotNull
   private String getEncodedAuthorization() {
     try {
-      return "Basic " + Base64.getEncoder().encodeToString(apiKey.getBytes("utf-8"));
+      return "Basic " + DatatypeConverter.printBase64Binary(apiKey.getBytes("UTF-8"));
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
