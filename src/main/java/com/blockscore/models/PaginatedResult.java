@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The model for containing paginated results.
+ */
 public class PaginatedResult<T> {
   private PaginatedResult() {
     // do nothing. No argument constructor is necessary for Retrofit.

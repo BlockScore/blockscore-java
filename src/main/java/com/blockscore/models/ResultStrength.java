@@ -2,6 +2,9 @@ package com.blockscore.models;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The valid types of result strengths asserted by Blockscore.
+ */
 public enum ResultStrength {
   HIGH("high"),
   LOW("low"),

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Details breakdown model for companies.
+ * The details model for {@link Company}.
  */
 public class CompanyDetails {
     @NotNull

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Watchlist search results.
+ * The model for watchlist search results.
  */
 public class WatchlistSearchResults {
   @NotNull

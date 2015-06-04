@@ -7,6 +7,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * The model representing a date of birth interval. The end of the range may be empty.
+ */
 public class BirthRange {
   @NotNull
   @JsonProperty("birth_day")

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Company model.
+ * The company model.
  */
 public class Company extends BasicResponse {
   // Request fields
@@ -290,6 +290,9 @@ public class Company extends BasicResponse {
     return details;
   }
 
+  /**
+   * The builder used for constructing a {@link Company}.
+   */
   public static class Builder {
     private BlockscoreRestAdapter restAdapter;
     private Map<String, String> queryOptions;
@@ -481,7 +484,7 @@ public class Company extends BasicResponse {
     }
 
     /**
-     * Creates a new {@code Company}.
+     * Creates a new {@link Company}.
      *
      * @return the new company
      */

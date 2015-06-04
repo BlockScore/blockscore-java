@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Model representing a person.
+ * The person model.
  */
 public class Person extends BasicResponse {
   @JsonIgnore
@@ -293,6 +293,9 @@ public class Person extends BasicResponse {
     return Collections.unmodifiableList(questionSetIds);
   }
 
+  /**
+   * The builder used for constructing a {@link Person}.
+   */
   public static class Builder {
     private BlockscoreRestAdapter restAdapter;
     private Map<String, String> queryOptions;
@@ -446,7 +449,7 @@ public class Person extends BasicResponse {
     }
 
     /**
-     * Creates a new {@code Person}.
+     * Creates a new {@link Person}.
      *
      * @return the new person
      */

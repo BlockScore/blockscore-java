@@ -3,6 +3,9 @@ package com.blockscore.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The address model.
+ */
 public class Address {
   @NotNull
   private String street1;

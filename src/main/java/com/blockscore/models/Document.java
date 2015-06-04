@@ -3,6 +3,9 @@ package com.blockscore.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The document model for identifying documents.
+ */
 public class Document {
   @NotNull
   @JsonProperty("document_type")

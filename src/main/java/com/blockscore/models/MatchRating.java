@@ -3,6 +3,9 @@ package com.blockscore.models;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The quality of a match in a watchlist search or verification.
+ */
 public enum MatchRating {
   MATCH("match"),
   NO_MATCH("no_match"),

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Blockscore API REST adapter; relies on Retrofit.
+ * The Blockscore API Retrofit REST adapter.
  */
 public interface BlockscoreRestAdapter {
   // Person operations

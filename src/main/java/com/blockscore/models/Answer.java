@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Answer model.
+ * The answer model for potential answers to a {@link QuestionSet}.
  */
 public class Answer {
   @JsonProperty("id")

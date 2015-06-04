@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The model representing a set of answered questions used for scoring a QuestionSet.
+ * The model representing a set of answered questions used for scoring a {@link QuestionSet}.
  */
 public class AnswerSet {
   @JsonProperty("answers")

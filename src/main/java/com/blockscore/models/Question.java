@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Question model.
+ * The model for a question in a {@link QuestionSet}.
  */
 public class Question {
   @JsonProperty("id")

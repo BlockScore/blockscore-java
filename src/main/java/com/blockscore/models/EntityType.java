@@ -1,5 +1,8 @@
 package com.blockscore.models;
 
+/**
+ * The type of entity in a {@link WatchlistHit}.
+ */
 public enum EntityType {
   ENTITY, INDIVIDUAL;
 

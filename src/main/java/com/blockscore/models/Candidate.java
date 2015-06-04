@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Candidate model.
+ * The candidate model.
  */
 public class Candidate extends BasicResponse {
   @JsonIgnore
@@ -371,6 +371,9 @@ public class Candidate extends BasicResponse {
     this.restAdapter = restAdapter;
   }
 
+  /**
+   * The builder used for constructing a {@link Candidate}.
+   */
   public static class Builder {
     private BlockscoreRestAdapter restAdapter;
     private Candidate candidate;
@@ -477,7 +480,7 @@ public class Candidate extends BasicResponse {
     }
 
     /**
-     * Creates a new {@code Candidate}.
+     * Creates a new {@link Candidate}.
      *
      * @return this
      */

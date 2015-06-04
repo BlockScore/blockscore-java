@@ -3,6 +3,9 @@ package com.blockscore.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The model for a matching name that occurs during a watchlist search.
+ */
 public class NameResult {
   @NotNull
   @JsonProperty("name_primary")

@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Details model used by Person.
+ * The details model used by {@link Person}.
  */
 public class PersonDetails {
   @Nullable

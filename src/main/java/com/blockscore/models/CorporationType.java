@@ -3,7 +3,7 @@ package com.blockscore.models;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Corporation type.
+ * The valid corporation types recognized by Blockscore.
  */
 public enum CorporationType {
   CORPORATION("corporation"),

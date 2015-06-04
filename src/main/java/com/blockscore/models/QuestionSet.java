@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Question set model.
+ * The model representing question sets.
  */
 public class QuestionSet extends BasicResponse {
   @NotNull

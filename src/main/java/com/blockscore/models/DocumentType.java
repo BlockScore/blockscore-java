@@ -1,5 +1,8 @@
 package com.blockscore.models;
 
+/**
+ * The valid types of documentation recognized by Blockscore.
+ */
 public enum DocumentType {
   PASSPORT, SSN;
 
