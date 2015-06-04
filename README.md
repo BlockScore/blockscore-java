@@ -2,21 +2,49 @@
 
 An API wrapper for the BlockScore API using Java.
 
-### System Requirements
-1. Java 1.7+
+### Requirements
 
-## How to build
+- Java 1.7+
+
+### Installation
+
+#### Maven users
+
+#### Gradle users
+
 1. Clone this repository
 2. `./gradlew build`
 3. `./gradlew jar` (Builds the standard JAR) or `./gradlew fatJar` (Builds the plug and play jar)
 
-## Usage
+#### Others
 
-## Generating javadocs
+You can download our JAR files from here: https://github.com/BlockScore/blockscore-java/releases
+
+### Usage
+
+```java
+private static BlockscoreApiClient client = setupBlockscoreApiClient();
+
+Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
+SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+Date dateOfBirth = dateOfBirth = formatter.parse("1980-08-23");
+
+Person.Builder builder = new Person.Builder(client);
+builder.setFirstName("John")
+      .setMiddleName("Pearce")
+      .setLastName("Doe")
+      .setDocumentType("ssn")
+      .setDocumentValue("0000")
+      .setAddress(address)
+      .setDateOfBirth(dateOfBirth);
+
+builder.create();
+```
+
+### Generating javadocs
+
 1. `./gradlew docs`
 
-## Dependencies
-1. Retrofit 1.6.1+
-2. Retrofit Converter-Jackson 1.6.1+
-3. OkHTTP 2.0+
-4. OkHTTP UrlConnection 2.0+
+### Testing
+
+You must have gradle installed. Tests can be run by typing `./gradlew :test`.
