@@ -18,13 +18,13 @@ public class QuestionSet extends BasicResponse {
   private String personId;
 
   @JsonProperty("score")
-  private int score;
+  private Integer score;
 
   @JsonProperty("expired")
   private boolean expired;
 
   @JsonProperty("time_limit")
-  private long timeLimit;
+  private Long timeLimit;
 
   @NotNull
   @JsonProperty("questions")
@@ -63,7 +63,7 @@ public class QuestionSet extends BasicResponse {
    *
    * @return the score
    */
-  public int getScore() {
+  public Integer getScore() {
     return score;
   }
 
@@ -82,7 +82,7 @@ public class QuestionSet extends BasicResponse {
    *
    * @return the time limit
    */
-  public long getTimeLimit() {
+  public Long getTimeLimit() {
     return timeLimit;
   }
 
@@ -92,7 +92,7 @@ public class QuestionSet extends BasicResponse {
    * @return the questions available
    */
   @NotNull
-  public List<Question> retrieveQuestions() {
+  public List<Question> getQuestions() {
     return Collections.unmodifiableList(questions);
   }
 }

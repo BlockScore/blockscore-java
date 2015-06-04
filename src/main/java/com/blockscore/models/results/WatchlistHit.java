@@ -244,11 +244,11 @@ public class WatchlistHit {
   @Nullable
   public Address getAddress() {
     return new Address(addressStreet1,
-               addressStreet2,
-               addressCity,
-               addressState,
-               addressPostalCode,
-               addressCountryCode);
+                       addressStreet2,
+                       addressCity,
+                       addressState,
+                       addressPostalCode,
+                       addressCountryCode);
   }
 
   /**

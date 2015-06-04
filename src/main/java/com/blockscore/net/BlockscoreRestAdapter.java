@@ -50,12 +50,8 @@ public interface BlockscoreRestAdapter {
   @NotNull
   @GET("/question_sets/{id}")
   QuestionSet retrieveQuestionSet(@Path("id") @NotNull final String questionSetId);
- 
-  @NotNull
-  @GET("/question_sets")
-  PaginatedResult<QuestionSet> listQuestionSets();
 
-
+  
   // Company operations
   @POST("/companies")
   Company createCompany(@NotNull @QueryMap final Map<String, String> options);

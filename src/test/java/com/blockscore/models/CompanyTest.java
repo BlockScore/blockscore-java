@@ -48,7 +48,7 @@ public class CompanyTest {
 
     assertNotNull(expected);
   }
-  
+
   @Test
   public void testCompanyRetrieval() {
     Company company = createTestCompany();

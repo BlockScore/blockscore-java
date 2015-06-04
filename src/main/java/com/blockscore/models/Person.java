@@ -2,12 +2,11 @@ package com.blockscore.models;
 
 import com.blockscore.common.ValidityStatus;
 import com.blockscore.models.base.BasicResponse;
-import com.blockscore.models.results.PaginatedResult;
 import com.blockscore.net.BlockscoreApiClient;
 import com.blockscore.net.BlockscoreRestAdapter;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -155,23 +154,6 @@ public class Person extends BasicResponse {
     QuestionSet questionSet = restAdapter.retrieveQuestionSet(questionSetId);
     questionSet.setAdapter(restAdapter);
     return questionSet;
-  }
-
-  /**
-   * Lists a historical record of all question sets that you have created.
-   * The list is displayed in reverse chronological order (newer question sets appear first).
-   *
-   * @return paginated results of created question sets
-   */
-  @NotNull
-  public PaginatedResult<QuestionSet> listQuestionSet() {
-    PaginatedResult<QuestionSet> result = restAdapter.listQuestionSets();
-
-    for (QuestionSet questionSet : result.getData()) {
-      questionSet.setAdapter(restAdapter);
-    }
-
-    return result;
   }
 
   /**
