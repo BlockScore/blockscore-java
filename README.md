@@ -3,13 +3,13 @@ blockscore-java
 
 An API wrapper for the BlockScore API using Java.
 
-Latest Revision: <b>3.0.2</b> <br />
-API Compatibility: <b>3.0</b>
+Latest Revision: <b>4.0.0</b> <br />
+API Compatibility: <b>4.0</b>
 
 ##Release Notes
-Version: 3.0.2
+Version: 4.0.0
 
-1. Fixed a bug in listing verifications.
+1. API Version 4.0 now supported.
 
 ##System Requirements (For building and usage)
 1. Java 1.7+
@@ -25,9 +25,11 @@ Version: 3.0.2
 3. Findbugs (Checks for bugs) `./gradlew findbugsMain`
 4. JUnit (Tests) `./gradlew build`
 
+##How to generate javadocs
+1. `./gradlew docs`
+
 ##Dependencies Required (If using standard JAR)
 1. Retrofit 1.6.1+
 2. Retrofit Converter-Jackson 1.6.1+
-3. RxJava 1.0+
-4. OkHTTP 2.0+
-5. OkHTTP UrlConnection 2.0+
+3. OkHTTP 2.0+
+4. OkHTTP UrlConnection 2.0+
