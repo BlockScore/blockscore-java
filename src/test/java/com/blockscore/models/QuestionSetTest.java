@@ -1,170 +1,177 @@
 package com.blockscore.models;
 
-import com.blockscore.exceptions.InvalidRequestException;
-import com.blockscore.models.results.PaginatedResult;
+import static com.blockscore.models.PersonTest.createTestPerson;
+import static com.blockscore.models.TestUtils.assertBasicResponseIsValid;
+import static com.blockscore.models.TestUtils.assertBasicResponsesAreEquivalent;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import com.blockscore.net.BlockscoreApiClient;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.junit.Assert;
+import com.blockscore.exceptions.InvalidRequestException;
+
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
  * QuestionSet unit tests.
  */
 public class QuestionSetTest {
-  BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+  private static Person person = createTestPerson();
 
   @Test
-  public void questionSetTest() {
-    Person person = createTestPerson();
-
-    QuestionSet questionSet = person.createQuestionSet(100000);
-    isQuestionSetValid(questionSet);
-
-    //Test scoring a question set.
-    AnswerSet answers = new AnswerSet();
-    for (Question question : questionSet.retrieveQuestions()) {
-      answers.addAnswer(question.getId(), 1);
-    }
-    questionSet.score(answers);
-    isQuestionSetValid(questionSet);
-
-    //Test getting a question set.
-    questionSet = person.retrieveQuestionSet(questionSet.getId());
-    isQuestionSetValid(questionSet);
-
-    //Test listing question sets.
-    PaginatedResult<QuestionSet> questionSets = person.listQuestionSet();
-    areQuestionSetsValid(questionSets.getData());
+  public void testQuestionSetCreation() {
+    QuestionSet questionSet = createQuestionSet();
+    assertQuestionSetIsValid(questionSet);
   }
 
   @Test
-  public void getQuestionSetsTest() {
-    Person person = createTestPerson();
+  public void testQuestionSetRetrieval() {
+    QuestionSet questionSet = createQuestionSet();
 
+    QuestionSet retrievedQuestionSet = person.retrieveQuestionSet(questionSet.getId());
+    assertQuestionSetIsValid(retrievedQuestionSet);
+
+    // Make sure the two question sets are equivalent
+    assertQuestionSetsAreEquivalent(questionSet, retrievedQuestionSet);
+  }
+
+  @Test
+  public void testQuestionSetRetrieval_InvalidId() {
+    InvalidRequestException expected = null;
+
+    try {
+      person.retrieveQuestionSet("-1");
+    } catch (InvalidRequestException e) {
+      assertNotNull(e.getMessage());
+      expected = e;
+    }
+
+    assertNotNull(expected);
+  }
+
+  @Test
+  public void testQuestionSetListing() {
     List<String> questionSetIds = person.getQuestionSetIds();
 
     for (String questionSetId : questionSetIds) {
-      isQuestionSetValid(person.retrieveQuestionSet(questionSetId));
+      assertQuestionSetIsValid(person.retrieveQuestionSet(questionSetId));
     }
   }
 
   @Test
-  public void scoreQuestionSetWithNoAnswers() {
-    InvalidRequestException exception = null;
+  public void testQuestionSetScoring() {
+    QuestionSet questionSet = createQuestionSet();
 
-    Person person = createTestPerson();
+    AnswerSet answers = new AnswerSet();
+    for (Question question : questionSet.getQuestions()) {
+      answers.addAnswer(question.getId(), 1);
+    }
 
-    QuestionSet questionSet = person.createQuestionSet(100000);
+    assertNull(questionSet.getScore());
+
+    questionSet.score(answers);
+
+    assertQuestionSetIsValid(questionSet);
+    assertNotNull(questionSet.getScore());
+  }
+
+  @Test
+  public void testQuestionSetScoring_NoAnswers() {
+    InvalidRequestException expected = null;
+
+    QuestionSet questionSet = createQuestionSet();
 
     try {
       questionSet.score(new AnswerSet());
-      isQuestionSetValid(questionSet);
     } catch (InvalidRequestException e) {
-      Assert.assertNotNull(e.getMessage());
-      exception = e;
+      assertNotNull(e.getMessage());
+      expected = e;
     }
-    Assert.assertNotNull(exception);
+
+    assertNotNull(expected);
   }
 
-// Not currently validated. Should be in the future.
+// Invalid question ids & answer ids are not currently validated. They should be in the future.
 //  @Test
-//  public void scoreQuestionSetWithBadAnswers() {
-//    InvalidRequestException exception = null;
+//  public void testQuestionSetScoring_InvalidAnswers() {
+//    InvalidRequestException expected = null;
 //
-//    Person person = createTestPerson();
-//    QuestionSet questionSet = person.createQuestionSet();
+//    QuestionSet questionSet = createQuestionSet();
+//
+//    AnswerSet answers = new AnswerSet();
+//    answers.addAnswer(-1, 1000);
 //
 //    try {
-//      AnswerSet answers = new AnswerSet();
-//      answers.addAnswer(1, 1000);
 //      questionSet.score(answers);
-//      isQuestionSetValid(questionSet);
 //    } catch (InvalidRequestException e) {
-//      Assert.assertNotNull(e.getMessage());
-//      exception = e;
+//      assertNotNull(e.getMessage());
+//      expected = e;
 //    }
-//    Assert.assertNotNull(exception);
+//
+//    assertNotNull(expected);
 //  }
 
-  @Test
-  public void getNonexistentQuestionSet() {
-    InvalidRequestException exception = null;
-    Person person = createTestPerson();
+  /*------------------*/
+  /* Helper Functions */
+  /*------------------*/
 
-    try {
-      QuestionSet questionSet = person.retrieveQuestionSet("-1");
-      isQuestionSetValid(questionSet);
-    } catch (InvalidRequestException e) {
-      Assert.assertNotNull(e.getMessage());
-      exception = e;
-    }
-    Assert.assertNotNull(exception);
+  private QuestionSet createQuestionSet() {
+    return person.createQuestionSet();
   }
 
-  @NotNull
-  private Person createTestPerson() {
-    Person.Builder builder = new Person.Builder(apiClient);
-
-    Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
-    
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    Date dateOfBirth = null;
-    try {
-      dateOfBirth = formatter.parse("1980-08-23");
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    builder.setFirstName("John")
-           .setMiddleName("Pearce")
-           .setLastName("Doe")
-           .setDocumentType("ssn")
-           .setDocumentValue("0000")
-           .setAddress(address)
-           .setDateOfBirth(dateOfBirth);
-    return builder.create();
+  private void assertQuestionSetsAreEquivalent(QuestionSet expected, QuestionSet actual) {
+    assertBasicResponsesAreEquivalent(expected, actual);
+    assertEquals(expected.getScore(), actual.getScore());
+    assertQuestionsAreEquivalent(expected.getQuestions(), expected.getQuestions());
   }
 
-  private void areQuestionSetsValid(@Nullable final List<QuestionSet> questionSetList) {
-    Assert.assertNotNull(questionSetList);
-    for (QuestionSet questionSet : questionSetList) {
-      isQuestionSetValid(questionSet);
+  private void assertQuestionsAreEquivalent(List<Question> expected, List<Question> actual) {
+    assertEquals(expected.size(), actual.size());
+
+    for (int i = 0; i < expected.size(); ++i) {
+      assertQuestionIsEquivalent(expected.get(i), actual.get(i));
     }
   }
 
-  private void isQuestionSetValid(@Nullable final QuestionSet questionSet) {
-    Assert.assertNotNull(questionSet);
-    Assert.assertNotNull(questionSet.getPersonId());
-    areQuestionsValid(questionSet.retrieveQuestions());
+  private void assertQuestionIsEquivalent(Question expected, Question actual) {
+    assertEquals(expected.getQuestion(), actual.getQuestion());
+
+    assertEquals(expected.getAnswers().size(), expected.getAnswers().size());
+    for (int i = 0; i < expected.getAnswers().size(); ++i) {
+      Answer expectedAnswer = expected.getAnswers().get(i);
+      Answer actualAnswer = actual.getAnswers().get(i);
+      assertEquals(expectedAnswer.getId(), actualAnswer.getId());
+      assertEquals(expectedAnswer.getAnswerText(), actualAnswer.getAnswerText());
+    }
+   }
+
+  private void assertQuestionSetIsValid(final QuestionSet questionSet) {
+    assertBasicResponseIsValid(questionSet);
+    assertNotNull(questionSet.getTimeLimit());
+    assertNotNull(questionSet.getPersonId());
+    assertQuestionsAreValid(questionSet.getQuestions());
   }
 
-  private void areQuestionsValid(@Nullable final List<Question> questionSet) {
-    Assert.assertNotNull(questionSet);
-    for (Question question : questionSet) {
-      Assert.assertNotNull(question.getId());
-      Assert.assertNotNull(question.getQuestion());
-      areAnswersValid(question.getAnswers());
+  private void assertQuestionsAreValid(final List<Question> questions) {
+    assertNotNull(questions);
+    assertNotEquals(0, questions.size());
+
+    for (Question question : questions) {
+      assertNotNull(question.getId());
+      assertNotNull(question.getQuestion());
+      assertAnswersAreValid(question.getAnswers());
     }
   }
 
-  private void areAnswersValid(@Nullable final List<Answer> answers) {
-    Assert.assertNotNull(answers);
+  private void assertAnswersAreValid(final List<Answer> answers) {
+    assertNotNull(answers);
+    assertNotEquals(0, answers.size());
+
     for (Answer answer : answers) {
-      Assert.assertNotNull(answer.getId());
-      Assert.assertNotNull(answer.getAnswerText());
+      assertNotNull(answer.getId());
+      assertNotNull(answer.getAnswerText());
     }
-  }
-
-  @NotNull
-  private BlockscoreApiClient setupBlockscoreApiClient() {
-    BlockscoreApiClient.useVerboseLogs(false);
-    return new BlockscoreApiClient("sk_test_a1ed66cc16a7cbc9f262f51869da31b3");
   }
 }

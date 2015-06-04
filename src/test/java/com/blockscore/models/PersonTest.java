@@ -1,13 +1,17 @@
 package com.blockscore.models;
 
+import static com.blockscore.models.TestUtils.assertAddressIsValid;
+import static com.blockscore.models.TestUtils.assertAddressesAreEquivalent;
+import static com.blockscore.models.TestUtils.assertBasicResponseIsValid;
+import static com.blockscore.models.TestUtils.assertBasicResponsesAreEquivalent;
+import static com.blockscore.models.TestUtils.setupBlockscoreApiClient;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import com.blockscore.exceptions.InvalidRequestException;
 import com.blockscore.models.results.PaginatedResult;
-
 import com.blockscore.net.BlockscoreApiClient;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.ParseException;
@@ -19,59 +23,65 @@ import java.util.List;
  * Person unit tests.
  */
 public class PersonTest {
-  BlockscoreApiClient apiClient = setupBlockscoreApiClient();
+  private static BlockscoreApiClient client = setupBlockscoreApiClient();
 
   @Test
-  public void createPersonTest() {
+  public void testPersonCreation() {
     Person person = createTestPerson();
-    isPersonValid(person);
+    assertPersonIsValid(person);
   }
 
   @Test
-  public void retrievePersonTest() {
-    Person person = createTestPerson();
-    person = apiClient.retrievePerson(person.getId());
-    isPersonValid(person);
-  }
-
-  @Test
-  public void listPeopleTest() {
-    PaginatedResult<Person> persons = apiClient.listPeople();
-    arePersonsValid(persons.getData());
-  }
-
-  @Test
-  public void createBadPersonTest() {
-    InvalidRequestException exception = null;
+  public void testPersonCreation_InvalidParameters() {
+    InvalidRequestException expected = null;
 
     try {
-      Person person = createBadTestPerson();
-      isPersonValid(person);
+       createInvalidTestPerson();
     } catch (InvalidRequestException e) {
-      Assert.assertNotNull(e.getMessage());
-      Assert.assertNotNull(e.getInvalidParam());
-      exception = e;
+      assertNotNull(e.getMessage());
+      assertNotNull(e.getInvalidParam());
+      expected = e;
     }
 
-    Assert.assertNotNull(exception);
+    assertNotNull(expected);
   }
 
   @Test
-  public void getNonexistentPerson() {
-    InvalidRequestException exception = null;
+  public void testPersonRetrieval() {
+    Person person = createTestPerson();
 
-    try {
-      Person person = apiClient.retrievePerson("-1");
-      isPersonValid(person);
-    } catch (InvalidRequestException e) {
-      Assert.assertNotNull(e.getMessage());
-      exception = e;
-    }
-    Assert.assertNotNull(exception);
+    Person retrievedPerson = client.retrievePerson(person.getId());
+    assertPersonIsValid(retrievedPerson);
+
+    assertPeopleAreEquivalent(person, retrievedPerson);
   }
 
-  @NotNull
-  private Person createTestPerson() {
+  @Test
+  public void testPersonRetrieval_NonExistentPerson() {
+    InvalidRequestException expected = null;
+
+    try {
+      Person person = client.retrievePerson("-1");
+      assertPersonIsValid(person);
+    } catch (InvalidRequestException e) {
+      assertNotNull(e.getMessage());
+      expected = e;
+    }
+
+    assertNotNull(expected);
+  }
+
+  @Test
+  public void testPeopleListing() {
+    PaginatedResult<Person> persons = client.listPeople();
+    assertPeopleAreValid(persons.getData());
+  }
+
+  /*------------------*/
+  /* Helper Functions */
+  /*------------------*/
+
+  static Person createTestPerson() {
     Address address = new Address("1 Infinite Loop", "Apt 6", "Cupertino", "CA", "95014", "US");
     
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -82,7 +92,7 @@ public class PersonTest {
       e.printStackTrace();
     }
 
-    Person.Builder builder = new Person.Builder(apiClient);
+    Person.Builder builder = new Person.Builder(client);
     builder.setFirstName("John")
           .setMiddleName("Pearce")
           .setLastName("Doe")
@@ -93,57 +103,57 @@ public class PersonTest {
     return builder.create();
   }
 
-  @NotNull
-  private Person createBadTestPerson() {
-    Person.Builder builder = new Person.Builder(apiClient);
+  private Person createInvalidTestPerson() {
+    Person.Builder builder = new Person.Builder(client);
     return builder.create();
   }
 
-  private void arePersonsValid(@Nullable final List<Person> personList) {
-    Assert.assertNotNull(personList);
+  private void assertPeopleAreValid(final List<Person> personList) {
+    assertNotNull(personList);
+
     for (Person person : personList) {
-      isPersonValid(person);
+      assertPersonIsValid(person);
     }
   }
 
-  private void isPersonValid(@NotNull final Person person) {
-    Assert.assertNotNull(person);
-    Assert.assertNotNull(person.getId());
-    Assert.assertNotNull(person.getQuestionSetIds());
-
-    areDetailsValid(person.getDetails());
-    isNameValid(person);
-    isAddressValid(person.getAddress());
+  private void assertPeopleAreEquivalent(Person expected, Person actual) {
+    assertNotNull(expected);
+    assertNotNull(actual);
+    assertBasicResponsesAreEquivalent(expected, actual);
+    assertEquals(expected.getFirstName(), actual.getFirstName());
+    assertEquals(expected.getMiddleName(), actual.getMiddleName());
+    assertEquals(expected.getLastName(), actual.getLastName());
+    assertEquals(expected.getDocumentType(), actual.getDocumentType());
+    assertEquals(expected.getDocumentValue(), actual.getDocumentValue());
+    assertEquals(expected.getDateOfBirth(), actual.getDateOfBirth());
+    assertAddressesAreEquivalent(expected.getAddress(), actual.getAddress());
+    assertEquals(expected.getPhoneNumber(), actual.getPhoneNumber());
+    assertEquals(expected.getIpAddress(), actual.getIpAddress());
+    assertEquals(expected.getNote(), actual.getNote());
   }
 
-  private void areDetailsValid(@NotNull final PersonDetails personDetails) {
-    Assert.assertNotNull(personDetails);
-    Assert.assertNotNull(personDetails.getAddressRisk());
-    Assert.assertNotNull(personDetails.getAddressMatchDetails());
-    Assert.assertNotNull(personDetails.getIdentificationMatch());
-    Assert.assertNotNull(personDetails.getDateOfBirthMatch());
-    Assert.assertNotNull(personDetails.getOfac());
-    Assert.assertNotNull(personDetails.getPep());
+  private void assertPersonIsValid(final Person person) {
+    assertBasicResponseIsValid(person);
+    assertNotNull(person.getId());
+    assertNotNull(person.getQuestionSetIds());
+    assertDetailsAreValid(person.getDetails());
+    assertNameIsValid(person);
+    assertAddressIsValid(person.getAddress());
   }
 
-  private void isAddressValid(@Nullable final Address address) {
-    Assert.assertNotNull(address);
-    Assert.assertNotNull(address.getStreet1());
-    Assert.assertNotNull(address.getSubdivision());
-    Assert.assertNotNull(address.getPostalCode());
-    Assert.assertNotNull(address.getCountryCode());
-    Assert.assertNotNull(address.getCity());
+  private void assertDetailsAreValid(final PersonDetails personDetails) {
+    assertNotNull(personDetails);
+    assertNotNull(personDetails.getAddressRisk());
+    assertNotNull(personDetails.getAddressMatchDetails());
+    assertNotNull(personDetails.getIdentificationMatch());
+    assertNotNull(personDetails.getDateOfBirthMatch());
+    assertNotNull(personDetails.getOfac());
+    assertNotNull(personDetails.getPep());
   }
 
-  private void isNameValid(@Nullable final Person name) {
-    Assert.assertNotNull(name);
-    Assert.assertNotNull(name.getFirstName());
-    Assert.assertNotNull(name.getLastName());
-  }
-
-  @NotNull
-  private BlockscoreApiClient setupBlockscoreApiClient() {
-    BlockscoreApiClient.useVerboseLogs(false);
-    return new BlockscoreApiClient("sk_test_a1ed66cc16a7cbc9f262f51869da31b3");
+  private void assertNameIsValid(final Person name) {
+    assertNotNull(name);
+    assertNotNull(name.getFirstName());
+    assertNotNull(name.getLastName());
   }
 }
