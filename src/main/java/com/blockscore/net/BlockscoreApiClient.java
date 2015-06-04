@@ -49,7 +49,7 @@ public class BlockscoreApiClient {
     this.apiKey = apiKey + ":";
 
     RestAdapter.Builder restBuilder = new RestAdapter.Builder().setClient(new BlockscoreHttpClient())
-                                                               .setEndpoint(Constants.getDomain());
+                                                               .setEndpoint(Constants.BLOCKSCORE_DOMAIN);
     restBuilder.setConverter(getDefaultConverter());
     restBuilder.setRequestInterceptor(getDefaultRequestInterceptor());
     restBuilder.setErrorHandler(new BlockscoreErrorHandler());
