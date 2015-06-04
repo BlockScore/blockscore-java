@@ -1,26 +1,26 @@
-## blockscore-java [![Circle CI](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0.svg?style=shield)](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0)
+# blockscore-java [![Circle CI](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0.svg?style=shield)](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0)
 
-An API wrapper for the BlockScore API using Java.
+This is the official library for Ruby clients of the BlockScore API. [Click here to read the full documentation including code examples](http://docs.blockscore.com/v4.0/java/).
 
-### Requirements
+## Requirements
 
 - Java 1.7+
 
-### Installation
+## Installation
 
-#### Maven users
+### Maven users
 
-#### Gradle users
+### Gradle users
 
 1. Clone this repository
 2. `./gradlew build`
 3. `./gradlew jar` (Builds the standard JAR) or `./gradlew fatJar` (Builds the plug and play jar)
 
-#### Others
+### Others
 
 You can download our JAR files from here: https://github.com/BlockScore/blockscore-java/releases
 
-### Usage
+## Usage
 
 ```java
 private static BlockscoreApiClient client = setupBlockscoreApiClient();
@@ -41,10 +41,10 @@ builder.setFirstName("John")
 builder.create();
 ```
 
-### Generating javadocs
+## Generating javadocs
 
 1. `./gradlew docs`
 
-### Testing
+## Testing
 
 You must have gradle installed. Tests can be run by typing `./gradlew :test`.
