@@ -108,7 +108,7 @@ public class Company extends BasicResponse {
   @JsonProperty("details")
   private CompanyDetails details;
 
-  @Nullable
+  @NotNull
   @JsonProperty("status")
   private String status;
 
