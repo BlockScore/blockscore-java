@@ -48,16 +48,16 @@ address.setStreet1("1 Infinite Loop")
 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 Date dateOfBirth = dateOfBirth = formatter.parse("1980-08-23");
 
-Person.Builder personBuilder = new Person.Builder(client);
-personBuilder.setFirstName("John")
-             .setMiddleName("Pearce")
-             .setLastName("Doe")
-             .setDocumentType("ssn")
-             .setDocumentValue("0000")
-             .setAddress(address)
-             .setDateOfBirth(dateOfBirth);
+Person.Builder builder = new Person.Builder(client);
+builder.setFirstName("John")
+       .setMiddleName("Pearce")
+       .setLastName("Doe")
+       .setDocumentType("ssn")
+       .setDocumentValue("0000")
+       .setAddress(address)
+       .setDateOfBirth(dateOfBirth);
 
-Person person = personBuilder.create();
+Person person = builder.create();
 ```
 
 ## Generating Javadocs
