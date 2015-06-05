@@ -1,6 +1,6 @@
 # blockscore-java [![Circle CI](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0.svg?style=shield)](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0)
 
-This is the official library for Ruby clients of the BlockScore API. [Click here to read the full documentation including code examples](http://docs.blockscore.com/v4.0/java/).
+This is the official library for Java clients of the BlockScore API. [Click here to read the full documentation including code examples](http://docs.blockscore.com/v4.0/java/).
 
 ## Requirements
 
@@ -36,16 +36,16 @@ address.setStreet1("1 Infinite Loop")
 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 Date dateOfBirth = dateOfBirth = formatter.parse("1980-08-23");
 
-Person.Builder builder = new Person.Builder(client);
-builder.setFirstName("John")
-       .setMiddleName("Pearce")
-       .setLastName("Doe")
-       .setDocumentType("ssn")
-       .setDocumentValue("0000")
-       .setAddress(address)
-       .setDateOfBirth(dateOfBirth);
+Person.Builder person = new Person.Builder(client);
+person.setFirstName("John")
+      .setMiddleName("Pearce")
+      .setLastName("Doe")
+      .setDocumentType("ssn")
+      .setDocumentValue("0000")
+      .setAddress(address)
+      .setDateOfBirth(dateOfBirth);
 
-builder.create();
+person.create();
 ```
 
 ## Generating javadocs
