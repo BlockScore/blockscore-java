@@ -10,11 +10,23 @@ This is the official library for Java clients of the BlockScore API. [Click here
 
 ### Maven users
 
+Add this dependency to your project's POM:
+
+```xml
+<dependency>
+  <groupId>com.blockscore</groupId>
+  <artifactId>blockscore-java</artifactId>
+  <version>4.0.0</version>
+</dependency>
+```
+
 ### Gradle users
 
-1. Clone this repository
-2. `./gradlew build`
-3. `./gradlew jar` (Builds the standard JAR) or `./gradlew fatJar` (Builds the plug and play jar)
+Add this dependency to your project's build file:
+
+```groovy
+compile "com.blockscore:blockscore-java:4.0.0"
+```
 
 ### Others
 
