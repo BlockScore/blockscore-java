@@ -1,4 +1,4 @@
-# blockscore-java [![Circle CI](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0.svg?style=shield)](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0)
+# blockscore-java [![Circle CI](https://circleci.com/gh/BlockScore/blockscore-java.svg?style=shield)](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0)
 
 This is the official library for Java clients of the BlockScore API. [Click here to read the full documentation including code examples](http://docs.blockscore.com/v4.0/java/).
 
