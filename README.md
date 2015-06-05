@@ -4,7 +4,7 @@ This is the official library for Java clients of the BlockScore API. [Click here
 
 ## Requirements
 
-- Java 1.7+
+- Java 1.7 and later
 
 ## Installation
 
@@ -36,21 +36,21 @@ address.setStreet1("1 Infinite Loop")
 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 Date dateOfBirth = dateOfBirth = formatter.parse("1980-08-23");
 
-Person.Builder person = new Person.Builder(client);
-person.setFirstName("John")
-      .setMiddleName("Pearce")
-      .setLastName("Doe")
-      .setDocumentType("ssn")
-      .setDocumentValue("0000")
-      .setAddress(address)
-      .setDateOfBirth(dateOfBirth);
+Person.Builder personBuilder = new Person.Builder(client);
+personBuilder.setFirstName("John")
+             .setMiddleName("Pearce")
+             .setLastName("Doe")
+             .setDocumentType("ssn")
+             .setDocumentValue("0000")
+             .setAddress(address)
+             .setDateOfBirth(dateOfBirth);
 
-person.create();
+Person person = personBuilder.create();
 ```
 
-## Generating javadocs
+## Generating Javadocs
 
-1. `./gradlew docs`
+Enter `./gradlew docs` and a new copy of the Javadocs can be found in `build/docs/javadoc`.
 
 ## Testing
 
