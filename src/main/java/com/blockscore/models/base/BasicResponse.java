@@ -1,60 +1,66 @@
 package com.blockscore.models.base;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.blockscore.net.SecondsDateDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Date;
+
 /**
- * Basic parameters common to models
- * Created by Tony Dieppa on 9/30/14.
+ * Basic parameters common to models.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public abstract class BasicResponse {
-    @Nullable
-    @JsonProperty("id")
-    private String mId;
+  @Nullable
+  @JsonProperty("id")
+  private String id;
 
-    @JsonProperty("created_at")
-    private long mCreatedAtDate;
+  @JsonDeserialize(using = SecondsDateDeserializer.class)
+  @JsonProperty("created_at")
+  private Date createAtDate;
 
-    @JsonProperty("updated_at")
-    private long mUpdatedAtDate;
+  @JsonDeserialize(using = SecondsDateDeserializer.class)
+  @JsonProperty("updated_at")
+  private Date updatedAtDate;
 
-    @JsonProperty("livemode")
-    private boolean mLiveMode;
+  @JsonProperty("livemode")
+  private boolean liveMode;
 
-    /**
-     * Gets the ID for this record.
-     * @return ID
-     */
-    @Nullable
-    public String getId() {
-        return mId;
-    }
+  /**
+   * Gets the ID for this record.
+   *
+   * @return the ID associated with this record
+   */
+  @Nullable
+  public String getId() {
+    return id;
+  }
 
-    /**
-     * Gets the creation date. (ms)
-     * @return Creation date.
-     */
-    public long getCreatedAtDate() {
-        return mCreatedAtDate;
-    }
+  /**
+   * Gets the creation date. (ms)
+   *
+   * @return the record's creation date
+   */
+  public Date getCreatedAtDate() {
+    return new Date(createAtDate.getTime());
+  }
 
-    /**
-     * Gets the updated date. (ms)
-     * @return Updated date.
-     */
-    public long getUpdatedAtDate() {
-        return mUpdatedAtDate;
-    }
+  /**
+   * Gets the updated date. (ms)
+   *
+   * @return the last updated date
+   */
+  public Date getUpdatedAtDate() {
+    return new Date(updatedAtDate.getTime());
+  }
 
-    /**
-     * Indicates whether the company was created using a live or test API key.
-     * @return True if live.
-     */
-    public boolean isLiveMode() {
-        return mLiveMode;
-    }
+  /**
+   * Indicates whether the company was created using a live or test API key.
+   *
+   * @return whether or not the company was created with a live or test API key
+   */
+  public boolean isLiveMode() {
+    return liveMode;
+  }
 }

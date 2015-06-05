@@ -1,0 +1,11 @@
+=== 4.0.0 2015-06-04
+
+- Added support for version 4 of the API
+
+=== 3.0.2 2014-10-03
+
+- Fixed a bug in listing verifications.
+
+=== 3.0.1 2014-10-01
+
+- Initial release

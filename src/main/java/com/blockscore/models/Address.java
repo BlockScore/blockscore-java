@@ -1,169 +1,186 @@
 package com.blockscore.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Address model. Used to identify the address for an individual.
- * Created by Tony Dieppa on 9/29/14.
+ * The address model.
  */
 public class Address {
-    @NotNull
-    @JsonProperty("street1")
-    private String mStreet1;
+  @NotNull
+  private String street1;
+  
+  @Nullable
+  private String street2;
+  
+  @NotNull
+  private String city;
 
-    @Nullable
-    @JsonProperty("street2")
-    private String mStreet2;
+  @NotNull
+  private String subdivision;
 
-    @NotNull
-    @JsonProperty("city")
-    private String mCity;
+  @NotNull
+  private String postalCode;
+  
+  @NotNull
+  private String countryCode;
 
-    @NotNull
-    @JsonProperty("state")
-    private String mState;
 
-    @NotNull
-    @JsonProperty("postal_code")
-    private String mPostalCode;
+  public Address() {
+    // Do nothing.
+  }
 
-    @NotNull
-    @JsonProperty("country_code")
-    private String mCountryCode;
+  /**
+   * Constructs a new Address object.
+   *
+   * @param street1  the primary street address
+   * @param street2  the second address line (typically for apartment or suite numbers)
+   * @param city  the city
+   * @param subdivision  the subdivision of the entered country (in the U.S., the state)
+   * @param postalCode  the postal (ZIP) code
+   * @param countryCode  the country code
+   */
+  public Address(@NotNull final String street1, @Nullable final String street2,
+           @NotNull final String city, @NotNull final String subdivision,
+           @NotNull final String postalCode, @NotNull final String countryCode) {
+    this.street1 = street1;
+    this.street2 = street2;
+    this.city = city;
+    this.subdivision = subdivision;
+    this.postalCode = postalCode;
+    this.countryCode = countryCode;
+  }
 
-    public Address() {
-        //Do nothing.
-    }
+  /**
+   * The primary street address of the customer. This is automatically normalized.
+   *
+   * @param street1  Street (Line 1)
+   * @return this
+   */
+  @NotNull
+  public Address setStreet1(@NotNull final String street1) {
+    this.street1 = street1;
+    return this;
+  }
 
-    public Address(@NotNull final String street1, @Nullable final String street2, @NotNull final String city
-            , @NotNull final String state, @NotNull final String postalCode, @NotNull final String countryCode) {
-        mStreet1 = street1;
-        mStreet2 = street2;
-        mCity = city;
-        mState = state;
-        mPostalCode = postalCode;
-        mCountryCode = countryCode;
-    }
+  /**
+   * The second address line typically used for apartment or suite numbers. This is automatically normalized.
+   *
+   * @param street2  Street (Line 2)
+   * @return this
+   */
+  @Nullable
+  public Address setStreet2(@NotNull final String street2) {
+    this.street2 = street2;
+    return this;
+  }
 
-    /**
-     * The primary street address of the customer. This is automatically normalized.
-     * @param street1 Street (Line 1)
-     * @return this
-     */
-    @NotNull
-    public Address setStreet1(@NotNull final String street1) {
-        mStreet1 = street1;
-        return this;
-    }
+  /**
+   * The city name of the customer. This is automatically normalized.
+   *
+   * @param city  City
+   * @return this
+   */
+  @NotNull
+  public Address setCity(@NotNull final String city) {
+    this.city = city;
+    return this;
+  }
 
-    /**
-     * The second address line typically used for apartment or suite numbers. This is automatically normalized.
-     * @param street2 Street (Line 2)
-     * @return this
-     */
-    @Nullable
-    public Address setStreet2(@NotNull final String street2) {
-        mStreet2 = street2;
-        return this;
-    }
+  /**
+   * The subdivision of the entered country. For instance in the United States, this would be a 'state'.
+   * Ex: The subdivision for California would be CA.
+   *
+   * @param subdivision  Subdivision (FIPS code format)
+   * @return this
+   */
+  @NotNull
+  public Address setSubdivision(@NotNull final String subdivision) {
+    this.subdivision = subdivision;
+    return this;
+  }
 
-    /**
-     * The city name of the customer. This is automatically normalized.
-     * @param city City
-     * @return this
-     */
-    @NotNull
-    public Address setCity(@NotNull final String city) {
-        mCity = city;
-        return this;
-    }
+  /**
+   * The postal code, also known as the ZIP code of the address.
+   *
+   * @param postalCode  Postal (ZIP) code
+   * @return this
+   */
+  @NotNull
+  public Address setPostalCode(@NotNull final String postalCode) {
+    this.postalCode = postalCode;
+    return this;
+  }
 
-    /**
-     * The state of the customer. Should be of the FIPS code form. For example California would be CA.
-     * @param state State (FIPS code format)
-     * @return this
-     */
-    @NotNull
-    public Address setState(@NotNull final String state) {
-        mState = state;
-        return this;
-    }
+  /**
+   * The country of the customer. Should be of the ISO code form.
+   *
+   * @param countryCode  the country code
+   * @return this
+   */
+  @NotNull
+  public Address setCountryCode(@NotNull final String countryCode) {
+    this.countryCode = countryCode;
+    return this;
+  }
 
-    /**
-     * The postal code, also known as the ZIP code of the address.
-     * @param postalCode ZIP code
-     * @return this
-     */
-    @NotNull
-    public Address setPostalCode(@NotNull final String postalCode) {
-        mPostalCode = postalCode;
-        return this;
-    }
+  /**
+   * Gets the primary street address of the customer. This is automatically normalized.
+   *
+   * @return Line 1 of the address
+   */
+  @NotNull
+  public String getStreet1() {
+    return street1;
+  }
 
-    /**
-     * The country of the customer. Should be of the ISO code form.
-     * @param countryCode Country code of the individual.
-     * @return this
-     */
-    @NotNull
-    public Address setCountryCode(@NotNull final String countryCode) {
-        mCountryCode = countryCode;
-        return this;
-    }
+  /**
+   * The second address line typically used for apartment or suite numbers. This is automatically normalized.
+   *
+   * @return Line 2 of the address
+   */
+  @Nullable
+  public String getStreet2() {
+    return street2;
+  }
 
-    /**
-     * Gets the primary street address of the customer. This is automatically normalized.
-     * @return Line 1 of the address.
-     */
-    @NotNull
-    public String getStreet1() {
-        return mStreet1;
-    }
+  /**
+   * The city name of the customer. This is automatically normalized.
+   *
+   * @return the address city
+   */
+  @NotNull
+  public String getCity() {
+    return city;
+  }
 
-    /**
-     * The second address line typically used for apartment or suite numbers. This is automatically normalized.
-     * @return Line 2 of the address.
-     */
-    @Nullable
-    public String getStreet2() {
-        return mStreet2;
-    }
+  /**
+   * The subdivision of the entered country. For instance in the United States, this would be a 'state'.
+   *
+   * @return the address subdivision
+   */
+  @NotNull
+  public String getSubdivision() {
+    return subdivision;
+  }
 
-    /**
-     * The city name of the customer. This is automatically normalized.
-     * @return City of the address.
-     */
-    @NotNull
-    public String getCity() {
-        return mCity;
-    }
+  /**
+   * The postal code, also known as the ZIP code of the address.
+   *
+   * @return the postal code
+   */
+  @NotNull
+  public String getPostalCode() {
+    return postalCode;
+  }
 
-    /**
-     * The state of the customer. Should be of the FIPS code form. For example California would be CA.
-     * @return The state of the customer.
-     */
-    @NotNull
-    public String getState() {
-        return mState;
-    }
-
-    /**
-     * The postal code, also known as the ZIP code of the address.
-     * @return Postal code for the customer.
-     */
-    @NotNull
-    public String getPostalCode() {
-        return mPostalCode;
-    }
-
-    /**
-     * The country of the customer. Should be of the ISO code form.
-     * @return Country code of the customer
-     */
-    @NotNull
-    public String getCountryCode() {
-        return mCountryCode;
-    }
+  /**
+   * The country of the customer. Should be of the ISO code form.
+   *
+   * @return the country code
+   */
+  @NotNull
+  public String getCountryCode() {
+    return countryCode;
+  }
 }

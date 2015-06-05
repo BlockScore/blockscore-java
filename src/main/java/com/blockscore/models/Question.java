@@ -3,47 +3,50 @@ package com.blockscore.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Question model.
- * Created by Tony Dieppa on 9/30/14.
+ * The model for a question in a {@link QuestionSet}.
  */
 public class Question {
-    @JsonProperty("id")
-    private int mId;
+  @JsonProperty("id")
+  private int id;
 
-    @NotNull
-    @JsonProperty("question")
-    private String mQuestion;
+  @NotNull
+  @JsonProperty("question")
+  private String question;
 
-    @NotNull
-    @JsonProperty("answers")
-    private List<Answer> mAnswers;
+  @NotNull
+  @JsonProperty("answers")
+  private List<Answer> answers;
 
-    /**
-     * Gets the unique ID for this question.
-     * @return ID.
-     */
-    public int getId() {
-        return mId;
-    }
+  /**
+   * Gets the unique ID for this question.
+   *
+   * @return the ID
+   */
+  public int getId() {
+    return id;
+  }
 
-    /**
-     * Gets the question to be asked.
-     * @return Question
-     */
-    @NotNull
-    public String getQuestion() {
-        return mQuestion;
-    }
+  /**
+   * Gets the question text to be asked.
+   *
+   * @return the question
+   */
+  @NotNull
+  public String getQuestion() {
+    return question;
+  }
 
-    /**
-     * Gets all possible answers to show to the user.
-     * @return Answers.
-     */
-    @NotNull
-    public List<Answer> getAnswers() {
-        return mAnswers;
-    }
+  /**
+   * Gets all possible answers to show to the user.
+   *
+   * @return the possible answers
+   */
+  @NotNull
+  public List<Answer> getAnswers() {
+    return Collections.unmodifiableList(answers);
+  }
 }

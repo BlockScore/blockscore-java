@@ -7,34 +7,35 @@ import retrofit.RetrofitError;
 
 /**
  * Blockscore Error model.
- * Created by Tony Dieppa on 10/1/14.
  */
 public class BlockscoreError {
-    @NotNull
-    @JsonProperty("error")
-    private RequestError mRequestError;
+  @NotNull
+  @JsonProperty("error")
+  private RequestError requestError;
 
-    /**
-     * Converts a Retrofit Error into a Blockscore Error.
-     * @param cause Retrofit error to convert.
-     * @return Blockscore Error
-     */
-    @Nullable
-    public static BlockscoreError getBlockscoreError(@NotNull final RetrofitError cause) {
-        Object rawError = cause.getBodyAs(BlockscoreError.class);
-        if (rawError instanceof BlockscoreError) {
-            return (BlockscoreError) rawError;
-        } else {
-            return null;
-        }
+  /**
+   * Converts a Retrofit Error into a Blockscore Error.
+   *
+   * @param cause  the Retrofit error to convert
+   * @return the Blockscore Error
+   */
+  @Nullable
+  public static BlockscoreError getBlockscoreError(@NotNull final RetrofitError cause) {
+    Object rawError = cause.getBodyAs(BlockscoreError.class);
+    if (rawError instanceof BlockscoreError) {
+      return (BlockscoreError) rawError;
+    } else {
+      return null;
     }
+  }
 
-    /**
-     * Returns the error details.
-     * @return Error details.
-     */
-    @NotNull
-    public RequestError getError() {
-        return mRequestError;
-    }
+  /**
+   * Returns the error details.
+   *
+   * @return the error details
+   */
+  @NotNull
+  public RequestError getError() {
+    return requestError;
+  }
 }

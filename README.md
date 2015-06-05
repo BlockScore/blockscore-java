@@ -1,33 +1,57 @@
-blockscore-java
-===============
+# blockscore-java [![Circle CI](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0.svg?style=shield)](https://circleci.com/gh/BlockScore/blockscore-java/tree/java-4.0)
 
-An API wrapper for the BlockScore API using Java.
+This is the official library for Java clients of the BlockScore API. [Click here to read the full documentation including code examples](http://docs.blockscore.com/v4.0/java/).
 
-Latest Revision: <b>3.0.2</b> <br />
-API Compatibility: <b>3.0</b>
+## Requirements
 
-##Release Notes
-Version: 3.0.2
+- Java 1.7 and later
 
-1. Fixed a bug in listing verifications.
+## Installation
 
-##System Requirements (For building and usage)
-1. Java 1.7+
+### Maven users
 
-##How to build
+### Gradle users
+
 1. Clone this repository
 2. `./gradlew build`
 3. `./gradlew jar` (Builds the standard JAR) or `./gradlew fatJar` (Builds the plug and play jar)
 
-##How to run code quality tools
-1. Checkstyle (Ensures code style) `./gradlew checkstyleMain`
-2. PMD (Checks for bugs) `./gradlew pmdMain`
-3. Findbugs (Checks for bugs) `./gradlew findbugsMain`
-4. JUnit (Tests) `./gradlew build`
+### Others
 
-##Dependencies Required (If using standard JAR)
-1. Retrofit 1.6.1+
-2. Retrofit Converter-Jackson 1.6.1+
-3. RxJava 1.0+
-4. OkHTTP 2.0+
-5. OkHTTP UrlConnection 2.0+
+You can download our JAR files from here: https://github.com/BlockScore/blockscore-java/releases
+
+## Usage
+
+```java
+BlockscoreApiClient client = new BlockscoreApiClient("your api key here");
+
+Address address = new Address();
+address.setStreet1("1 Infinite Loop")
+       .setStreet2("Apt 6")
+       .setCity("Cupertino")
+       .setSubdivision("CA")
+       .setPostalCode("95014")
+       .setCountryCode("US");
+
+SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+Date dateOfBirth = dateOfBirth = formatter.parse("1980-08-23");
+
+Person.Builder personBuilder = new Person.Builder(client);
+personBuilder.setFirstName("John")
+             .setMiddleName("Pearce")
+             .setLastName("Doe")
+             .setDocumentType("ssn")
+             .setDocumentValue("0000")
+             .setAddress(address)
+             .setDateOfBirth(dateOfBirth);
+
+Person person = personBuilder.create();
+```
+
+## Generating Javadocs
+
+Enter `./gradlew docs` and a new copy of the Javadocs can be found in `build/docs/javadoc`.
+
+## Testing
+
+You must have gradle installed. Tests can be run by typing `./gradlew :test`.

@@ -4,31 +4,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Answer model.
- * Created by Tony Dieppa on 9/30/14.
+ * The answer model for potential answers to a {@link QuestionSet}.
  */
 public class Answer {
-    @JsonProperty("id")
-    private int mId;
+  @JsonProperty("id")
+  private int id;
 
-    @NotNull
-    @JsonProperty("answer")
-    private String mAnswer;
+  @NotNull
+  @JsonProperty("answer")
+  private String answer;
 
-    /**
-     * Gets the ID for this answer.
-     * @return Answer ID
-     */
-    public int getId() {
-        return mId;
-    }
+  /**
+   * Gets the ID for this answer.
+   *
+   * @return the answer's ID
+   */
+  public int getId() {
+    return id;
+  }
 
-    /**
-     * Gets the answer to display to the user.
-     * @return Possible answer.
-     */
-    @NotNull
-    public String getAnswer() {
-        return mAnswer;
-    }
+  /**
+   * Gets the answer text to display to the user.
+   *
+   * @return the possible answer
+   */
+  @NotNull
+  public String getAnswerText() {
+    return answer;
+  }
 }
