@@ -33,7 +33,7 @@ public class Candidate extends BasicResponse {
   @NotNull
   @JsonProperty("name_last")
   private String lastName;
-  
+
   @Nullable
   @JsonProperty("note")
   private String note;
@@ -53,11 +53,11 @@ public class Candidate extends BasicResponse {
   @NotNull
   @JsonProperty("address_street1")
   private String addressStreet1;
-  
+
   @Nullable
   @JsonProperty("address_street2")
   private String addressStreet2;
-  
+
   @NotNull
   @JsonProperty("address_city")
   private String addressCity;
@@ -69,7 +69,7 @@ public class Candidate extends BasicResponse {
   @NotNull
   @JsonProperty("address_postal_code")
   private String addressPostalCode;
-  
+
   @NotNull
   @JsonProperty("address_country_code")
   private String addressCountryCode;
@@ -97,7 +97,7 @@ public class Candidate extends BasicResponse {
 
   /**
    * Returns a complete revision history of a candidate's edits. This allows you to maintain a full
-   * audit trail of when and how you update a client's profile over time. The latest revision is 
+   * audit trail of when and how you update a client's profile over time. The latest revision is
    * presented at the top of the list, and the original is at the end of the list.
    * @return the list of candidates
    */
@@ -217,7 +217,7 @@ public class Candidate extends BasicResponse {
     this.note = note;
     return this;
   }
-  
+
   /**
    * Can be either the last 4 digits of the US Social Security Number or the whole SSN.
    *
@@ -357,7 +357,7 @@ public class Candidate extends BasicResponse {
   public Address getAddress() {
     Address addressObject = new Address(addressStreet1,
                       addressStreet2,
-                      addressCity, 
+                      addressCity,
                       addressSubdivision,
                       addressPostalCode,
                       addressCountryCode);
@@ -366,6 +366,8 @@ public class Candidate extends BasicResponse {
 
   /**
    * Sets the internal REST api adapter needed to complete Blockscore API requests.
+   *
+   * @param restAdapter  the REST adapter
    */
   public void setAdapter(BlockscoreRestAdapter restAdapter) {
     this.restAdapter = restAdapter;
@@ -431,7 +433,7 @@ public class Candidate extends BasicResponse {
       candidate.setNote(note);
       return this;
     }
-    
+
     /**
      * Can be either the last 4 digits of the US Social Security Number or the whole SSN.
      *

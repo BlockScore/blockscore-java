@@ -1,9 +1,9 @@
 package com.blockscore.net;
 
-import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Interceptor.Chain;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 

@@ -60,11 +60,11 @@ public class Person extends BasicResponse {
   @NotNull
   @JsonProperty("address_street1")
   private String addressStreet1;
-  
+
   @Nullable
   @JsonProperty("address_street2")
   private String addressStreet2;
-  
+
   @NotNull
   @JsonProperty("address_city")
   private String addressCity;
@@ -76,7 +76,7 @@ public class Person extends BasicResponse {
   @NotNull
   @JsonProperty("address_postal_code")
   private String addressPostalCode;
-  
+
   @NotNull
   @JsonProperty("address_country_code")
   private String addressCountryCode;
@@ -112,6 +112,8 @@ public class Person extends BasicResponse {
 
   /**
    * Sets the internal REST api adapter needed to complete Blockscore API requests.
+   * 
+   * @param restAdapter  the REST adapter
    */
   public void setAdapter(BlockscoreRestAdapter restAdapter) {
     this.restAdapter = restAdapter;
@@ -225,7 +227,7 @@ public class Person extends BasicResponse {
   public Address getAddress() {
     Address addressObject = new Address(addressStreet1,
                       addressStreet2,
-                      addressCity, 
+                      addressCity,
                       addressSubdivision,
                       addressPostalCode,
                       addressCountryCode);
@@ -273,7 +275,7 @@ public class Person extends BasicResponse {
   }
 
   /**
-   * Contains a breakdown of how the status (validity) was determined. It will let you diagnose 
+   * Contains a breakdown of how the status (validity) was determined. It will let you diagnose
    * problems like address inconsistencies.
    *
    * @return the details breakdown
@@ -405,7 +407,7 @@ public class Person extends BasicResponse {
      *
      * <p>
      * If you set the phone number, we will use it as an additional
-     * 'positive' data point for the consumer. That is, if it is provided, it will help us identify 
+     * 'positive' data point for the consumer. That is, if it is provided, it will help us identify
      * them, but if we cannot, they will not be penalized.
      *
      * @param phoneNumber  the phone number for this individual.
@@ -423,7 +425,7 @@ public class Person extends BasicResponse {
      * <p>
      * Your customers' IP address can be passed to us for storage
      * purposes. Soon we will be using this information for anti-fraud and verification purposes.
-     * With this information we will be able to back-test your verifications when this feature is 
+     * With this information we will be able to back-test your verifications when this feature is
      * released.
      *
      * @param ipAddress  the IP address

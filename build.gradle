@@ -1,11 +1,11 @@
 buildscript {
-  repositories {
-    jcenter()
-  }
+    repositories {
+        jcenter()
+    }
 
-  dependencies {
-    classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
-  }
+    dependencies {
+        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+    }
 }
 
 apply plugin: 'java'
@@ -13,38 +13,34 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 apply plugin: 'eu.appsatori.fatjar'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-version = '4.0.0'
+
+group = "com.blockscore"
+archivesBaseName = "blockscore-java"
+version = "4.0.0"
 
 repositories {
-  mavenCentral()
-}
-
-checkstyle {
-  toolVersion = "6.7"
+  jcenter()
 }
 
 dependencies {
-  compile 'com.squareup.retrofit:retrofit:+'
-  compile 'com.squareup.retrofit:converter-jackson:+'
-  compile 'com.squareup.okhttp:okhttp:+'
-  compile 'com.squareup.okhttp:okhttp-urlconnection:+'
+  compile 'com.squareup.retrofit:retrofit:1.9.0'
+  compile 'com.squareup.retrofit:converter-jackson:1.9.0'
+  compile 'com.squareup.okhttp:okhttp:2.4.0'
+  compile 'com.squareup.okhttp:okhttp-urlconnection:2.4.0'
 
-  //Used for static analysis
-  compile 'com.intellij:annotations:+'
-  compile 'com.google.code.findbugs:annotations:+'
+  compile 'com.intellij:annotations:12.0'
+  compile 'com.google.code.findbugs:annotations:2.0.2'
 
-  //Used for testing only.
-  testCompile 'junit:junit:+'
+  testCompile 'junit:junit:4.12'
 }
 
-task docs(type: Javadoc) {
-  source = sourceSets.main.allJava
-  options {
-    links("http://docs.oracle.com/javase/7/docs/api/");
-  }
+tasks.withType(JavaCompile) {
+  options.compilerArgs << "-Xlint"
 }
 
 jar {
@@ -57,7 +53,6 @@ jar {
 
 test {
   testLogging {
-    // Show that tests are run in the command-line output
     events 'started', 'passed'
     showStandardStreams true
   }
@@ -74,10 +69,76 @@ pmd {
   sourceSets = [sourceSets.main]
 }
 
-checkstyleTest.exclude '**/src/test/**'
+checkstyle {
+  toolVersion = "6.7"
+  sourceSets = [ sourceSets.main ]
+}
 
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
 
-// Use java's linting facilities
-tasks.withType(JavaCompile) {
-  options.compilerArgs << "-Xlint"
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: '', password: '')
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: '', password: '')
+      }
+
+      pom.project {
+        name 'Blockscore API'
+        packaging 'jar'
+        description 'The Blockscore API wrapper for java.'
+        url 'http://docs.blockscore.com/v4.0/java/#introduction'
+
+        scm {
+          connection 'scm:git:git@github.com:BlockScore/blockscore-java.git'
+          developerConnection 'scm:git:git@github.com:BlockScore/blockscore-java.git'
+          url 'git@github.com:BlockScore/blockscore-java.git'
+        }
+
+        licenses {
+          license {
+            name 'MIT License'
+            url 'http://opensource.org/licenses/MIT'
+          }
+        }
+
+        developers {
+          developer {
+            id 'dgollahon'
+            name 'Daniel Gollahon'
+            email 'Daniel.Gollahon@gmail.com'
+          }
+
+          developer {
+            id 'ameier'
+            name 'Alain Meier'
+            email 'Alain@blockscore.com'
+          }
+        }
+      }
+    }
+  }
+}
+
+signing {
+  required { gradle.taskGraph.hasTask("uploadArchives") }
+  sign configurations.archives
 }

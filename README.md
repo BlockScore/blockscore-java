@@ -25,16 +25,28 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.blockscore:blockscore-java:4.0.0"
+compile 'com.blockscore:blockscore-java:4.0.0'
 ```
 
 ### Others
 
 You can download our JAR files from here: https://github.com/BlockScore/blockscore-java/releases
 
+Or, alternatively, build from source by
+1. Cloning this repo
+2. `./gradlew :build`
+3. `./gradlew :jar` (Builds the standard JAR) or `./gradlew :fatJar` (Builds the plug and play jar)
+
 ## Usage
 
 ```java
+import com.blockscore.models.Address;
+import com.blockscore.models.Person;
+import com.blockscore.net.BlockscoreApiClient;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 BlockscoreApiClient client = new BlockscoreApiClient("your api key here");
 
 Address address = new Address();
@@ -59,11 +71,3 @@ builder.setFirstName("John")
 
 Person person = builder.create();
 ```
-
-## Generating Javadocs
-
-Enter `./gradlew docs` and a new copy of the Javadocs can be found in `build/docs/javadoc`.
-
-## Testing
-
-You must have gradle installed. Tests can be run by typing `./gradlew :test`.
