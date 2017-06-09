@@ -161,8 +161,14 @@ public class Candidate extends BasicResponse {
   public PaginatedResult<WatchlistHit> searchWatchlists(EntityType entityType, Double similarityThreshold) {
     Map<String, String> queryOptions = new HashMap<String, String>();
     queryOptions.put("candidate_id", getId());
-    queryOptions.put("match_type", String.valueOf(entityType));
-    queryOptions.put("similarity_threshold", String.valueOf(similarityThreshold));
+
+    if (entityType != null) {
+      queryOptions.put("match_type", String.valueOf(entityType));
+    }
+
+    if (similarityThreshold != null) {
+      queryOptions.put("similarity_threshold", String.valueOf(similarityThreshold));
+    }
 
     WatchlistSearchResults results = restAdapter.searchWatchlists(queryOptions);
 
