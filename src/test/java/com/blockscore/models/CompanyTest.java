@@ -75,8 +75,16 @@ public class CompanyTest {
 
   @Test
   public void testCompanyListing() {
-    PaginatedResult<Company> companies = client.listCompanies();
-    assertCompaniesAreValid(companies.getData());
+    for (Company company : client.listCompanies().getData()) {
+      assertBasicResponseIsValid(company);
+      assertNotNull(company.getId());
+      assertNotNull(company.getEntityName());
+      assertNotNull(company.getTaxId());
+      assertNotNull(company.getIncorporationCountryCode());
+      assertNotNull(company.getIncorporationType());
+      assertDetailsAreValid(company.getDetails());
+      assertAddressIsValid(company.getAddress());
+    }
   }
 
   /*------------------*/
@@ -175,13 +183,5 @@ public class CompanyTest {
     assertNotNull(details.getOfacMatch());
     assertNotNull(details.getStateMatch());
     assertNotNull(details.getTaxIdMatch());
-  }
-
-  private void assertCompaniesAreValid(final List<Company> companies) {
-    assertNotNull(companies);
-
-    for (Company company : companies) {
-      assertCompanyIsValid(company);
-    }
   }
 }
