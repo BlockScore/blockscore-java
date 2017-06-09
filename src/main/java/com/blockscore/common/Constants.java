@@ -9,7 +9,7 @@ public final class Constants {
   public static final String AUTHORIZATION_HEADER = "Authorization";
   public static final String ACCEPT_HEADER = "Accept";
   public static final String BLOCKSCORE_DOMAIN = "https://api.blockscore.com";
-  public static final String USER_AGENT = "blockscore-java/4.0.0 (https://github.com/BlockScore/blockscore-java)";
+  public static final String USER_AGENT = "blockscore-java/4.0.1 (https://github.com/BlockScore/blockscore-java)";
 
   private static final String VERSION_CODE = "4";
   private static final String ACCEPT_CONTENTS = "application/vnd.blockscore+json;version=%s";
