@@ -16,7 +16,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.blockscore</groupId>
   <artifactId>blockscore-java</artifactId>
-  <version>4.0.0</version>
+  <version>4.0.1</version>
 </dependency>
 ```
 
@@ -25,7 +25,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile 'com.blockscore:blockscore-java:4.0.0'
+compile 'com.blockscore:blockscore-java:4.0.1'
 ```
 
 ### Others
