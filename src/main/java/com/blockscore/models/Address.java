@@ -1,28 +1,29 @@
 package com.blockscore.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * The address model.
  */
 public class Address {
-  @NotNull
+  @JsonProperty("address_street1")
   private String street1;
-  
-  @Nullable
+
+  @JsonProperty("address_street2")
   private String street2;
-  
-  @NotNull
+
+  @JsonProperty("address_city")
   private String city;
 
-  @NotNull
+  @JsonProperty("address_subdivision")
   private String subdivision;
 
-  @NotNull
+  @JsonProperty("address_postal_code")
   private String postalCode;
-  
-  @NotNull
+
+  @JsonProperty("address_country_code")
   private String countryCode;
 
 
@@ -40,9 +41,9 @@ public class Address {
    * @param postalCode  the postal (ZIP) code
    * @param countryCode  the country code
    */
-  public Address(@NotNull final String street1, @Nullable final String street2,
-           @NotNull final String city, @NotNull final String subdivision,
-           @NotNull final String postalCode, @NotNull final String countryCode) {
+  public Address(final String street1, final String street2,
+           final String city, final String subdivision,
+           final String postalCode, final String countryCode) {
     this.street1 = street1;
     this.street2 = street2;
     this.city = city;
@@ -58,7 +59,7 @@ public class Address {
    * @return this
    */
   @NotNull
-  public Address setStreet1(@NotNull final String street1) {
+  public Address setStreet1(final String street1) {
     this.street1 = street1;
     return this;
   }
@@ -69,8 +70,8 @@ public class Address {
    * @param street2  Street (Line 2)
    * @return this
    */
-  @Nullable
-  public Address setStreet2(@NotNull final String street2) {
+  @NotNull
+  public Address setStreet2(final String street2) {
     this.street2 = street2;
     return this;
   }
@@ -82,7 +83,7 @@ public class Address {
    * @return this
    */
   @NotNull
-  public Address setCity(@NotNull final String city) {
+  public Address setCity(final String city) {
     this.city = city;
     return this;
   }
@@ -95,7 +96,7 @@ public class Address {
    * @return this
    */
   @NotNull
-  public Address setSubdivision(@NotNull final String subdivision) {
+  public Address setSubdivision(final String subdivision) {
     this.subdivision = subdivision;
     return this;
   }
@@ -107,7 +108,7 @@ public class Address {
    * @return this
    */
   @NotNull
-  public Address setPostalCode(@NotNull final String postalCode) {
+  public Address setPostalCode(final String postalCode) {
     this.postalCode = postalCode;
     return this;
   }
@@ -119,7 +120,7 @@ public class Address {
    * @return this
    */
   @NotNull
-  public Address setCountryCode(@NotNull final String countryCode) {
+  public Address setCountryCode(final String countryCode) {
     this.countryCode = countryCode;
     return this;
   }
@@ -129,7 +130,6 @@ public class Address {
    *
    * @return Line 1 of the address
    */
-  @NotNull
   public String getStreet1() {
     return street1;
   }
@@ -139,7 +139,6 @@ public class Address {
    *
    * @return Line 2 of the address
    */
-  @Nullable
   public String getStreet2() {
     return street2;
   }
@@ -149,7 +148,6 @@ public class Address {
    *
    * @return the address city
    */
-  @NotNull
   public String getCity() {
     return city;
   }
@@ -159,7 +157,6 @@ public class Address {
    *
    * @return the address subdivision
    */
-  @NotNull
   public String getSubdivision() {
     return subdivision;
   }
@@ -169,7 +166,6 @@ public class Address {
    *
    * @return the postal code
    */
-  @NotNull
   public String getPostalCode() {
     return postalCode;
   }
@@ -179,7 +175,6 @@ public class Address {
    *
    * @return the country code
    */
-  @NotNull
   public String getCountryCode() {
     return countryCode;
   }

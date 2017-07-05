@@ -6,6 +6,7 @@ import static com.blockscore.models.TestUtils.assertBasicResponseIsValid;
 import static com.blockscore.models.TestUtils.assertBasicResponsesAreEquivalent;
 import static com.blockscore.models.TestUtils.setupBlockscoreApiClient;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -234,27 +235,7 @@ public class CandidateTest {
   /*------------------*/
 
   private Candidate createTestCandidate() {
-    Address address = (new Address()).setStreet1("1 Infinite Loop")
-                                     .setCity("Harare")
-                                     .setCountryCode("ZW");
-
-    final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    Date date = null;
-    try {
-      date = formatter.parse("1980-08-23");
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-
-    Candidate.Builder builder = new Candidate.Builder(client);
-    builder.setNote("12341234")
-           .setSsn("001")
-           .setDateOfBirth(date)
-           .setFirstName("John")
-           .setLastName("BredenKamp")
-           .setAddress(address);
-
-    return builder.create();
+    return new Candidate.Builder(client).setFirstName("John").setLastName("BredenKamp").create();
   }
 
   private Candidate createEmptyCandidate() {
@@ -308,12 +289,9 @@ public class CandidateTest {
     assertEquals("US", address.getCountryCode());
   }
 
-  // NOTE: Currently no actual data is being returned for a watchlist search.
-  //       The logic for asserting whether or not the hit is valid will have
-  //       to be modified when sample data is available.
   private void assertHitsAreValid(List<WatchlistHit> hits) {
     assertNotNull(hits);
-    // assertNotEquals(hits.size(), 0); see above note
+    assertNotEquals(hits.size(), 0);
     for (WatchlistHit hit : hits) {
       assertHitIsValid(hit);
     }
@@ -334,7 +312,10 @@ public class CandidateTest {
     assertNotNull(hit.getDateOfBirth());
     assertNull(hit.getSsn());
     assertNotNull(hit.getPassports());
-    assertAddressIsValid(hit.getAddress());
+    assertNotNull(hit.getAddress());
+    assertNotNull(hit.getAddress().getStreet1());
+    assertNotNull(hit.getAddress().getCity());
+    assertNotNull(hit.getAddress().getCountryCode());
     assertNotNull(hit.getRawAddress());
     assertNotNull(hit.getNames());
     assertEquals(hit.getNames().size(), 3);
@@ -343,7 +324,12 @@ public class CandidateTest {
     assertNotNull(hit.getDocuments());
     assertEquals(hit.getDocuments().size(), 4);
     assertNotNull(hit.getAlternateNames());
-    assertNotNull(hit.getAddresses());
+    assertNotEquals(hit.getAddresses().size(), 0);
+    for(Address address : hit.getAddresses()) {
+      assertNotNull(address.getStreet1());
+      assertNotNull(address.getCity());
+      assertNotNull(address.getCountryCode());
+    }
     assertDocumentsAreValid(hit.getDocuments());
   }
 
