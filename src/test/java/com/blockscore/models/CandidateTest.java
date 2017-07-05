@@ -34,8 +34,7 @@ public class CandidateTest {
 
   @Test
   public void testCandidateCreation_EmptyCandidate() {
-    Candidate candidate = createEmptyCandidate();
-    assertCandidateIsValid(candidate);
+    assertCandidateIsValid(createEmptyCandidate());
   }
 
   @Test
@@ -91,21 +90,13 @@ public class CandidateTest {
 
   @Test
   public void testWatchlistSearch() {
-    Candidate candidate = createTestCandidate();
-
-    PaginatedResult<WatchlistHit> results = candidate.searchWatchlists();
-    // TODO: Update validation logic when sample data is available.
-    //       Tests for different match_type & similarity_threshold
-    //       requests would also be worthwhile.
-    //       See note below.
-    assertHitsAreValid(results.getData());
+    assertHitsAreValid(createTestCandidate().searchWatchlists().getData());
   }
 
 
   @Test
   public void testCandidateListing() {
-    PaginatedResult<Candidate> candidateList = client.listCandidates();
-    assertCandidatesAreValid(candidateList.getData());
+    assertCandidatesAreValid(client.listCandidates().getData());
   }
 
   @Test
@@ -123,112 +114,12 @@ public class CandidateTest {
     assertEquals("Mouse", history.get(0).getLastName());
   }
 
-  // NOTE: All commented code that follows requires deletion to be functional server-side.
-  //       Currently deleting a candidate shows "deleted":true in the
-  //       server response but you can still successfully retrieve/update/delete
-  //       the deleted candidate which should not happen.
-
   @Test
   public void testCandidateDeletion() {
-    //InvalidRequestException expected = null;
-
     Candidate candidate = createTestCandidate();
 
     candidate.delete();
-
-    // try {
-    //     client.retrieveCandidate(candidate.getId());
-    // } catch (InvalidRequestException e) {
-    //     assertNotNull(e.getMessage());
-    //     expected = e;
-    // }
-    //
-    // assertNotNull(expected);
   }
-
-//  @Test
-//  public void testWatchlistSearch_DeletedCandidate() {
-//    InvalidRequestException expected = null;
-//
-//    Candidate candidate = createTestCandidate();
-//    candidate.delete();
-//
-//    try {
-//      candidate.searchWatchlists();
-//    } catch (InvalidRequestException e) {
-//      assertNotNull(e.getMessage());
-//      expected = e;
-//    }
-//
-//    assertNotNull(expected);
-//  }
-
-//  @Test
-//  public void testCandidateUpdate_DeletedCandidate() {
-//    InvalidRequestException expected = null;
-//
-//    Candidate candidate = createTestCandidate();
-//    candidate.delete();
-//
-//    try {
-//      candidate.save();
-//    } catch (InvalidRequestException e) {
-//      assertNotNull(e.getMessage());
-//      expected = e;
-//    }
-//
-//    assertNotNull(expected);
-//  }
-
-//  @Test
-//  public void testRevisionHistory_DeletedCandidate() {
-//    InvalidRequestException expected = null;
-//
-//    Candidate candidate = createTestCandidate();
-//    candidate.delete();
-//
-//    try {
-//      candidate.getRevisionHistory();
-//    } catch (InvalidRequestException e) {
-//      assertNotNull(e.getMessage());
-//      expected = e;
-//    }
-//
-//    assertNotNull(expected);
-//  }
-
-//  @Test
-//  public void testPastHits_DeletedCandidate() {
-//    InvalidRequestException expected = null;
-//
-//    Candidate candidate = createTestCandidate();
-//    candidate.delete();
-//
-//    try {
-//      candidate.getPastHits();
-//    } catch (InvalidRequestException e) {
-//      assertNotNull(e.getMessage());
-//      expected = e;
-//    }
-//    assertNotNull(expected);
-//  }
-
-//  @Test
-//  public void testCandidateDeletion_DeletedCandidate() {
-//    InvalidRequestException expected = null;
-//
-//    Candidate candidate = createTestCandidate();
-//    candidate.delete();
-//
-//    try {
-//      candidate.delete();
-//    } catch (InvalidRequestException e) {
-//      assertNotNull(e.getMessage());
-//      expected = e;
-//    }
-//
-//    assertNotNull(expected);
-//  }
 
   /*------------------*/
   /* Helper Functions */
